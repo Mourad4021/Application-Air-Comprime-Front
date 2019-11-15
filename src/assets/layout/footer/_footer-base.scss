@@ -1,0 +1,51 @@
+// Footer base
+
+.app-footer {
+  height: $app-footer-height;
+
+  .app-footer__inner {
+    padding: 0 $layout-spacer-x 0 ($layout-spacer-x / 2);
+    height: $app-footer-height;
+
+    display: flex;
+    align-content: center;
+    align-items: center;
+
+    .app-footer-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .app-footer-center {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .app-footer-right {
+      margin-left: auto;
+      display: flex;
+    }
+  }
+}
+
+a:link {
+  color: #00004c;
+  background-color: transparent;
+  text-decoration: none;
+}
+a:visited {
+  color: #33336f;
+  background-color: transparent;
+  text-decoration: none;
+}
+a:hover {
+  color: #05050b;
+  background-color: transparent;
+  text-decoration: underline;
+}
+a:active {
+  color: rgb(219, 219, 218);
+  background-color: transparent;
+  text-decoration: underline;
+}

@@ -1,0 +1,158 @@
+<form [formGroup]="FicheSuiviSearchFormc" [hidden]="false">
+  <div
+    class="row w-500 p-2 m-1 mb-2 border rounded "
+    style="background-color: whitesmoke;"
+  >
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>Date</label>
+        <input
+          type="date"
+          class="form-control  form-control-sm"
+          id=""
+          placeholder=""
+          formControlName="date"
+        />
+      </div>
+    </div>
+  </div>
+</form>
+
+<table class="table  table-bordered  mt-1 ">
+  <thead>
+    <tr
+      style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
+      class="bg-primary"
+    >
+      <th rowspan="list.length" class="align-middle">Filiale</th>
+      <th rowspan="list.length" class="align-middle">Compresseur</th>
+      <th class="align-middle">Date</th>
+      <th class="align-middle">Nombre total d'heures</th>
+      <th class="align-middle">Nbre d'heures en charge</th>
+      <th class="align-middle">Index électrique</th>
+      <th class="align-middle">Temps d'arrêt (panne)</th>
+      <th class="align-middle">Etat</th>
+      <!-- <th class="align-middle">
+                  Fréquence d'entretien du déshuileur (circuit air comprimé)
+              </th> -->
+      <!-- <th class="align-middle">Courant absorbé/phase</th> -->
+      <th class="align-middle">Frais d’Entretien et de Réparation</th>
+      <th class="align-middle">Piece jointe</th>
+      <th class="align-middle">Prise compteur (dernier entretien)</th>
+      <th class="align-middle">Thuile (°C)</th>
+      <th class="align-middle">Tsécheur (°C)</th>
+      <th class="align-middle">Remarques</th>
+      <th
+        style="width: 180px!important"
+        [hidden]="authService.currentUserRole == 'Admin'"
+      ></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr
+      *ngFor="
+        let g of list
+          | filter: FicheSuiviSearchFormc.value
+          | paginate: { id: idFS, itemsPerPage: 2, currentPage: pg };
+        let i = index
+      "
+      style="text-align:center;background-color: white"
+      [hidden]="authService.currentUserRole == 'Admin'"
+    >
+      <td rowspan="list.length+1" *ngIf="i == 0" class="align-middle ">
+        <strong>
+          {{ GetCompFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
+        </strong>
+      </td>
+      <td rowspan="list.length+1" *ngIf="i == 0" class="align-middle ">
+        <strong>
+          {{ GetFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
+        </strong>
+      </td>
+      <!-- <td rowspan="0" *ngIf="i == 0" class="align-middle"></td> -->
+      <td>{{ g.date | date: "dd/MM/yyyy" }}</td>
+      <td>{{ g.nbre_Heurs_Total }}</td>
+      <td>{{ g.nbre_Heurs_Charge }}</td>
+      <td>{{ g.index_Electrique }}</td>
+      <td>{{ g.tempsArret }}</td>
+      <td *ngIf="g.etat == 0">En marche</td>
+      <td *ngIf="g.etat == 1">En panne</td>
+      <td *ngIf="g.etat == 2">En réserve</td>
+      <!-- <td>{{ g.frequenceEentretienDeshuileur }}</td> -->
+      <!-- <td>{{ g.courantAbsorbePhase }}</td> -->
+      <td>{{ g.fraisEntretienReparation }}</td>
+      <td>
+        <app-attachement-list
+          [id]="g.ficheSuiviID"
+          [objet]="'FicheSuivi'"
+        ></app-attachement-list>
+      </td>
+
+      <td>{{ g.priseCompteur }}</td>
+      <td>{{ g.tHuileC }}</td>
+      <td>{{ g.tSecheurC }}</td>
+      <td>{{ g.remarques }}</td>
+
+      <td
+        style="width: 180px!important"
+        [hidden]="authService.currentUserRole == 'Admin'"
+      >
+        <button (click)="onEdit(g)" class="btn btn-info mr-3">
+          <span class="pe-7s-pen"></span>
+        </button>
+
+        <button
+          (click)="delete(g.ficheSuiviID)"
+          class="btn btn-danger "
+          *ngIf="authService.currentUserRole != 'Responsable'"
+        >
+          <span class=" pe-7s-trash"></span>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+
+  <tfoot>
+    <tr class="bg-info text-white">
+      <td
+        rowspan="list.length+1"
+        [hidden]="authService.currentUserRole != 'Admin'"
+      >
+        {{ GetFilialeByIDCorrespondance(equipementFilialeIDg)?.nom }}
+      </td>
+      <td></td>
+      <td></td>
+      <td
+        rowspan="list.length+1"
+        [hidden]="authService.currentUserRole != 'Admin'"
+      >
+        {{ GetCompFilialeByIDCorrespondance(equipementFilialeIDg)?.nom }}
+      </td>
+      <td>{{ dateg | date: "MMMM yyyy" }}</td>
+      <td>{{ nbre_Heurs_Total }}</td>
+      <td>{{ nbre_Heurs_Charge }}</td>
+      <td>{{ index_Electrique }}</td>
+      <td>{{ tempsArret }}</td>
+      <td *ngIf="etat == 0">En marche</td>
+      <td *ngIf="etat == 1">En panne</td>
+      <td *ngIf="etat == 2">En réserve</td>
+
+      <td>{{ fraisEntretienReparation }}</td>
+      <td></td>
+      <td>{{ priseCompteur }}</td>
+      <td>{{ tHuileC }}</td>
+      <td>{{ tSecheurC }}</td>
+      <td>{{ remarques }}</td>
+
+      <td [hidden]="authService.currentUserRole == 'Admin'"></td>
+    </tr>
+  </tfoot>
+</table>
+<pagination-controls
+  id="{{ idFS }}"
+  (pageChange)="pg = $event"
+  previousLabel="Prc"
+  nextLabel="Suiv"
+>
+</pagination-controls>

@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>changer le Mot de pass <small></small> </h2>
+<mat-dialog-content>
+
+ 
+
+
+<form [formGroup]="roleAppDataservice.changePasswordForm" class="normal-form">
+
+      
+          <div class="controles-container">
+            <input type="hidden" formControlName="userId">
+            <input type="hidden" formControlName="appId">
+            <input  type="hidden" formControlName="roleId">
+            <mat-form-field class="col-md-12">
+              <input formControlName="password" matInput placeholder="password" autocomplete="off">
+              <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+          </div>
+     
+ 
+</form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close >Annuler</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button (click)="onPost()" [disabled]="roleAppDataService.AddAppRoleToUserForm.invalid">Confirmer</button>
+</mat-dialog-actions>

@@ -1,0 +1,69 @@
+<span class="badge badge-primary mr-2"><h5 >Application</h5><i class="fas fa-long-arrow-alt-right"></i></span>
+
+<span class="badge badge-success"><h5>{{application?.ApplicationDisplayName}}</h5> </span>
+
+<form [formGroup]="alllAppRoleForm">
+
+    <div class="table-responsive">
+
+
+        <table class=" table table-bordered table-light " style=" margin-top: 5px;">
+            <thead>
+                <tr style="text-align:center;color: white" class="bg-primary">
+                    <th>Utilisateur</th>
+                    <!-- <th>Application</th> -->
+                    <th>Role</th>
+                    <th>Password</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+
+                <tr formArrayName="appRoles" *ngFor="let user of alllAppRoleForm.controls.appRoles?.value ;let i=index" style="text-align:center;background-color: white">
+
+                    <ng-container [formGroupName]="i">
+
+                        <td>
+                            <label><span ><strong>{{alllAppRoleForm.controls.appRoles?.value[i].userName}}</strong></span></label>
+                            <input type="hidden" formControlName="userName">
+                            <input type="hidden" formControlName="oldRoleId">
+                            <input type="hidden" class="form-control" formControlName="userId">
+                        </td>
+
+                        <!-- <td>
+                          <select class="form-control" formControlName="appId">
+                            
+                              <option *ngFor="let app of  roleAppDataService.applicationList" >{{app.ApplicationName}}</option>
+                         
+                            </select>
+                      </td>  -->
+
+                        <td>
+                            <select class="form-control" formControlName="roleId">
+                     
+                              <option *ngFor="let role of  roleAppDataService.roleList" [value]="role.RoleID" >{{role?.RoleDisplayName}}</option>
+                          
+                            </select>
+                        </td>
+                        <td>
+                            <!-- <input type="text" formControlName="password" class="form-control" > -->
+                            <button class="btn btn-danger" (click)="onChangePassword(alllAppRoleForm.controls.appRoles?.value[i].userId,alllAppRoleForm.controls.appRoles?.value[i].roleId)">
+                              
+                                <i class="pe-7s-key mr-1" style="padding-left: 5px" ></i>Changer Mot de passe
+                              </button>
+                        </td>
+
+                        <td>
+                            <button class="btn btn-warning" (click)="onConfirmChangerole(i)">
+                          <i class="pe-7s-pen mr-1" style="padding-left: 5px"  ></i>Appliquer</button>
+                        </td>
+
+                    </ng-container>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</form>

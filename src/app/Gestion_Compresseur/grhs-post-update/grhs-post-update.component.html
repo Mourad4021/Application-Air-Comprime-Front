@@ -1,0 +1,240 @@
+<mat-toolbar
+  class="row "
+  style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );"
+>
+  <span class="col-md-6 "></span>
+  <span class="fill-remaining-space col-md-5"></span>
+  <button
+    class=" btn-dialog-close col-md-1"
+    mat-stroked-button
+    (click)="onClose()"
+    tabIndex="-1"
+  >
+    <span><b>X</b></span>
+  </button>
+</mat-toolbar>
+<form [formGroup]="data.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="3">
+    <mat-grid-tile [colspan]="2">
+      <div class="controles-container row ">
+        <div class="col-md-5">
+          <input type="hidden" formControlName="gRhID" />
+           <input type="hidden" formControlName="equipementFilialeID" />
+          <mat-form-field *ngIf="
+              data.form.controls.gRhID.value ==
+              '00000000-0000-0000-0000-000000000000'
+            ">
+            <mat-select
+              placeholder=" Selectionnez un compresseur"
+              name="compFiliale"
+              formControlName="equipementFilialeID"
+            >
+              <mat-option *ngFor="let cf of listCF" [value]="cf.equipementFilialeID"
+                >{{ cf.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
+
+          <mat-form-field class="" >
+            <input *ngIf="data.form.controls.gRhID.value == '00000000-0000-0000-0000-000000000000'"
+              type="date"
+              formControlName="date"
+              matInput
+              placeholder="Date"
+              autocomplete="off"
+            />
+            <input *ngIf="data.form.controls.gRhID.value != '00000000-0000-0000-0000-000000000000'"
+            
+              formControlName="date"
+              
+              matInput
+              placeholder="Date"
+              autocomplete="off"
+             [value]="data.form.controls.date.value|date:'dd/MM/yyyy'"
+             [readonly]="authenticationService.currentUserRole == 'Admin'"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+
+          
+          
+          <mat-form-field class="">
+            <input 
+              formControlName="salaire"
+              matInput
+              placeholder="Salaire"
+              autocomplete="off"
+              [readonly]="authenticationService.currentUserRole == 'Admin'"
+            />
+            <mat-error *ngIf="data.form.controls.salaire.errors?.required">
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error *ngIf="data.form.controls.salaire.errors?.pattern">
+              Ce champ est non valide
+            </mat-error>
+          </mat-form-field>
+          <!-- <mat-form-field class="">
+            <input
+              formControlName="charge_Compresseur"
+              matInput
+              placeholder="Charge compresseur"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="data.form.controls.charge_Compresseur.errors?.required"
+            >
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.charge_Compresseur.errors?.pattern"
+            >
+              Ce champ est non valide
+            </mat-error>
+          </mat-form-field> -->
+          <mat-form-field class="">
+            <input
+              formControlName="tauxAffectationAirComprime"
+              matInput
+              placeholder="tauxAffectationAirComprime"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.required"
+            >
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.pattern"
+            >
+              Ce champ est non valide
+            </mat-error>
+            <mat-error
+            *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.min"
+          >
+            Ce champ doit être supérieur à 0%
+          </mat-error>
+          <mat-error
+          *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.max"
+        >
+        Ce champ doit être inférieur à 100%
+        </mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-md-5">
+          <mat-form-field class="">
+            <input
+              formControlName="charge_Total"
+              matInput
+              placeholder="Charge total"
+              autocomplete="off"
+            />
+            <mat-error *ngIf="data.form.controls.charge_Total.errors?.required">
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error *ngIf="data.form.controls.charge_Total.errors?.pattern">
+              Ce champ est non valide
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="">
+            <input
+              formControlName="compresseur_Pourcentage"
+              matInput
+              placeholder="Compresseur (%)"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="
+                data.form.controls.compresseur_Pourcentage.errors?.required
+              "
+            >
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.compresseur_Pourcentage.errors?.pattern"
+            >
+              Ce champ est non valide
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="">
+            <input
+              formControlName="secheur_Pourcentage"
+              matInput
+              placeholder="Sécheur (%)"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="data.form.controls.secheur_Pourcentage.errors?.required"
+            >
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.secheur_Pourcentage.errors?.pattern"
+            >
+              Ce champ est non valide
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="date"
+              matInput
+              placeholder="Date"
+              type="date"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+        </div> -->
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1">
+      <div class="button-row">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="data.form.invalid"
+          class="col-md-12"
+        >
+          <span
+            *ngIf="
+              data.form.controls.gRhID.value ==
+              '00000000-0000-0000-0000-000000000000'
+            "
+            ><i class="pe-7s-plus" style="padding-right: 5px"></i>Ajouter</span
+          ><span
+            *ngIf="
+              data.form.controls.gRhID.value !=
+              '00000000-0000-0000-0000-000000000000'
+            "
+            ><i class="pe-7s-pen" style="padding-right: 5px"></i>Modifier</span
+          >
+        </button>
+        <!-- <button
+          mat-raised-button
+          color="warn"
+          (click)="onClear()"
+          class="col-md-12"
+          style="margin-top: 7px"
+   > -->
+   <button
+   mat-raised-button
+   color="warn"
+   type="button"
+   *ngIf="
+   data.form.controls
+     .gRhID.value ==
+   '00000000-0000-0000-0000-000000000000'
+ "
+   (click)="onClear()"
+   class="col-md-12"
+   style="margin-top: 7px"
+ >
+          <i class="pe-7s-less" style="padding-right: 5px"></i>Vider
+        </button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

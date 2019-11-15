@@ -1,0 +1,104 @@
+<div class="container-fluid mt-2">
+    <form [formGroup]="SecheurSearchForm">
+        <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Constructeur</label>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="fournisseurID">
+            <option value=""></option>
+            <option
+              *ngFor="let fornisseur of fournisseurDataService.list"
+              [value]="fornisseur.fournisseurID"
+              >{{ fornisseur.constructeur }}</option
+            >
+          </select>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Fournisseur</label>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="fournisseurID">
+            <option value=""></option>
+            <option
+              *ngFor="let fornisseur of fournisseurDataService.list"
+              [value]="fornisseur.fournisseurID"
+              >{{ fornisseur.nom }}</option
+            >
+          </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Type Sécheur</label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="nom" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Capacité de Traitement</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="capaciteTraitement" />
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    <div class="p-1">
+
+        <button (click)="onCreateSecheur()" class="btn btn-info " [hidden]="authService.currentUserRole=='Responsable'">
+          <i class="pe-7s-plus " style="padding-right: 5px"></i>
+          Ajouter
+        </button>
+
+        <div class="table-responsive">
+
+            <table class="table  table-bordered table-light mt-1">
+                <thead>
+                    <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+
+                        <!-- <th>ID</th> -->
+                        <th>Constructeur</th>
+                        <th>Fournisseur</th>
+                        <th>Type Sécheur</th>
+                        <th>Capacité de Traitement (m3/h)</th>
+                        <th>Fréquence des Entretiens Sécheur (h)</th>
+
+
+                        <th *ngIf="authService.currentUserRole!= 'Responsable'"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let secheur of equipementDataService.listActiveSecheur | filter:SecheurSearchForm.value | paginate: { id: 'SecheurPagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
+                        <!-- <td>{{secheur.compresseurID}}</td> -->
+                        <td> {{ GetFournisseurNameByIDCorrespondance(secheur.fournisseurID)?.constructeur}}</td>
+                        <td> {{ GetFournisseurNameByIDCorrespondance(secheur.fournisseurID)?.nom}}</td>
+                        <td>{{secheur.nom}}</td>
+                        <td> {{secheur.capaciteTraitement}}</td>
+                        <td> {{ GetFournisseurNameByIDCorrespondance(secheur.fournisseurID)?.frequence_Des_Entretiens_Secheur}}</td>
+
+
+                        <td [hidden]="authService.currentUserRole== 'Responsable'">
+                            <button class="btn btn-danger" (click)="onDelete(secheur.equipementID)">
+              
+              <i class="pe-7s-trash" style="padding-left: 5px"></i>
+            </button>
+                            <button class="btn btn-info" style="margin-left: 20px" (click)="onEdit(secheur)">
+              
+              <i class="pe-7s-pen" style="padding-left: 5px"></i>
+            </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="SecheurPagination" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
+            </pagination-controls>
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,230 @@
+<mat-toolbar
+  class="row mb-5"
+  style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );"
+>
+  <span class="col-md-6 "></span>
+  <span class="fill-remaining-space col-md-5"></span>
+  <button
+    class=" btn-dialog-close col-md-1"
+    mat-stroked-button
+    (click)="onClose()"
+    tabIndex="-1"
+  >
+    <span><b>X</b></span>
+  </button>
+</mat-toolbar>
+<form [formGroup]="data.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="4">
+    <mat-grid-tile [colspan]="3">
+      <div class="controles-container row">
+        <div class="col-md-3">
+          <input type="hidden" formControlName="usersId" />
+          <input type="hidden" formControlName="active" />
+          <mat-form-field>
+            <mat-select
+              placeholder="Sélectionnez une filiale"
+              name="filialeID"
+              formControlName="filialeID"
+            >
+              <mat-option *ngFor="let f of listFiliale" [value]="f.filialeID"
+                >{{ f.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersCode"
+              matInput
+              placeholder="N° CIN"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="">
+            <input
+              formControlName="usersName"
+              matInput
+              placeholder="Nom"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersLastName"
+              matInput
+              placeholder="Prénom"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-select
+              placeholder=" Sélectionnez un statut"
+              name="usersState"
+              formControlName="usersState"
+            >
+              <mat-option *ngFor="let e of StatutList" [value]="e"
+                >{{ e }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field class="">
+            <input
+              formControlName="usersMail"
+              matInput
+              placeholder="Mail externe"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersMailIntern"
+              matInput
+              placeholder="Messagerie:Prénom Nom/SIEGE/POULINA"
+              autocomplete="off"
+            />
+
+            <mat-error
+              *ngIf="
+                data.form.controls.usersMailIntern.errors?.InternMailValidator
+              "
+              >le format est incorrect
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.usersMailIntern.errors?.required"
+              >Ce champ est obligatoire</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field class="">
+            <input
+              formControlName="usersPosteName"
+              matInput
+              placeholder="Poste"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersPersonalNumber"
+              matInput
+              placeholder="Numéro Personnel"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="data.form.controls.usersPersonalNumber.errors?.required"
+            >
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.usersPersonalNumber.errors?.pattern"
+            >
+              Ce champ est non valide</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersPhoneNumber"
+              matInput
+              placeholder="N° Poste"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="data.form.controls.usersPhoneNumber.errors?.required"
+            >
+              Ce champ est obligatoire
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.usersPhoneNumber.errors?.pattern"
+            >
+              Ce champ est non valide</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field>
+            <mat-select
+              placeholder=" Sélectionnez un genre"
+              name="usersGenderCode"
+              formControlName="usersGenderCode"
+            >
+              <mat-option *ngFor="let e of GenreList" [value]="e"
+                >{{ e }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersBirthDate"
+              type="date"
+              matInput
+              placeholder="Date naissance"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersJoinDate"
+              type="date"
+              matInput
+              placeholder="Date  entrée"
+              autocomplete="off"
+            />
+            <mat-error>Ce champ est obligatoire</mat-error>
+          </mat-form-field>
+          <mat-form-field class="">
+            <input
+              formControlName="usersDateLeave"
+              type="date"
+              matInput
+              placeholder="Date sortie"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile [colspan]="1">
+      <div class="button-row">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="data.form.invalid"
+          class="col-md-12"
+        >
+          <span
+            *ngIf="
+              data.form.controls.usersId.value ==
+              '00000000-0000-0000-0000-000000000000'
+            "
+            ><i class="pe-7s-plus" style="padding-right: 5px"></i>Ajouter</span
+          ><span
+            *ngIf="
+              data.form.controls.usersId.value !=
+              '00000000-0000-0000-0000-000000000000'
+            "
+            ><i class="pe-7s-pen" style="padding-right: 5px"></i>Modifier</span
+          >
+        </button>
+        <button
+          mat-raised-button
+          color="warn"
+          (click)="onClear()"
+          class="col-md-12"
+          style="margin-top: 7px"
+        >
+          <i class="pe-7s-less" style="padding-right: 5px"></i>Vider
+        </button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

@@ -1,0 +1,76 @@
+<mat-toolbar class="row " style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );">
+  <span class="col-md-6 "></span>
+  <span class="fill-remaining-space col-md-5"></span>
+  <button class=" btn-dialog-close col-md-1" mat-stroked-button (click)="onClose()" tabIndex="-1">
+<span><b>X</b></span>
+</button>
+</mat-toolbar>
+
+<mat-dialog-content>
+  <form [formGroup]="reservoirFilialeService.AddOrUpdateReservoirFilialeForm" class="normal-form" (submit)="onSubmit()">
+      <mat-grid-list cols="2">
+          <mat-grid-tile class="col-md-10">
+              <div class="controles-container">
+                  <input type="hidden" formControlName="equipementFilialeID" />
+                  <input type="hidden" formControlName="active" />
+                  <mat-form-field class="col-md-12">
+                      <mat-label>Filiale</mat-label>
+                      <mat-select formControlName="filialeID">
+                          <mat-option value="">---------</mat-option>
+                          <mat-option *ngFor="let filiale of dataFilialeService.listActive" [value]="filiale.filialeID">
+                              {{ filiale.nom }}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col-md-12">
+                      <mat-label>Type Réservoir</mat-label>
+                      <mat-select formControlName="equipementID">
+                          <mat-option value="">---------</mat-option>
+                          <mat-option *ngFor="let reservoir of equipementDataService.listActiveReservoir" [value]="reservoir.equipementID">
+                              {{ GetReservoirByIDCorrespondance(reservoir.equipementID)?.nom }}
+                          </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  <mat-form-field class="col-md-12">
+                      <input formControlName="nom" matInput placeholder="Réservoir" autocomplete="off" />
+                      <mat-error *ngIf="
+                      reservoirFilialeService.AddOrUpdateReservoirFilialeForm
+              .controls.nom.errors?.required
+          ">Ce champ est obligatoire</mat-error>
+                  </mat-form-field>
+
+              </div>
+          </mat-grid-tile>
+          <mat-grid-tile class="col-md-12">
+              <div class="button-row">
+                  <button mat-raised-button color="primary" type="submit" [disabled]="
+                  reservoirFilialeService.AddOrUpdateReservoirFilialeForm
+          .invalid
+      " class="col-md-12">
+      <span
+        *ngIf="
+        reservoirFilialeService.AddOrUpdateReservoirFilialeForm
+            .controls.equipementFilialeID.value ==
+          '00000000-0000-0000-0000-000000000000'
+        "
+        ><i class="pe-7s-plus" style="padding-right: 5px"></i>
+        Ajouter</span
+      ><span
+        *ngIf="
+        reservoirFilialeService.AddOrUpdateReservoirFilialeForm
+            .controls.equipementFilialeID.value !=
+          '00000000-0000-0000-0000-000000000000'
+        "
+        ><i class="pe-7s-pen" style="padding-right: 5px"></i
+        >Modifier</span
+      >
+    </button>
+
+                  <button mat-raised-button color="warn" type="button" (click)="onClear()" class="col-md-12" style="margin-top: 7px">
+      <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
+    </button>
+              </div>
+          </mat-grid-tile>
+      </mat-grid-list>
+  </form>
+</mat-dialog-content>

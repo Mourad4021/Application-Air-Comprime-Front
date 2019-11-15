@@ -1,0 +1,164 @@
+<div class="container-fluid mt-2">
+  <form [formGroup]="UsersSearchForm">
+    <div
+      class="row w-500 p-2 m-1 mb-2 border rounded "
+      style="background-color: whitesmoke;"
+    >
+      <!-- <div class="col-md-2">
+                <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="usersCode" />
+                </div>
+            </div> -->
+            <div class="col-md-2">
+              <div class="form-group">
+                  <label for="exampleFormControlSelect2">Filiale</label>
+                  <select class="form-control" id="exampleFormControlSelect2" formControlName="filialeID">
+          <option value="">---------------</option>
+          <option
+            *ngFor="let Filiale of dataFilialeservice.list"
+            [value]="Filiale.filialeID"
+            >{{ Filiale.nom }}</option
+          >
+        </select> 
+              </div>
+          </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Nom </label>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            placeholder=""
+            formControlName="usersName"
+          />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            placeholder=""
+            formControlName="usersLastName"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Messagerie</label>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            placeholder=""
+            formControlName="usersMailIntern"
+          />
+        </div>
+      </div>
+     
+    </div>
+  </form>
+  <!-- ///search -->
+  <button (click)="onCreate()" class="btn btn-info">
+    <i class="pe-7s-plus pr-1"></i>
+    Ajouter
+  </button>
+  <div class="table-responsive">
+    <table class="table  table-bordered  mt-1 ">
+      <thead>
+        <tr
+          style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
+          class="bg-primary"
+        >
+          <!-- <th> usersId</th> -->
+          <!-- <th class="align-middle">Codess</th> -->
+          <th class="align-middle">Filiale</th>
+          <th class="align-middle">Nom</th>
+          <th class="align-middle">Prénom</th>
+          <th class="align-middle">N° CIN</th>
+          <th class="align-middle">Messagerie</th>
+          <!-- <th class="align-middle">statut</th> -->
+          <!-- <th class="align-middle">Mail externe</th> -->
+          <!-- <th class="align-middle">Mail lotus</th> -->
+          <th class="align-middle">N° poste</th>
+
+          <!-- <th class="align-middle">Poste</th> -->
+          <th class="align-middle">N° personnel</th>
+          <!-- <th class="align-middle">Genre</th> -->
+          <!-- <th class="align-middle">Date naissance</th> -->
+          <!-- <th class="align-middle">Date entrée</th> -->
+          <!-- <th class="align-middle">Date sortie</th> -->
+
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let g of data.list
+              | filter: UsersSearchForm.value
+              | paginate
+                : { id: 'UsersPagination', itemsPerPage: 10, currentPage: p }
+          "
+          style="text-align:center;background-color: white"
+        >
+          <!-- <td>{{ g.usersId }}</td> -->
+          <td>{{ getFilialeNameById(g.filialeID)?.nom }}</td>
+          <td>{{ g.usersName }}</td>
+          <td>{{ g.usersLastName }}</td>
+          <td>{{ g.usersCode }}</td>
+          <td>{{ g.usersMailIntern }}</td>
+          <td>{{ g.usersPhoneNumber }}</td>
+
+          <!-- <td>{{ g.usersState }}</td> -->
+
+          <!-- <td>{{ g.usersMail }}</td> -->
+
+          <!-- <td>{{ g.usersPosteName }}</td> -->
+
+          <td>{{ g.usersPersonalNumber }}</td>
+
+          <!-- <td>{{ g.usersGenderCode }}</td> -->
+
+          <!-- <td>{{ g.usersBirthDate | date: "dd/MM/yyyy" }}</td> -->
+
+          <!-- <td>{{ g.usersJoinDate | date: "dd/MM/yyyy"}}</td> -->
+          <!-- <td *ngIf="g.usersDateLeave != '1300-01-01T00:00:00' ">{{ g.usersDateLeave | date: "dd/MM/yyyy" }}</td> -->
+          <!-- <td *ngIf="g.usersDateLeave == '1300-01-01T00:00:00' ">-</td> -->
+          <td>
+            <button (click)="onEdit(g)" class="btn btn-info">
+              <span class="pe-7s-pen"></span>
+            </button>
+
+            <button
+              (click)="delete(g.usersId)"
+              class="btn btn-danger"
+              *ngIf="authService.currentUserRole != 'Admin'"
+            >
+              <span class=" pe-7s-trash"></span>
+            </button>
+            <button
+              (click)="editRoleApp(g.usersId, g.usersName)"
+              class="btn btn-warning"
+            >
+              <span class=" pe-7s-user"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls
+    id="UsersPagination"
+    (pageChange)="p = $event"
+    previousLabel="Prc"
+    nextLabel="Suiv"
+  >
+  </pagination-controls>
+</div>

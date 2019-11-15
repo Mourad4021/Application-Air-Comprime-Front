@@ -1,0 +1,223 @@
+<div class="container-fluid mt-2">
+  <form [formGroup]="EntretienReservoirSearchForm">
+    <div
+      class="row w-500 p-2 m-1 mb-2 border rounded"
+      style="background-color: whitesmoke"
+    >
+      <form [formGroup]="EntretienReservoirSearchFormFiliale" class="col-md-3">
+        <div class="form-group">
+          <label>Filiale</label>
+          <select
+            class="form-control  form-control-sm"
+            id=""
+            placeholder=""
+            formControlName="filiale"
+            (change)="selectFiliale()"
+          >
+            <option [value]="0">-----------------------------</option>
+            <option
+              *ngFor="let fi of datafiliale.list"
+              [value]="fi.filialeID"
+              >{{ fi.nom }}</option
+            >
+          </select>
+        </div>
+      </form>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label for="exampleFormControlSelect2">Réservoir Filiale</label>
+
+          <select
+            class="form-control"
+            id="exampleFormControlSelect2"
+            formControlName="equipementFilialeID"
+          >
+            <option value="">---------------</option>
+            <option
+              *ngFor="let CF of listCF"
+              [value]="CF.equipementFilialeID"
+              >{{ CF.nom }}</option
+            >
+          </select>
+        </div>
+      </div>
+      <form
+        [formGroup]="EntretienReservoirSearchFormnatureVisite"
+        class="col-md-3"
+      >
+        <div class="form-group">
+          <label>Nature de Visite </label>
+
+          <select
+            class="form-control"
+            id=""
+            placeholder=""
+            formControlName="natureVisite"
+            (change)="selectnature()"
+          >
+            <option [value]="">-----------------------------</option>
+            <option *ngFor="let fi of NatureDeVisite" [value]="fi">{{
+              fi
+            }}</option>
+          </select>
+        </div>
+      </form>
+
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Dernière Visite </label>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            placeholder=""
+            formControlName="derniereVisite"
+            type="Date"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>Prochaine Visite</label>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            placeholder=""
+            formControlName="prochaineVisite"
+            type="Date"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="p-1">
+    <button (click)="onCreateEntretienCompresseur()" class="btn btn-info ">
+      <i class="pe-7s-plus " style="padding-right: 5px"></i>
+      Ajouter
+    </button>
+
+    <div class="table-responsivee">
+      <table class="table  table-bordered  mt-1 ">
+        <thead>
+          <tr
+            style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
+            class="bg-primary"
+          >
+            <th class="align-middle">Filiale</th>
+            <th class="align-middle">Réservoir Filiale</th>
+            <th class="align-middle">Capacité du Réservoir (en l)</th>
+            <th class="align-middle">PMS (bar)</th>
+            <th class="align-middle">PE (bar)</th>
+            <th class="align-middle">Année de fabrication</th>
+            <th class="align-middle">Nature de visite</th>
+            <th class="align-middle">Dernière Visite</th>
+
+            <th class="align-middle">Prochaine Visite</th>
+
+            <th class="align-middle">Commentaires</th>
+            <th class="align-middle">Piéce jointe</th>
+
+            <td style="width: 180px!important"></td>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            *ngFor="
+              let g of data.list
+                | filter: EntretienReservoirSearchForm.value
+                | paginate
+                  : {
+                      id: 'EntretienReservoirPagination',
+                      itemsPerPage: 15,
+                      currentPage: p
+                    }
+            "
+            style="text-align:center;background-color:  white "
+          >
+            <td class="align-middle">
+              {{ GetFilialeByIDCorrespondance(g.equipementFilialeID).nom }}
+            </td>
+            <td class="align-middle">
+              {{ GetCompFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
+            </td>
+            <td class="align-middle">
+              {{
+                GetEquipementByIDCorrespondance(g.equipementFilialeID)?.capacite
+              }}
+            </td>
+            <td class="align-middle">
+              {{ GetEquipementByIDCorrespondance(g.equipementFilialeID)?.pms }}
+            </td>
+            <td class="align-middle">
+              {{ GetEquipementByIDCorrespondance(g.equipementFilialeID)?.pe }}
+            </td>
+            <td class="align-middle">
+              {{
+                GetEquipementByIDCorrespondance(g.equipementFilialeID)
+                  ?.anneeFabrication
+              }}
+            </td>
+
+            <td class="align-middle" *ngIf="g.natureVisite == 0">
+              Visite Intérieure
+            </td>
+            <td class="align-middle" *ngIf="g.natureVisite == 1">
+              Visite Extérieure
+            </td>
+            <td class="align-middle" *ngIf="g.natureVisite == 2">
+              Épreuve Officielle
+            </td>
+            <td
+              class="align-middle"
+              [ngClass]="{
+                'bg-danger text-white ': g.derniereVisite > this.DateToday
+              }"
+            >
+              {{ g.derniereVisite | date: "dd/MM/yyyy" }}
+            </td>
+            <td
+              class="align-middle"
+              [ngClass]="{
+                'bg-danger text-white ': g.prochaineVisite > this.DateToday
+              }"
+            >
+              {{ g.prochaineVisite | date: "dd/MM/yyyy" }}
+            </td>
+            <td class="align-middle">{{ g.commentaires }}</td>
+            <td>
+              <app-attachement-list
+                [id]="g.entretienReservoirID"
+                [objet]="'EntretienReservoir'"
+              ></app-attachement-list>
+            </td>
+            <td style="width: 180px!important">
+              <button
+                (click)="onEditEntretienCompresseur(g)"
+                class="btn btn-info mr-3"
+              >
+                <span class="pe-7s-pen"></span>
+              </button>
+
+              <button
+                (click)="delete(g.entretienReservoirID)"
+                class="btn btn-danger "
+              >
+                <span class=" pe-7s-trash"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <pagination-controls
+        id="EntretienReservoirPagination"
+        (pageChange)="p = $event"
+        previousLabel="Prc"
+        nextLabel="Suiv"
+      >
+      </pagination-controls>
+    </div>
+  </div>
+</div>

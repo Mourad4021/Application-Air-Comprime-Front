@@ -1,0 +1,89 @@
+<div class="container-fluid mt-2">
+    <form [formGroup]="ReservoirSearchForm">
+        <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
+
+
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Type du réservoir</label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="nom" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Année de fabrication</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="anneeFabrication" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>PMS</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="pms" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>PE</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="pe" />
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="p-1">
+
+        <button (click)="onCreateReservoir()" class="btn btn-info " [hidden]="authService.currentUserRole=='Responsable'">
+        <i class="pe-7s-plus " style="padding-right: 5px"></i>
+        Ajouter
+      </button>
+
+        <div class="table-responsive">
+
+            <table class="table  table-bordered table-light mt-1">
+                <thead>
+                    <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+
+                        <!-- <th>ID</th> -->
+                        <th>Type Réservoir</th>
+                        <th>Capacité du Réservoir (en l)</th>
+                        <th>PMS (bar)</th>
+                        <th>PE (bar)</th>
+                        <th>Année de fabrication</th>
+
+
+                        <th *ngIf="authService.currentUserRole!= 'Responsable'"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let Reservoir of equipementDataService.listActiveReservoir | filter:ReservoirSearchForm.value | paginate: { id: 'ReservoirPagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
+                        <!-- <td>{{Reservoir.compresseurID}}</td> -->
+
+                        <td>{{Reservoir.nom}}</td>
+                        <td> {{Reservoir.capacite}}</td>
+                        <td> {{Reservoir.pms}}</td>
+                        <td> {{Reservoir.pe}}</td>
+                        <td> {{Reservoir.anneeFabrication}}</td>
+
+                        <td [hidden]="authService.currentUserRole== 'Responsable'">
+                            <button class="btn btn-danger" (click)="onDelete(Reservoir.equipementID)">
+            
+            <i class="pe-7s-trash" style="padding-left: 5px"></i>
+          </button>
+                            <button class="btn btn-info" style="margin-left: 20px" (click)="onEdit(Reservoir)">
+            
+            <i class="pe-7s-pen" style="padding-left: 5px"></i>
+          </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="ReservoirPagination" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
+            </pagination-controls>
+        </div>
+    </div>
+
+
+
+</div>

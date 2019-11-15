@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\Gestion_Compresseur",
+    "\\src\\app\\Gestion_Compresseur\\fiche-suivi-get-delete",
+    "\\src\\app\\Shared",
+    "\\src\\app\\Shared\\Gestion_Compresseur",
+    "\\src\\app\\Shared\\Gestion_Compresseur\\Fiche_Suivi"
+  ],
+  "SelectedNode": "\\src\\app\\Gestion_Compresseur\\fiche-suivi-get-delete\\fiche-suivi-get-delete.component.html",
+  "PreviewInSolutionExplorer": false
+}

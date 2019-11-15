@@ -1,0 +1,122 @@
+<div class="container-fluid mt-2">
+
+  <form [formGroup]="CompresseurSecheurFilialeForm">
+      <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="exampleFormControlSelect2">Filiale</label>
+                  <select class="form-control" id="exampleFormControlSelect2" formControlName="filialeID">
+          <option value=""></option>
+          <option
+            *ngFor="let filiale of dataFilialeService.list"
+            [value]="filiale.filialeID"
+            >{{ filiale.nom }}</option
+          >
+        </select>
+              </div>
+          </div>
+
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="exampleFormControlSelect2">Equipement</label>
+                  <select class="form-control" id="exampleFormControlSelect2" formControlName="equipementID">
+          <option value=""></option>
+          <option
+            *ngFor="let equipement of equipementDataService.ListEquipement"
+            [value]="equipement.equipementID"
+            >{{ equipement.nom }}</option
+          >
+        </select>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label>Nom</label>
+                  <input type="text" class="form-control" id="" placeholder="" formControlName="nom" />
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label>N° de Série</label>
+                  <input type="number" class="form-control" id="" placeholder="" formControlName="numSerie" />
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label>Prix d'Acquisition</label>
+                  <input type="number" class="form-control" id="" placeholder="" formControlName="prixAcquisition" />
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label>Date d'Acquisition</label>
+                  <input type="date" class="form-control" id="" placeholder="" formControlName="dateAcquisition" />
+              </div>
+          </div>
+
+
+      </div>
+  </form>
+
+
+
+
+  <div class="p-1">
+
+      <button (click)="onCreateCompresseurSecheurFiliale()" class="btn btn-info ">
+      <i class="pe-7s-plus " style="padding-right: 5px"></i>
+      Ajouter
+    </button>
+
+      <div class="table-responsive">
+
+          <table class="table  table-bordered table-light mt-1">
+              <thead>
+                  <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+
+                      <!-- <th>ID</th> -->
+                      <th>Filiale</th>
+                      <th>Equipement</th>
+                      <th>Nom</th>
+                      <th>N° de Série</th>
+                      <th>Prix d'Acquisition (Dt)</th>
+                      <th>Date d'Acquisition</th>
+
+
+                      <th></th>
+                  </tr>
+              </thead>
+
+              <tbody>
+                  <tr *ngFor="let  CompresseurSecheurFiliale of equipementFilialeService.CompresseurSecheurFilialeList | filter:CompresseurSecheurFilialeForm.value | paginate: { id: 'CompresseurSecheurFiliale',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
+                      <!-- <td>{{secheur.compresseurID}}</td> -->
+                      <td> {{ GetFilialeNameByIDCorrespondance(CompresseurSecheurFiliale.filialeID)?.nom}}</td>
+                      <td> {{ GetEquipementNameByIDCorrespondance(CompresseurSecheurFiliale.equipementID)?.nom}}</td>
+                      <td> {{ CompresseurSecheurFiliale.nom}}</td>
+                      <td> {{ CompresseurSecheurFiliale.numSerie}}</td>
+                      <td> {{ CompresseurSecheurFiliale.prixAcquisition}}</td>
+                      <td> {{ CompresseurSecheurFiliale.dateAcquisition | date: 'dd/MM/yyyy'}}</td>
+
+
+                      <td>
+                          <button class="btn btn-danger" (click)="onDeleteCompresseurSecheurFiliale(CompresseurSecheurFiliale.equipementFilialeID)">
+          
+          <i class="pe-7s-trash" style="padding-left: 5px"></i>
+        </button>
+                          <button class="btn btn-info" style="margin-left: 20px" (click)="onEditCompresseurSecheurFiliale(CompresseurSecheurFiliale)">
+          
+          <i class="pe-7s-pen" style="padding-left: 5px"></i>
+        </button>
+
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+          <pagination-controls id="CompresseurSecheurFiliale" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
+          </pagination-controls>
+      </div>
+  </div>
+
+
+
+</div>

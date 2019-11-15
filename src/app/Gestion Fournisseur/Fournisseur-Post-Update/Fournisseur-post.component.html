@@ -1,0 +1,131 @@
+<mat-toolbar
+  class="row "
+  style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );"
+>
+  <span class="col-md-6 "></span>
+  <span class="fill-remaining-space col-md-5"></span>
+  <button
+    class=" btn-dialog-close col-md-1"
+    mat-stroked-button
+    (click)="onClose()"
+    tabIndex="-1"
+  >
+    <span><b>X</b></span>
+  </button>
+</mat-toolbar>
+<form [formGroup]="data.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="2">
+    <mat-grid-tile class="col-md-10">
+      <div class="controles-container">
+        <input type="hidden" formControlName="fournisseurID" />
+        <input type="hidden" formControlName="active" />
+        <mat-form-field class="col-md-10">
+          <input
+            formControlName="nom"
+            matInput
+            placeholder="Nom du Fournisseur"
+            autocomplete="off"
+            input-clear
+          />
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-10">
+          <input
+            formControlName="constructeur"
+            matInput
+            placeholder="Constructeur"
+            autocomplete="off"
+            input-clear
+          />
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-10">
+          <input
+            formControlName="frequence_Des_Entretiens_Compresseur"
+            matInput
+            placeholder="frequence_Des_Entretiens_Compresseur"
+            autocomplete="off"
+            input-clear
+          />
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-10">
+          <input
+            formControlName="frequence_Des_Entretiens_Secheur"
+            matInput
+            placeholder="frequence_Des_Entretiens_Secheur"
+            autocomplete="off"
+            input-clear
+          />
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="col-md-10">
+          <input
+            formControlName="adresse"
+            matInput
+            placeholder="Adresse"
+            autocomplete="off"
+          />
+          <mat-error>Ce champ est obligatoire</mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-md-10">
+          <input
+            formControlName="email"
+            matInput
+            placeholder="Email"
+            autocomplete="off"
+          />
+
+          <mat-error *ngIf="data.form.controls.email.errors?.required">
+            Ce champ est obligatoire
+          </mat-error>
+          <mat-error *ngIf="data.form.controls.email.errors?.email">
+            Ce champ est non valide
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile class="col-md-12">
+      <div class="button-row">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          [disabled]="data.form.invalid"
+          class="col-md-12"
+        >
+          <span
+            *ngIf="
+              data.form.controls.fournisseurID.value ==
+              '00000000-0000-0000-0000-000000000000'
+            "
+            ><i class="pe-7s-plus" style="padding-right: 5px"></i> Ajouter</span
+          ><span
+            *ngIf="
+              data.form.controls.fournisseurID.value !=
+              '00000000-0000-0000-0000-000000000000'
+            "
+            ><i class="pe-7s-pen" style="padding-right: 5px"></i>Modifier</span
+          >
+        </button>
+
+        <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            *ngIf="
+            data.form.controls
+              .fournisseurID.value ==
+            '00000000-0000-0000-0000-000000000000'
+          "
+            (click)="onClear()"
+            class="col-md-12"
+            style="margin-top: 7px"
+          >
+          <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
+        </button>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

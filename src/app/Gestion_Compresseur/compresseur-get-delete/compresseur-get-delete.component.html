@@ -1,0 +1,142 @@
+<div class="container-fluid mt-2">
+    <form [formGroup]="CompresseurSearchForm">
+        <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Constructeur</label>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="fournisseurID">
+          <option value=""></option>
+          <option
+            *ngFor="let fornisseur of fournisseurDataService.list"
+            [value]="fornisseur.fournisseurID"
+            >{{ fornisseur.constructeur }}</option
+          >
+        </select>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Fournisseur</label>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="fournisseurID">
+          <option value=""></option>
+          <option
+            *ngFor="let fornisseur of fournisseurDataService.list"
+            [value]="fornisseur.fournisseurID"
+            >{{ fornisseur.nom }}</option
+          >
+        </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Fréquence des entretiens</label>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="fournisseurID">
+      <option value=""></option>
+      <option
+        *ngFor="let fornisseur of fournisseurDataService.list"
+        [value]="fornisseur.fournisseurID"
+        >{{ fornisseur.frequence_Des_Entretiens_Compresseur }}</option
+      >
+    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Type Compresseur</label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="nom" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Puissance</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="puissance" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Débit</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="debit" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Puissance en charge</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="puissanceCharge" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Puissance à vide</label>
+                    <input type="number" class="form-control" id="" placeholder="" formControlName="puissanceVide" />
+                </div>
+            </div>
+
+
+        </div>
+    </form>
+
+    <div class="p-1">
+
+        <button (click)="onCreateCompresseur()" class="btn btn-info " [hidden]="authService.currentUserRole=='Responsable'">
+        <i class="pe-7s-plus " style="padding-right: 5px"></i>
+        Ajouter
+      </button>
+
+        <div class="table-responsive">
+
+            <table class="table  table-bordered table-light mt-1 ">
+                <thead>
+                    <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+
+                        <!-- <th>ID</th> -->
+                        <th class="align-middle">Constructeur</th>
+                        <th class="align-middle">Fournisseur</th>
+                        <th class="align-middle">Type Compresseur</th>
+                        <th class="align-middle">Puissance (kW)</th>
+                        <th class="align-middle">Débit (m3/h)</th>
+                        <th class="align-middle">Puissance en charge (kW)</th>
+                        <th class="align-middle">Puissance à vide (kW)</th>
+                        <th class="align-middle">Fréquence des Entretiens Compresseur (h)</th>
+
+
+
+                        <th *ngIf="authService.currentUserRole!= 'Responsable'"></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let Compresseur of equipementDataService.listActiveCompresseur | filter:CompresseurSearchForm.value | paginate: { id: 'CompresseurPagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
+                        <!-- <td>{{Compresseur.compresseurID}}</td> -->
+                        <td class="align-middle">{{ GetFournisseurNameByIDCorrespondance(Compresseur.fournisseurID)?.constructeur}}</td>
+                        <td class="align-middle">{{ GetFournisseurNameByIDCorrespondance(Compresseur.fournisseurID)?.nom}}</td>
+                        <td class="align-middle">{{Compresseur.nom}}</td>
+                        <td class="align-middle">{{Compresseur.puissance}}</td>
+                        <td class="align-middle">{{Compresseur.debit}}</td>
+                        <td class="align-middle">{{Compresseur.puissanceCharge}}</td>
+                        <td class="align-middle">{{Compresseur.puissanceVide}}</td>
+                        <td class="align-middle">{{ GetFournisseurNameByIDCorrespondance(Compresseur.fournisseurID)?.frequence_Des_Entretiens_Compresseur}}</td>
+
+
+                        <td [hidden]="authService.currentUserRole== 'Responsable'" class="align-middle">
+                            <button class="btn btn-danger" (click)="onDelete(Compresseur.equipementID)">
+            
+            <i class="pe-7s-trash "></i>
+          </button>
+                            <button class="btn btn-info " (click)="onEdit(Compresseur)">
+            
+            <i class="pe-7s-pen" ></i>
+          </button>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="CompresseurPagination" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
+            </pagination-controls>
+        </div>
+    </div>
+
+
+
+</div>

@@ -1,0 +1,167 @@
+<mat-toolbar class="row " style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );">
+    <span class="col-md-6 "></span>
+    <span class="fill-remaining-space col-md-5"></span>
+    <button class=" btn-dialog-close col-md-1" mat-stroked-button (click)="onClose()" tabIndex="-1">
+    <span><b>X</b></span>
+  </button>
+</mat-toolbar>
+<form [formGroup]="data.form" class="normal-form" (submit)="onSubmit()">
+    <mat-grid-list cols="3">
+        <mat-grid-tile [colspan]="2">
+            <div class="controles-container row ">
+                <div class="col-md-4">
+
+                    <input type="hidden" formControlName="ficheSuiviID" />
+                    <!-- <input type="hidden" formControlName="equipementFilialeID" /> -->
+                    <input type="hidden" formControlName="equipementFilialeID" *ngIf="
+        data.form.controls.ficheSuiviID.value !=
+        '00000000-0000-0000-0000-000000000000'
+      " />
+                    <mat-form-field class="" *ngIf="
+        data.form.controls.ficheSuiviID.value ==
+        '00000000-0000-0000-0000-000000000000'
+      ">
+                        <mat-select placeholder=" Selectionnez un compresseur" name="compFiliale" formControlName="equipementFilialeID">
+                            <mat-option *ngFor="let cf of listCF" [value]="cf.equipementFilialeID">{{ cf.nom }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="data.form.controls.ficheSuiviID.value ==
+                    '00000000-0000-0000-0000-000000000000' " >
+                        <input formControlName="date" type="date" matInput placeholder="Date" autocomplete="off" />
+                        <mat-error>Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field *ngIf="data.form.controls.ficheSuiviID.value !=
+                    '00000000-0000-0000-0000-000000000000' " >
+                        <input formControlName="date" [readonly]="this.data.form.controls.ficheSuiviID.value!='00000000-0000-0000-0000-000000000000'" type="text" matInput placeholder="Date" autocomplete="off" [value]="data.form.controls.date.value|date:'dd/MM/yyyy'"/>
+                        <mat-error>Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <input formControlName="nbre_Heurs_Total" matInput placeholder="Nombre total d'heures" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.nbre_Heurs_Total.errors?.required"> Ce champ est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="data.form.controls.nbre_Heurs_Total.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <input formControlName="nbre_Heurs_Charge" matInput placeholder="Nbre d'heures en charge" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.nbre_Heurs_Charge.errors?.required"> Ce champ est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="data.form.controls.nbre_Heurs_Charge.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <input formControlName="index_Electrique" matInput placeholder="Index électrique" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.index_Electrique.errors?.required"> Ce champ est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="data.form.controls.index_Electrique.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+
+                    <mat-form-field class="">
+                        <input formControlName="tempsArret" matInput placeholder="Temps d'arrêt (panne)" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.tempsArret.errors?.required"> Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="data.form.controls.tempsArret.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                    <!-- <mat-form-field class="">
+            <input formControlName="etat" matInput placeholder="Etat" autocomplete="off" />
+            <mat-error *ngIf="data.form.controls.etat.errors?.required"> Ce champ est obligatoire</mat-error>
+            <mat-error *ngIf="data.form.controls.etat.errors?.pattern"> Ce champ est non valide</mat-error>
+          </mat-form-field> -->
+                    <mat-form-field>
+                        <mat-select placeholder=" Selectionnez un état" name="Etat" formControlName="etat">
+                            <mat-option *ngFor="let e of etatList" [value]="e">{{ e }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input formControlName="frequenceEentretienDeshuileur" matInput placeholder="Fréquence d'entretien du déshuileur" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.frequenceEentretienDeshuileur.errors?.required"> Ce champ est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="data.form.controls.frequenceEentretienDeshuileur.errors?.pattern"> Ce champ est non valide
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field class="">
+                        <input formControlName="courantAbsorbePhase" matInput placeholder="Courant absorbé/phase" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.courantAbsorbePhase.errors?.required"> Ce champ est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="data.form.controls.courantAbsorbePhase.errors?.pattern"> Ce champ est non valide
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <input formControlName="remarques" matInput placeholder="Remarques" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.remarques.errors?.required"> Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="data.form.controls.remarques.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+              
+                   
+                    
+
+                </div>
+                <div class="col-md-4">
+
+
+                    <mat-form-field class="">
+                        <input formControlName="priseCompteur" matInput placeholder="Prise compteur" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.priseCompteur.errors?.required"> Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="data.form.controls.priseCompteur.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="">
+                        <input formControlName="tHuileC" matInput placeholder="Thuile (°C)" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.tHuileC.errors?.required"> Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="data.form.controls.tHuileC.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                    <div class="">
+                        <small *ngIf="data.form.controls.tHuileC.value>=90" class="text-warning"> La Température d’huile est élevée </small>
+                    </div> 
+                    <mat-form-field class="">
+                        <input formControlName="tSecheurC" matInput placeholder="Tsécheur (°C)" autocomplete="off" />
+                        <mat-error *ngIf="data.form.controls.tSecheurC.errors?.required"> Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="data.form.controls.tSecheurC.errors?.pattern"> Ce champ est non valide</mat-error>
+                    </mat-form-field>
+                   
+                    <mat-form-field class="">
+
+                        <input formControlName="fraisEntretienReparation" (keyup)="OnfraisEntretienReparationChange()" matInput placeholder="Frais Entretien ou Reparation" autocomplete="off" type="number" [readonly]="this.data.form.controls.ficheSuiviID.value!='00000000-0000-0000-0000-000000000000'" />
+                        <mat-error *ngIf="data.form.controls.fraisEntretienReparation.errors?.required"> Ce champ est obligatoire
+                        </mat-error>
+                        <mat-error *ngIf="data.form.controls.fraisEntretienReparation.errors?.pattern"> Ce champ est non valide
+                        </mat-error>
+                    </mat-form-field>
+               
+                </div>
+<div class="col-md-12 mb-3 ">
+    
+    <div class="form-group mt-2" [hidden]="data.form.controls.fraisEntretienReparation.value<=0 || data.form.controls.ficheSuiviID.value!='00000000-0000-0000-0000-000000000000'">
+        <label></label>
+        <div class="custom-file">
+            <input  type="file" formControlName="files"  id="customFile" class="btn"  autocomplete="off" (change)="data.onUpload($event)" accept="" multiple />
+
+          <label class="" for="customFile"></label>
+        </div>
+    </div>
+</div>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile [colspan]="1">
+            <div class="button-row">
+                <button mat-raised-button color="primary" type="submit" [disabled]="data.form.invalid" class="col-md-12">
+          <span *ngIf="
+                data.form.controls.ficheSuiviID.value ==
+                '00000000-0000-0000-0000-000000000000'
+              "><i class="pe-7s-plus" style="padding-right: 5px"></i>Ajouter</span><span *ngIf="
+                data.form.controls.ficheSuiviID.value !=
+                '00000000-0000-0000-0000-000000000000'
+              "><i class="pe-7s-pen" style="padding-right: 5px"></i>Modifier</span>
+        </button>
+                <button mat-raised-button color="warn" (click)="onClear()" class="col-md-12" style="margin-top: 7px">
+          <i class="pe-7s-less" style="padding-right: 5px"></i>Vider
+        </button>
+      
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</form>

@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Affectation des roles et des applications à <b style="color: darkblue;">({{roleAppDataService.selectedUserName}})</b> </h2>
+<mat-dialog-content>
+
+
+
+
+    <form [formGroup]="roleAppDataService.AddAppRoleToUserForm" class="normal-form">
+
+
+        <div class="controles-container">
+            <!-- <input type="hidden" formControlName="userId"> -->
+
+            <!-- <input formControlName="userId" matInput placeholder="userId" type="hidden" [value]="roleAppDataService.currentUserID"> -->
+
+
+
+            <mat-form-field class="ml-3">
+                <mat-label>Sélectionnez une application</mat-label>
+                <mat-select formControlName="appId">
+                    <mat-option value=""></mat-option>
+                    <mat-option *ngFor="let app of  roleAppDataService.applicationList" [value]="app.ApplicationID">{{app.ApplicationDisplayName}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="ml-3" *ngIf="currentUser.Role_Utilisateur != 'Admin' ">
+                <mat-label>Sélectionnez un Role</mat-label>
+                <mat-select formControlName="roleId">
+                    <mat-option value=""></mat-option>
+                    <mat-option *ngFor="let role of  roleAppDataService.roleList" [value]="role.RoleID">{{role.RoleDisplayName}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="ml-3" *ngIf="currentUser.Role_Utilisateur == 'Admin' ">
+                <mat-label>Sélectionnez un Role</mat-label>
+                <mat-select formControlName="roleId">
+                    <mat-option value=""></mat-option>
+                    <mat-option *ngFor="let role of  RespRoleList" [value]="role.RoleID">{{role.RoleDisplayName}}</mat-option>
+
+                </mat-select>
+            </mat-form-field>
+
+
+            <mat-form-field class="col-md-12">
+                <input formControlName="password" matInput placeholder="password" autocomplete="off">
+                <mat-error>This field is mandatory.</mat-error>
+            </mat-form-field>
+        </div>
+
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Annuler</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-button (click)="onPost()" [disabled]="roleAppDataService.AddAppRoleToUserForm.invalid">Confirmer</button>
+</mat-dialog-actions>

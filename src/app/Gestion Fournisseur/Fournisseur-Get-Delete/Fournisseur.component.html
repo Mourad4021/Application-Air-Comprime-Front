@@ -1,0 +1,105 @@
+<div class="container-fluid mt-2">
+  <form [formGroup]="FournisseurSearchForm">
+    <div
+      class="row w-500 p-2 m-1 mb-2 border rounded "
+      style="background-color: whitesmoke;"
+    >
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Fournisseur</label>
+          <input
+            type="text"
+            class="form-control  form-control-sm"
+            id=""
+            placeholder=""
+            formControlName="nom"
+          />
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="form-group">
+          <label>Constructeur</label>
+          <input
+            type="text"
+            class="form-control  form-control-sm"
+            id=""
+            placeholder=""
+            formControlName="constructeur"
+          />
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <button (click)="onCreate()" class="btn btn-info">
+    <i class="pe-7s-plus " style="padding-right: 5px"></i>
+    Ajouter
+  </button>
+  <div class="table-responsive">
+    <table class="table  table-bordered  mt-1  ">
+      <thead>
+        <tr
+          style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
+          class="bg-primary"
+        >
+          <!-- <th>fournisseurID</th> -->
+
+          <th class="align-middle">Fournisseur</th>
+
+          <th class="align-middle">constructeur</th>
+          <th class="align-middle">Adresse</th>
+
+          <th class="align-middle">Email</th>
+
+          <th class="align-middle">frequence_Des_Entretiens_Compresseur</th>
+          <th class="align-middle">frequence_Des_Entretiens_Secheur</th>
+
+          <th style="width: 180px!important"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let g of data.listActive
+              | filter: FournisseurSearchForm.value
+              | paginate
+                : {
+                    id: 'FournisseurPagination',
+                    itemsPerPage: 10,
+                    currentPage: p
+                  }
+          "
+          style="text-align:center;background-color: white "
+        >
+          <!-- <td>{{ g.fournisseurID }}</td> -->
+
+          <td>{{ g.nom }}</td>
+          <td>{{ g.constructeur }}</td>
+          <td>{{ g.adresse }}</td>
+          <td>{{ g.email }}</td>
+
+          <td>{{ g.frequence_Des_Entretiens_Compresseur }}</td>
+          <td>{{ g.frequence_Des_Entretiens_Secheur }}</td>
+
+          <td style="width: 180px!important ">
+            <button (click)="onEdit(g)" class="btn btn-info mr-3 ">
+              <span class="pe-7s-pen "></span>
+            </button>
+
+            <button (click)="delete(g.fournisseurID)" class="btn btn-danger ">
+              <span class=" pe-7s-trash "></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls
+    id="FournisseurPagination"
+    (pageChange)="p = $event"
+    previousLabel="Prec "
+    nextLabel="Suiv "
+  >
+  </pagination-controls>
+</div>

@@ -1,0 +1,178 @@
+<mat-toolbar
+  class="row "
+  style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );"
+>
+  <span class="col-md-6 "></span>
+  <span class="fill-remaining-space col-md-5"></span>
+  <button
+    class=" btn-dialog-close col-md-1"
+    mat-stroked-button
+    (click)="onClose()"
+    tabIndex="-1"
+  >
+    <span><b>X</b></span>
+  </button>
+</mat-toolbar>
+
+<mat-dialog-content>
+  <form
+    [formGroup]="data.AddOrUpdateEntretienReservoirForm"
+    class="normal-form"
+    (submit)="onSubmit()"
+  >
+    <mat-grid-list cols="2">
+      <mat-grid-tile class="col-md-12">
+        <div class="controles-container">
+          <input type="hidden" formControlName="entretienReservoirID" />
+          <mat-form-field class="col-md-12">
+            <mat-label>Réservoir Filiale</mat-label>
+            <mat-select formControlName="equipementFilialeID">
+              <mat-option value="">---------</mat-option>
+              <mat-option
+                *ngFor="let CF of listCF"
+                [value]="CF.equipementFilialeID"
+                [disabled]="
+                  data.AddOrUpdateEntretienReservoirForm.controls
+                    .entretienReservoirID.value !==
+                  '00000000-0000-0000-0000-000000000000'
+                "
+              >
+                {{ CF.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="col-md-12">
+            <mat-select
+              formControlName="natureVisite"
+              matInput
+              placeholder="Selectionnez un type
+              Nature de Visite"
+              autocomplete="off"
+              input-clear
+            >
+              <mat-option *ngFor="let e of NatureDeVisite" [value]="e"
+                >{{ e }}
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="
+                data.AddOrUpdateEntretienReservoirForm.controls.natureVisite
+                  .errors?.required
+              "
+              >Ce champ est obligatoire</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field class="col-md-12">
+            <input
+              formControlName="derniereVisite"
+              type="date"
+              matInput
+              placeholder="date du derniere Visite"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="
+                data.AddOrUpdateEntretienReservoirForm.controls.derniereVisite
+                  .errors?.required
+              "
+              >le champ est obligatoire</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field class="col-md-12">
+            <input
+              formControlName="prochaineVisite"
+              type="date"
+              matInput
+              placeholder="date du prochaine Visite"
+              autocomplete="off"
+            />
+            <mat-error
+              *ngIf="
+                data.AddOrUpdateEntretienReservoirForm.controls.prochaineVisite
+                  .errors?.required
+              "
+              >le champ est obligatoire</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field class="col-md-12">
+            <input
+              formControlName="commentaires"
+              matInput
+              placeholder="Commentaires"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <div class="col-md-12 mb-3 ">
+            <div class="form-group mt-2">
+              <label></label>
+              <div class="custom-file">
+                <input
+                  type="file"
+                  formControlName="files"
+                  id="customFile"
+                  class="btn"
+                  autocomplete="off"
+                  (change)="data.onUpload($event)"
+                  accept=""
+                  multiple
+                />
+
+                <label class="" for="customFile"></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-grid-tile>
+
+      <mat-grid-tile class="col-md-12">
+        <div class="button-row">
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="data.AddOrUpdateEntretienReservoirForm.invalid"
+            class="col-md-12"
+          >
+            <span
+              *ngIf="
+                data.AddOrUpdateEntretienReservoirForm.controls
+                  .entretienReservoirID.value ==
+                '00000000-0000-0000-0000-000000000000'
+              "
+              ><i class="pe-7s-plus" style="padding-right: 5px"></i>
+              Ajouter</span
+            ><span
+              *ngIf="
+                data.AddOrUpdateEntretienReservoirForm.controls
+                  .entretienReservoirID.value !=
+                '00000000-0000-0000-0000-000000000000'
+              "
+              ><i class="pe-7s-pen" style="padding-right: 5px"></i
+              >Modifier</span
+            >
+          </button>
+
+          <button
+            mat-raised-button
+            color="warn"
+            type="button"
+            *ngIf="
+              data.AddOrUpdateEntretienReservoirForm.controls
+                .entretienReservoirID.value ==
+              '00000000-0000-0000-0000-000000000000'
+            "
+            (click)="onClear()"
+            class="col-md-12"
+            style="margin-top: 7px"
+          >
+            <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
+          </button>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</mat-dialog-content>
