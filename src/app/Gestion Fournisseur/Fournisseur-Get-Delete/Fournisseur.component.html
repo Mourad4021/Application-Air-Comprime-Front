@@ -53,6 +53,7 @@
 
           <th class="align-middle">frequence_Des_Entretiens_Compresseur</th>
           <th class="align-middle">frequence_Des_Entretiens_Secheur</th>
+          <th class="align-middle">Piéce jointe</th>
 
           <th style="width: 180px!important"></th>
         </tr>
@@ -81,7 +82,11 @@
 
           <td>{{ g.frequence_Des_Entretiens_Compresseur }}</td>
           <td>{{ g.frequence_Des_Entretiens_Secheur }}</td>
-
+          <td>
+            <app-attachement-fournisseur
+              [id]="g.fournisseurID"
+            ></app-attachement-fournisseur>
+          </td>
           <td style="width: 180px!important ">
             <button (click)="onEdit(g)" class="btn btn-info mr-3 ">
               <span class="pe-7s-pen "></span>

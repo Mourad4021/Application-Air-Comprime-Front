@@ -85,6 +85,8 @@ import { EntretienReservoirPostUpdateComponent } from './Gestion_Compresseur/ent
 import { FicheSuiviComponent } from './Gestion_Compresseur/fiche-suivi/fiche-suivi.component';
 import { ReservoirFilialePostUpdateComponent } from './Gestion_Compresseur/reservoir-filiale-post-update/reservoir-filiale-post-update.component';
 import { AttachementListComponent } from './Gestion_Compresseur/attachement_list/attachement-list.component';
+import { AttachementFournisseurComponent } from './Gestion Fournisseur/attachement-fournisseur/attachement-fournisseur.component';
+
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -151,6 +153,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     EntretienReservoirGetDeleteComponent,
     EntretienReservoirPostUpdateComponent,
     FicheSuiviComponent,
+    AttachementFournisseurComponent
 
   ],
 
