@@ -84,6 +84,31 @@
             Ce champ est non valide
           </mat-error>
         </mat-form-field>
+        <div
+          class="col-md-12 mb-3 "
+          [hidden]="
+            data.form.controls.fournisseurID.value !=
+            '00000000-0000-0000-0000-000000000000'
+          "
+        >
+          <div class="form-group mt-2">
+            <label></label>
+            <div class="custom-file">
+              <input
+                type="file"
+                formControlName="files"
+                id="customFile"
+                class="btn"
+                autocomplete="off"
+                (change)="data.onUpload($event)"
+                accept=""
+                multiple
+              />
+
+              <label class="" for="customFile"></label>
+            </div>
+          </div>
+        </div>
       </div>
     </mat-grid-tile>
     <mat-grid-tile class="col-md-12">
@@ -111,18 +136,17 @@
         </button>
 
         <button
-            mat-raised-button
-            color="warn"
-            type="button"
-            *ngIf="
-            data.form.controls
-              .fournisseurID.value ==
+          mat-raised-button
+          color="warn"
+          type="button"
+          *ngIf="
+            data.form.controls.fournisseurID.value ==
             '00000000-0000-0000-0000-000000000000'
           "
-            (click)="onClear()"
-            class="col-md-12"
-            style="margin-top: 7px"
-          >
+          (click)="onClear()"
+          class="col-md-12"
+          style="margin-top: 7px"
+        >
           <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
         </button>
       </div>

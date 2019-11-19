@@ -16,6 +16,7 @@ export class RoleAppPostUpdateComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
   RespRoleList: Role[]
   ngOnInit() {
+
     this.roleAppDataService.getApplications()
       .subscribe(
         res => {

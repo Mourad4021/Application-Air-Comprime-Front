@@ -133,7 +133,7 @@ const routes: Routes = [
         path: "Notification",
         component: SendNotificationComponent,
         canActivate: [AuthGuard, AuthorizationGuard],
-        data: { role: ['Admin', 'SuperAdmin'] }
+        data: { role: ['Admin', 'SuperAdmin', 'Responsable'] }
       },
       {
 

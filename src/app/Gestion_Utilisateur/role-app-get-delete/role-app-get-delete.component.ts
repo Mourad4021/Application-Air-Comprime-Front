@@ -14,7 +14,7 @@ export class RoleAppGetDeleteComponent implements OnInit {
   constructor(private roleAppDataService: AppRoleDataService) { }
 
   ngOnInit() {
-   
+
     this.onGetRoleAssociatedToUserMenu()
     this.roleAppDataService.getApplications()
       .subscribe(
@@ -30,7 +30,7 @@ export class RoleAppGetDeleteComponent implements OnInit {
 
       res => { this.roleAppDataService.roleList = res as Role[] }
     )
-    
+
   }
 
 
@@ -39,14 +39,14 @@ export class RoleAppGetDeleteComponent implements OnInit {
 
     this.roleAppDataService.getRoleAssociatedToUserMenu().subscribe(
       res => {
-        
+        debugger
         (res as any[]).forEach(element => {
           this.roleAppDataService.listOfAppRoleMenu.push({ RoleId: element.role["RoleID"], UserId: element.user["UserID"], appId: element.menus['Application ID'] })
 
 
         });
 
-        console.log( this.roleAppDataService.listOfAppRoleMenu);
+        console.log(this.roleAppDataService.listOfAppRoleMenu);
 
       }
     )
