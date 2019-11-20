@@ -83,7 +83,7 @@ export class ConsommablePostUpdateComponent implements OnInit {
   updateRecord() {
     this.data.putConsommable().subscribe(
       res => {
-        console.log("Put")
+
         if (res == "Update Done") {
           console.log("Update Done")
           this.resetForm();

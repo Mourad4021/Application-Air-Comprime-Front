@@ -4,15 +4,8 @@
   ></span>
 </div>
 <div class="" *ngFor="let attachement of attachementsList">
-  <a
-    (click)="
-      onDownloadattachementFile(
-        attachement.attachmentId,
-        attachement.attachmentOriginFileName
-      )
-    "
-    class="badge badge-primary text-white"
-    ><i class="pe-7s-paperclip mr-2"> </i
-    >{{ attachement.attachmentOriginFileName }}</a
-  >
+
+
+  <a style="cursor: pointer;"  (click)="onDownloadattachementFile(attachement.attachmentId,attachement.attachmentOriginFileName)" ><small class="badge badge-light shadow-sm bg-white"><i class="pe-7s-paperclip  text-primary mr-1"></i><i class="text-light">|</i> {{attachement.attachmentOriginFileName}}</small></a>
+
 </div>

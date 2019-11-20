@@ -16,7 +16,8 @@ import { EquipementFiliale } from 'src/app/Shared/Gestion_Compresseur/Equipement
 })
 export class FicheSuiviPostUpdateComponent implements OnInit {
   listCF: EquipementFiliale[];
-  etatList: any[] = ["En_marche", "En_panne", "Reserve"]
+
+  lastFSInThisMonth: boolean;
   constructor(
     private _snackBar: MatSnackBar,
     public data: DataService,
@@ -26,6 +27,8 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.lastFSInThisMonth = false;
+
     this.data
       .getlistCF()
       .toPromise()
@@ -232,12 +235,12 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
       index_Electrique: 0,
       tempsArret: 0,
       etat: "",
-      frequenceEentretienDeshuileur: "",
-      courantAbsorbePhase: 0,
+      pointDeRoseeDuSecheur: "",
+      index_Debitmetre: 0,
       fraisEntretienReparation: 0,
-      priseCompteur: 0,
+      priseCompteurDernierEntretien: 0,
       tHuileC: 0,
-      tSecheurC: "",
+      typeDernierEntretien: "",
       remarques: ""
     });
 
@@ -256,6 +259,20 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
 
 
   }
+  OnIsLastFicheSuiviInMonthChange(event) {
+
+    this.lastFSInThisMonth = event
+    if (this.lastFSInThisMonth) {
+      this.data.form.controls.nombreDeJoursOuvrablesDuMois.setValidators([Validators.required, Validators.max(31), Validators.min(0)]);
+    }
+    else {
+      this.data.form.controls.nombreDeJoursOuvrablesDuMois.clearValidators();
+    }
+    this.data.form.controls.nombreDeJoursOuvrablesDuMois.updateValueAndValidity();
+
+
+
+  }
   onClose() {
     this.dialogRef.close();
   }
@@ -264,29 +281,7 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
     return this.datafiliale.list.find(x => x.filialeID == a);
   }
   refrechFicheSuiviList() {
-    this.datafiliale.getFiliale().subscribe(
-      res => {
-        this.datafiliale.list = res as Filiale[]
-        this.data
-          .getlistCF()
-          .toPromise()
-          .then(res => {
-            (
-              this.listCF = res as EquipementFiliale[])
-            this.data.getFicheSuivi().toPromise()
-              .then(res => {
-                if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
-                  this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
-                }
-                else {
-                  this.data.list = res as FicheSuivi[]
-                }
-
-                console.log(this.data.list);
-
-              });
-          });
-      });
-
+    debugger
+    this.data.changeDetect = !this.data.changeDetect;
   }
 }

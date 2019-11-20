@@ -82,7 +82,7 @@ export class NotificationService {
 
 
     this.dataUsersService.getlistFiliale().subscribe(res => {
-      console.log(res)
+
 
       this.filiale = res as Filiale[]
     },
@@ -101,6 +101,8 @@ export class NotificationService {
         // }
         this.PostForm(this.form.value)
       })
+
+
 
   }
   // resetForm() {

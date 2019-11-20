@@ -126,9 +126,9 @@ export class ConsommableGetDeleteComponent implements OnInit {
     if (confirm("Vous êtes sûr de vouloir supprimer")) {
       this.data.DeleteConsommable(consommableID).subscribe(
         res => {
-          console.log(res)
+
           if (res == "Delete Done") {
-            console.log(res)
+
             this.ngOnInit();
             this._snackBar.open("La suppression a été effectuée avec succès", "X", {
               duration: 4000,

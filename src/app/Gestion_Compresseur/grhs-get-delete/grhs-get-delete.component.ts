@@ -73,7 +73,7 @@ export class GRHsGetDeleteComponent implements OnInit {
                 if (this.userRole == 'Responsable') {
                   this.data.list = this.data.list.filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.filialeId);
                 }
-                console.log(this.data.list);
+
               });
           });
 

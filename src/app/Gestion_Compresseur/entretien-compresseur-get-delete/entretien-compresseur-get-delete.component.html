@@ -153,12 +153,12 @@
               class="align-middle"
               [ngClass]="{
                 'bg-danger text-white ':
-                  g.priseCompteurActuelle >= g.valeurCompteurProchainEntretien
+                  g.priseCompteurDernierEntretienActuelle >= g.valeurCompteurProchainEntretien
               }"
             >
-              {{ g.priseCompteurActuelle }}
+              {{ g.priseCompteurDernierEntretienActuelle }}
             </td>
-            <td class="align-middle">{{ g.priseCompteurDernierEntretien }}</td>
+            <td class="align-middle">{{ g.priseCompteurDernierEntretienDernierEntretien }}</td>
             <td class="align-middle">
               {{ g.dateDernierEntretien | date: "dd/MM/yyyy" }}
             </td>
@@ -166,7 +166,7 @@
               class="align-middle"
               [ngClass]="{
                 'bg-danger text-white':
-                  g.priseCompteurActuelle >= g.valeurCompteurProchainEntretien
+                  g.priseCompteurDernierEntretienActuelle >= g.valeurCompteurProchainEntretien
               }"
             >
               {{ g.valeurCompteurProchainEntretien }}
