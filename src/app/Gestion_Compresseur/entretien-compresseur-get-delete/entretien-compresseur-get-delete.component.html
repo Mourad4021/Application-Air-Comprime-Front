@@ -117,6 +117,7 @@
 
                         <td class="align-middle" [ngClass]="{
                 'bg-danger text-white ':
+
                   g.priseCompteurActuelle >= g.valeurCompteurProchainEntretien
               }">
                             {{ g.priseCompteurActuelle }}
@@ -134,6 +135,7 @@
                         <td class="align-middle">{{ g.commentaires }}</td>
                         <td style="width: 180px!important">
                             <button (click)="onEditEntretienCompresseur(g)" class="btn btn-info mr-3">
+
                 <span class="pe-7s-pen"></span>
               </button>
 

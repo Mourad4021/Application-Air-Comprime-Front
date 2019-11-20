@@ -114,6 +114,7 @@ export class ConsommablePostUpdateComponent implements OnInit {
   }
 
   updateRecord() {
+
     let date = new Date()
     this.equipementFilialeService.getDateNow().subscribe(res => { date = res as Date })
     if (new Date(this.consommableService.AddOrUpdateConsommableForm.controls.date.value) <= date) {
@@ -137,6 +138,7 @@ export class ConsommablePostUpdateComponent implements OnInit {
         },
         err => {
           console.log(err);
+
           this._snackBar.open(
             "Erreur",
             "X",

@@ -138,8 +138,10 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
   etatList: any[] = ["En_marche", "En_panne", "Reserve"];
 
   FicheSuiviSearchForm = this.fb.group({
-    filiale: ["",]
+    filiale: ["",],
+    pMonth: false
   });
+
 
   selectFiliale() {
 
@@ -151,11 +153,13 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
       .then(res => {
 
         if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+
           this.listCF = (res as EquipementFiliale[]).filter(x => x.filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
         }
         else {
           this.listCF = res as EquipementFiliale[];
           if (this.FicheSuiviSearchForm.controls.filiale.value != 0) {
+
             this.listCF = this.listCF.filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.FicheSuiviSearchForm.controls.filiale.value);
           }
         }
@@ -175,45 +179,40 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
   //listsomme: FicheSuivi[];
 
 
-  formSomme: FormGroup = new FormGroup({
-    ficheSuiviID: new FormControl(""),
-    equipementFilialeID: new FormControl(""),
-    date: new FormControl(""),
-    nbre_Heurs_Total: new FormControl(""),
-    nbre_Heurs_Charge: new FormControl(""),
-    index_Electrique: new FormControl(""),
-    tempsArret: new FormControl(""),
-    etat: new FormControl(""),
-    frequenceEentretienDeshuileur: new FormControl(""),
-    courantAbsorbePhase: new FormControl(""),
-    fraisEntretienReparation: new FormControl(""),
-    priseCompteur: new FormControl(""),
-    files: new FormControl(""),
-    tHuileC: new FormControl(0),
-    tSecheurC: new FormControl(""),
-    remarques: new FormControl("")
-  });
 
-  initializeFormSomme() {
-    this.formSomme.setValue({
-      ficheSuiviID: "00000000-0000-0000-0000-000000000000",
-      equipementFilialeID: "00000000-0000-0000-0000-000000000000",
-      date: "",
-      nbre_Heurs_Total: 0,
-      nbre_Heurs_Charge: 0,
-      index_Electrique: 0,
-      tempsArret: 0,
-      etat: "",
-      frequenceEentretienDeshuileur: 0,
-      courantAbsorbePhase: 0,
-      fraisEntretienReparation: 0,
-      priseCompteur: 0,
-      tHuileC: 0,
-      tSecheurC: 0,
-      remarques: ""
-    });
-  }
 
+
+  //  ngOnInit() {
+  //     this.datafiliale.getFiliale().subscribe(
+  //       res => {
+  //         this.datafiliale.list = res as Filiale[]
+  //         this.data
+  //           .getlistCF()
+  //           .toPromise()
+  //           .then(res => {
+
+  //             if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+  //               this.listCF = (res as EquipementFiliale[]).filter(x => x.filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+  //             }
+  //             else {
+  //               this.listCF = res as EquipementFiliale[]
+  //             }
+  //           });
+  //         // this.listCF = res as EquipementFiliale[])
+  //         this.data.getFicheSuivi1(1).toPromise()
+  //           .then(res => {
+  //             if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+  //               this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+  //             }
+  //             else {
+  //               this.data.list = res as FicheSuivi[]
+  //             }
+
+  //             console.log(this.data.list);
+
+  //           });
+  //       });
+  //   }
 
 
   ngOnInit() {
@@ -233,12 +232,14 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
             }
           });
         // this.listCF = res as EquipementFiliale[])
-        this.data.getFicheSuivi().toPromise()
+        this.data.getFicheSuivi1(1).toPromise()
           .then(res => {
-            if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
-              this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur);
-            }
-            else {
+            debugger
+            // if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+            //   this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+            // }
+            // else 
+            {
               this.data.list = res as FicheSuivi[]
             }
 
@@ -247,8 +248,6 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
           });
       });
   }
-
-
 
 
   edit(ficheSuivi: FicheSuivi) { }
@@ -282,8 +281,7 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
-    dialogConfig.width = "70%";
-    //dialogConfig.height = "90%";
+
     this.dialog.open(FicheSuiviPostUpdateComponent, dialogConfig);
   }
 
@@ -296,15 +294,73 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
     return this.datafiliale.list.find(x => x.filialeID == a);
   }
 
+  // GetExistFS(equipementId: string) {
+
+  //   if (this.data.list.filter(x => x.equipementFilialeID == equipementId).length == 0) {
+  //     console.log(this.data.list);
+  //     return false;
+  //   } else {
+  //     console.log(this.data.list);
+  //     return true;
+  //   }
+  // }
+
   GetExistFS(equipementId: string) {
 
-    if (this.data.list.filter(x => x.equipementFilialeID == equipementId).length == 0) {
-      console.log(this.data.list);
+    if (this.data.list.filter(x => x.equipementFilialeID == equipementId).length < 1) {
       return false;
     } else {
-      console.log(this.data.list);
       return true;
     }
+  }
+
+  PreMonth() {
+    this.data
+      .getlistCF()
+      .toPromise()
+      .then(res => {
+
+        if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+          this.listCF = (res as EquipementFiliale[]).filter(x => x.filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+        }
+        else {
+          this.listCF = res as EquipementFiliale[];
+          if (this.FicheSuiviSearchForm.controls.filiale.value != 0) {
+            this.listCF = this.listCF.filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.FicheSuiviSearchForm.controls.filiale.value);
+          }
+        }
+        debugger
+        if (this.FicheSuiviSearchForm.controls.pMonth.value == true) {
+          this.data.getFicheSuivi1(1).toPromise()
+            .then(res => {
+              if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+                this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+              }
+              else {
+                this.data.list = res as FicheSuivi[]
+              }
+
+              console.log(this.data.list);
+
+            });
+        }
+        else {
+          this.data.getFicheSuivi1(0).toPromise()
+            .then(res => {
+              if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
+                this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+              }
+              else {
+                this.data.list = res as FicheSuivi[]
+              }
+
+              console.log(this.data.list);
+
+            });
+        }
+      });
+
+    return this.listCF;
   }
 
 

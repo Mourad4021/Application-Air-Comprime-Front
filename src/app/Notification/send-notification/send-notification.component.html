@@ -1,45 +1,124 @@
 <div class="card m-3">
+  <div class="card-body">
+    <form [formGroup]="data.form" (ngSubmit)="onSubmit()">
+      <div
+        class="form-group col-5"
+        *ngIf="
+          authService.currentUserRole == 'Admin' ||
+          authService.currentUserRole == 'SuperAdmin'
+        "
+      >
+        <!-- <button type="button" (click)="GetUserAdmins()" class="btn">
+          click here
+        </button> -->
+        <label>A </label>
+        <input
+          type="text"
+          formControlName="toAddresses"
+          class="form-control"
+          list="data.list"
+          placeholder="Ex : Prénom Nom/SIEGE/POULINA "
+          [class.is-invalid]="
+            data.form.controls.toAddresses.errors?.required &&
+            data.form.controls.toAddresses.touched
+          "
+        />
+        <p
+          style="color:red"
+          *ngIf="
+            data.form.controls.toAddresses.errors?.RequiredValidator &&
+            data.form.controls.toAddresses.touched
+          "
+        >
+          Ce champ est obligatoire
+        </p>
+        <p
+          style="color:red"
+          *ngIf="
+            data.form.controls.toAddresses.errors?.ToAddressValidator &&
+            data.form.controls.toAddresses.touched
+          "
+        >
+          Format exigé : Prénom Nom/SIEGE/POULINA
+        </p>
+        <datalist id="data.list">
+          <select class="form-control">
+            <option *ngFor="let user of data.list" [value]="user.usersMail"
+              >{{ user.usersMail }}
+            </option>
+          </select>
+        </datalist>
+      </div>
 
-    <div class="card-body">
-        <form [formGroup]="data.form" (ngSubmit)="onSubmit()">
+      <div
+        class="form-group col-md-6"
+        *ngIf="authService.currentUserRole == 'Responsable'"
+      >
+        <div class="alert alert-success" role="alert">
+          <h4 class="alert-heading">La notification sera envoyée à :</h4>
 
-
-            <div class="form-group col-5">
-                <label>A </label>
-                <input type="text" formControlName="toAddresses" class="form-control" list="data.list" placeholder="Ex : Prénom Nom/SIEGE/POULINA " [class.is-invalid]="data.form.controls.toAddresses.errors?.required && data.form.controls.toAddresses.touched" />
-                <p style="color:red" *ngIf="data.form.controls.toAddresses.errors?.required && data.form.controls.toAddresses.touched"> Ce champ est obligatoire</p>
-                <p style="color:red" *ngIf="data.form.controls.toAddresses.errors?.ToAddressValidator && data.form.controls.toAddresses.touched">Format exigé : Prénom Nom/SIEGE/POULINA </p>
-                <datalist id="data.list">
-                      <select class="form-control">
-                          <option *ngFor="let user of data.list" [value]="user.usersMail">{{ user.usersMail }}
-                             </option>
-                      </select>
-                  </datalist>
-
-            </div>
-
-            <div class="form-group col-5 mt-5">
-                <label>Objet</label>
-                <input type="text" formControlName="subject" class="form-control" [class.is-invalid]="data.form.controls.subject.errors?.required && data.form.controls.subject.touched" placeholder="Entrez un objet..." />
-                <p style="color:red" *ngIf="data.form.controls.subject.errors?.required && data.form.controls.subject.touched"> Ce champ est obligatoire</p>
-            </div>
-            <!-- <div class="form-group col-md-3">
+          <hr />
+          <p class="mb-0">{{ GetUserAdmin() }}</p>
+        </div>
+      </div>
+      <div class="form-group col-md-6">
+        <label>Objet</label>
+        <input
+          type="text"
+          formControlName="subject"
+          class="form-control"
+          [class.is-invalid]="
+            data.form.controls.subject.errors?.required &&
+            data.form.controls.subject.touched
+          "
+          placeholder="Entrez un objet..."
+        />
+        <p
+          style="color:red"
+          *ngIf="
+            data.form.controls.subject.errors?.required &&
+            data.form.controls.subject.touched
+          "
+        >
+          Ce champ est obligatoire
+        </p>
+      </div>
+      <!-- <div class="form-group col-md-3">
                 <label for="exampleFormControlFile1"></label>
                 <input type="file" formControlName="files" class="form-control-file">
             </div> -->
-            <div class="form-group col-md-6 mt-5">
+      <div class="form-group col-md-6">
+        <label>Description</label>
+        <textarea
+          class="form-control"
+          type="textarea"
+          formControlName="content"
+          maxlength="6000"
+          rows="7"
+          [class.is-invalid]="
+            data.form.controls.content.errors?.required &&
+            data.form.controls.content.touched
+          "
+          placeholder="Entrez un texte..."
+        >
+ Ce Champ est obligatoire</textarea
+        >
+        <p
+          style="color:red"
+          *ngIf="
+            data.form.controls.content.errors?.required &&
+            data.form.controls.content.touched
+          "
+        >
+          Ce champ est obligatoire
+        </p>
+      </div>
 
-                <label>Description</label>
-                <textarea class="form-control" type="textarea" formControlName="content" maxlength="6000" rows="7" [class.is-invalid]="data.form.controls.content.errors?.required && data.form.controls.content.touched" placeholder="Entrez un texte..."> Ce Champ est obligatoire</textarea>
-                <p style="color:red" *ngIf="data.form.controls.content.errors?.required && data.form.controls.content.touched"> Ce champ est obligatoire</p>
-            </div>
-
-            <div class="text-center " style="margin-top:10px">
-                <button class="btn btn-primary col-md-3" [disabled]="data.form.invalid">Envoyer</button>
-            </div>
-
-
-        </form>
-
-    </div>
+      <div class="text-center " style="margin-top:10px">
+        <button class="btn btn-primary col-md-3" [disabled]="data.form.invalid">
+          Envoyer
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

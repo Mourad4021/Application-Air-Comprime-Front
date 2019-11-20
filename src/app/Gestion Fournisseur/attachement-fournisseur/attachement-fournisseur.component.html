@@ -1,0 +1,18 @@
+<div class="my-auto">
+  <span *ngIf="attachementsList.length == 0"
+    ><i class="pe-7s-close-circle h4"> </i
+  ></span>
+</div>
+<div class="" *ngFor="let attachement of attachementsList">
+  <a
+    (click)="
+      onDownloadattachementFile(
+        attachement.attachmentFournisseurId,
+        attachement.attachmentOriginFileNameF
+      )
+    "
+    class="badge badge-primary text-white"
+    ><i class="pe-7s-paperclip mr-2"> </i
+    >{{ attachement.attachmentOriginFileNameF }}</a
+  >
+</div>

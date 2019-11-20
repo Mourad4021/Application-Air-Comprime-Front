@@ -104,9 +104,11 @@ export class ConsommableGetDeleteComponent implements OnInit {
     if (confirm("Vous êtes sûr de vouloir supprimer")) {
       this.consommableService.putConsommableForFakeDelete(ConsommableID).subscribe(
         res => {
+
           if (res == "Update Done") {
             this.dialog.closeAll()
             this.ngOnInit()
+
             this._snackBar.open("La suppression a été effectuée avec succès", "X", {
               duration: 4000,
               verticalPosition: "top",

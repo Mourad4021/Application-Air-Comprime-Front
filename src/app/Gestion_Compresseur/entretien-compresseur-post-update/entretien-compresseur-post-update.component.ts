@@ -100,10 +100,12 @@ export class EntretienCompresseurPostUpdateComponent implements OnInit {
   }
   insertEntretienCompresseur() {
 
+
     this.frequence = this.GetFrequenceEntretienByIDCorrespondance(this.data.AddOrUpdateEntretienCompresseurForm.controls.equipementFilialeID.value);
     this.frequence1 = this.data.AddOrUpdateEntretienCompresseurForm.controls.priseCompteurDernierEntretien.value;
     var s: number = Number(this.frequence1) + Number(this.frequence);
     this.data.AddOrUpdateEntretienCompresseurForm.controls.valeurCompteurProchainEntretien.setValue(s)
+
 
 
 

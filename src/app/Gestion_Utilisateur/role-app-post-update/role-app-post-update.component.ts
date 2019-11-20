@@ -16,6 +16,7 @@ export class RoleAppPostUpdateComponent implements OnInit {
   currentUser = JSON.parse(localStorage.getItem('currentUser'));
   RespRoleList: Role[]
   ngOnInit() {
+
     this.roleAppDataService.getApplications()
       .subscribe(
         res => {
@@ -30,7 +31,7 @@ export class RoleAppPostUpdateComponent implements OnInit {
         res => {
           this.roleAppDataService.roleList = res as Role[];
           this.RespRoleList = (res as Role[]).filter(x => x.RoleDisplayName == "Responsable");
-          console.log(this.RespRoleList)
+
         }
       )
   }
@@ -49,7 +50,7 @@ export class RoleAppPostUpdateComponent implements OnInit {
     )
     this.roleAppDataService.postRoleToUserMenu().subscribe(res => {
       this.madialog.closeAll();
-      console.log(res);
+
     })
   }
 

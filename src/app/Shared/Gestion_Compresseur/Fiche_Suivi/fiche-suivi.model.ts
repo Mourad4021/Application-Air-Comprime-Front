@@ -7,11 +7,13 @@ export class FicheSuivi {
   index_Electrique: number;
   tempsArret: number;
   etat: string;
-  frequenceEentretienDeshuileur: string;
-  courantAbsorbePhase: number;
+  pointDeRoseeDuSecheur: number;
+  index_Debitmetre: number;
   fraisEntretienReparation: number;
-  priseCompteur: number;
+  nombreHeuresProductionUsineLeJourPrecedent: number;
+  nombreDeJoursOuvrablesDuMois: number;
+  priseCompteurDernierEntretien: number;
   tHuileC: number;
-  tSecheurC: string;
+  typeDernierEntretien: string;
   remarques: string;
 }
