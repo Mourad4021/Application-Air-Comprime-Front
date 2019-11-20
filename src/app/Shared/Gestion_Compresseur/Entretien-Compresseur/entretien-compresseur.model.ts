@@ -8,5 +8,6 @@ export class EntretienCompresseur {
     dateDernierEntretien: Date;
     valeurCompteurProchainEntretien: number;
     commentaires: string;
+    active: boolean
 
 }

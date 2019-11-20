@@ -51,7 +51,7 @@ const routes: Routes = [
       },
       // Consommable
       {
-        path: "Consommable",
+        path: "ConsommationEnergetique",
         component: ConsommableGetDeleteComponent,
         canActivate: [AuthGuard, AuthorizationGuard],
         data: { role: ['Admin', 'SuperAdmin', 'Responsable'] }

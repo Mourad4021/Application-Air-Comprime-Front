@@ -17,7 +17,7 @@ export class AttachementListComponent implements OnInit {
   constructor(private data: DataService, private dataER: EntretienReservoirService) { }
 
   ngOnInit() {
-    debugger
+
     if (this.objet == 'EntretienReservoir') {
       this.dataER.getAttachementsByEntretienReservoirId(this.id).toPromise().then(res => this.attachementsList = res as Attachement[]);
     } else if (this.objet == 'FicheSuivi') {
@@ -39,7 +39,7 @@ export class AttachementListComponent implements OnInit {
     this.pdfLink = environment.gestionCompresseursApi + '/Attachments/getAttachementFileById?attachementId=' + attachementId
     this.data.getAttachementfileById(attachementId).subscribe(
       res => {
-        debugger
+
         let attachement = res
         var blob = new Blob([this.base64ToArrayBuffer(attachement)], { type: 'application/octet-stream' })
 
@@ -47,10 +47,10 @@ export class AttachementListComponent implements OnInit {
 
       },
       err => {
-        debugger
+
       },
       () => {
-        debugger
+
       }
     );
   }

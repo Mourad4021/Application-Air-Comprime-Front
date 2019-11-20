@@ -58,7 +58,7 @@ export class EntretienReservoirGetDeleteComponent implements OnInit {
         this.DateToday = res as Date
       }
     )
-    console.log()
+
     this.data.getEntretienReservoir().subscribe(
       res => {
         this.data.list = res as EntretienReservoir[]

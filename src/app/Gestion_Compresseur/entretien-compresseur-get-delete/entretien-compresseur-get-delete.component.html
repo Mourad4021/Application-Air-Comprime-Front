@@ -1,10 +1,7 @@
 <div class="container-fluid mt-2">
-  <form [formGroup]="EntretienCompresseurSearchForm">
-    <div
-      class="row w-500 p-2 m-1 mb-2 border rounded"
-      style="background-color: whitesmoke"
-    >
-      <!-- <div class="col-md-2">
+    <form [formGroup]="EntretienCompresseurSearchForm">
+        <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
+            <!-- <div class="col-md-2">
         <div class="form-group">
           <label for="exampleFormControlSelect2">Filiale </label>
           <select
@@ -21,182 +18,134 @@
           </select>
         </div>
       </div> -->
-      <form
-        [formGroup]="EntretienCompresseurSearchFormFiliale"
-        class="col-md-2"
-      >
-        <div class="form-group">
-          <label>Filiale</label>
-          <select
-            class="form-control  form-control-sm"
-            id=""
-            placeholder=""
-            formControlName="filiale"
-            (change)="selectFiliale()"
-          >
-            <option [value]="0">-----------------------------</option>
+            <form [formGroup]="EntretienCompresseurSearchFormFiliale" class="col-md-3" *ngIf="userRole!='Responsable'">
+                <div class="form-group">
+                    <label>Filiale</label>
+                    <select class="form-control " id="" placeholder="" formControlName="filiale" (change)="selectFiliale()">
+            <option [value]="0"></option>
             <option
               *ngFor="let fi of datafiliale.list"
               [value]="fi.filialeID"
               >{{ fi.nom }}</option
             >
           </select>
-        </div>
-      </form>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label for="exampleFormControlSelect2">Compresseur </label>
+                </div>
+            </form>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Compresseur </label>
 
-          <select
-            class="form-control"
-            id="exampleFormControlSelect2"
-            formControlName="equipementFilialeID"
-          >
-            <option value="">---------------</option>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="equipementFilialeID">
+            <option value=""></option>
             <option *ngFor="let CF of listCF" [value]="CF.equipementFilialeID">{{
               CF.nom
             }}</option>
           </select>
-        </div>
-      </div>
+                </div>
+            </div>
 
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>Type d’Entretien (h) </label>
-          <input
-            type="text"
-            class="form-control"
-            id=""
-            placeholder=""
-            formControlName="typeEntretien"
-          />
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Type d’Entretien (h) </label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="typeEntretien" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Valeur du compteur lors du prochain Entretien </label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="valeurCompteurProchainEntretien" />
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-4">
-        <div class="form-group">
-          <label>Valeur du compteur lors du prochain Entretien </label>
-          <input
-            type="text"
-            class="form-control"
-            id=""
-            placeholder=""
-            formControlName="valeurCompteurProchainEntretien"
-          />
-        </div>
-      </div>
-    </div>
-  </form>
+    </form>
 
-  <div class="p-1">
-    <button (click)="onCreateEntretienCompresseur()" class="btn btn-info ">
+    <div class="p-1">
+        <button (click)="onCreateEntretienCompresseur()" class="btn btn-info ">
       <i class="pe-7s-plus " style="padding-right: 5px"></i>
       Ajouter
     </button>
 
-    <div class="table-responsivee">
-      <table class="table  table-bordered  mt-1 ">
-        <thead>
-          <tr
-            style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
-            class="bg-primary"
-          >
-            <th class="align-middle">Filiale</th>
-            <th class="align-middle">Compresseur</th>
-            <th class="align-middle">Fréquence d’entretien Compresseur (h)</th>
-            <th class="align-middle">Puissance (KW)</th>
+        <div class="table-responsivee">
+            <table class="table  table-bordered  mt-1 ">
+                <thead>
+                    <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+                        <th class="align-middle">Filiale</th>
+                        <th class="align-middle">Compresseur</th>
+                        <th class="align-middle">Fréquence d’entretien Compresseur (h)</th>
+                        <th class="align-middle">Puissance (KW)</th>
 
-            <th class="align-middle">Type d'Entretien (h)</th>
+                        <th class="align-middle">Type d'Entretien (h)</th>
 
-            <th class="align-middle">Prise de compteur Actuelle (h)</th>
-            <th class="align-middle">
-              Prise de compteur lors du dernier Entretien (h)
-            </th>
-            <th class="align-middle">Date du dernier Entretien</th>
-            <th class="align-middle">
-              Valeur du compteur lors du prochain Entretien (h)
-            </th>
-            <th class="align-middle">Commentaires</th>
-            <td style="width: 180px!important"></td>
-          </tr>
-        </thead>
+                        <th class="align-middle">Prise de compteur Actuelle (h)</th>
+                        <th class="align-middle">
+                            Prise de compteur lors du dernier Entretien (h)
+                        </th>
+                        <th class="align-middle">Date du dernier Entretien</th>
+                        <th class="align-middle">
+                            Valeur du compteur lors du prochain Entretien (h)
+                        </th>
+                        <th class="align-middle">Commentaires</th>
+                        <td style="width: 180px!important"></td>
+                    </tr>
+                </thead>
 
-        <tbody>
-          <tr
-            *ngFor="
+                <tbody>
+                    <tr *ngFor="
               let g of data.list
                 | filter: EntretienCompresseurSearchForm.value
                 | paginate
                   : {
                       id: 'EntretienCompresseurPagination',
-                      itemsPerPage: 15,
+                      itemsPerPage: 10,
                       currentPage: p
                     }
-            "
-            style="text-align:center;background-color:  white "
-          >
-            <td class="align-middle">
-              {{ GetFilialeByIDCorrespondance(g.equipementFilialeID).nom }}
-            </td>
-            <td class="align-middle">
-              {{ GetCompFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
-            </td>
-            <td class="align-middle">
-              {{ GetFrequenceEntretienByIDCorrespondance(g.equipementFilialeID) }}
-            </td>
-            <td class="align-middle">
-              {{ GetPuissanceByIDCorrespondance(g.equipementFilialeID) }}
-            </td>
+            " style="text-align:center;background-color:  white ">
+                        <td class="align-middle">
+                            {{ GetFilialeByIDCorrespondance(g.equipementFilialeID).nom }}
+                        </td>
+                        <td class="align-middle">
+                            {{ GetCompFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
+                        </td>
+                        <td class="align-middle">
+                            {{ GetFrequenceEntretienByIDCorrespondance(g.equipementFilialeID) }}
+                        </td>
+                        <td class="align-middle">
+                            {{ GetPuissanceByIDCorrespondance(g.equipementFilialeID) }}
+                        </td>
 
-            <td class="align-middle">{{ g.typeEntretien }}</td>
+                        <td class="align-middle">{{ g.typeEntretien }}</td>
 
-            <td
-              class="align-middle"
-              [ngClass]="{
+                        <td class="align-middle" [ngClass]="{
                 'bg-danger text-white ':
                   g.priseCompteurActuelle >= g.valeurCompteurProchainEntretien
-              }"
-            >
-              {{ g.priseCompteurActuelle }}
-            </td>
-            <td class="align-middle">{{ g.priseCompteurDernierEntretien }}</td>
-            <td class="align-middle">
-              {{ g.dateDernierEntretien | date: "dd/MM/yyyy" }}
-            </td>
-            <td
-              class="align-middle"
-              [ngClass]="{
+              }">
+                            {{ g.priseCompteurActuelle }}
+                        </td>
+                        <td class="align-middle">{{ g.priseCompteurDernierEntretien }}</td>
+                        <td class="align-middle">
+                            {{ g.dateDernierEntretien | date: "dd/MM/yyyy" }}
+                        </td>
+                        <td class="align-middle" [ngClass]="{
                 'bg-danger text-white':
                   g.priseCompteurActuelle >= g.valeurCompteurProchainEntretien
-              }"
-            >
-              {{ g.valeurCompteurProchainEntretien }}
-            </td>
-            <td class="align-middle">{{ g.commentaires }}</td>
-            <td style="width: 180px!important">
-              <button
-                (click)="onEditEntretienCompresseur(g)"
-                class="btn btn-info mr-3"
-              >
+              }">
+                            {{ g.valeurCompteurProchainEntretien }}
+                        </td>
+                        <td class="align-middle">{{ g.commentaires }}</td>
+                        <td style="width: 180px!important">
+                            <button (click)="onEditEntretienCompresseur(g)" class="btn btn-info mr-3">
                 <span class="pe-7s-pen"></span>
               </button>
 
-              <button
-                (click)="delete(g.entretienCompresseurID)"
-                class="btn btn-danger "
-              >
+                            <button (click)="delete(g.entretienCompresseurID)" class="btn btn-danger ">
                 <span class=" pe-7s-trash"></span>
               </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <pagination-controls
-        id="EntretienCompresseurPagination"
-        (pageChange)="p = $event"
-        previousLabel="Prc"
-        nextLabel="Suiv"
-      >
-      </pagination-controls>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="EntretienCompresseurPagination" (pageChange)="p = $event" previousLabel="Prc" nextLabel="Suiv">
+            </pagination-controls>
+        </div>
     </div>
-  </div>
 </div>

@@ -1,93 +1,84 @@
 import { Injectable } from "@angular/core";
 import { Consommable } from "./consommable.model";
-import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
+import { Equipement } from '../Gestion_Equipements/Equipement.model';
+import { EquipementFiliale } from '../Equipement-Filiale/equipement-filiale.model';
 
 @Injectable({
   providedIn: "root"
 })
 export class DataService {
-  rootUrl: "http://localhost:49211/api";
-  list: Consommable[];
-  consommable: Consommable;
-  form: FormGroup = new FormGroup({
-    consommableID: new FormControl(""),
-    equipementFilialeID: new FormControl("", Validators.required),
-    consommationComp: new FormControl("", [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/)]),
-    prixUnitaire: new FormControl("", [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/)]),
-    //  frais_d_Electricite_Mensuels: new FormControl(""),
-    date: new FormControl("", [Validators.required])
-  });
 
-  constructor(private http: HttpClient) { }
+  CompresseurFilialeList: EquipementFiliale[];
+  ActiveCompresseurFiliale: EquipementFiliale[];
+  ActiveConsommable: Consommable[];
 
+
+
+
+  constructor(private httpClient: HttpClient, private fb: FormBuilder) { }
+
+
+  AddOrUpdateConsommableForm = this.fb.group(
+    {
+      consommableID: new FormControl(""),
+      active: new FormControl(""),
+      equipementFilialeID: new FormControl("", Validators.required),
+      consommationComp: new FormControl("", Validators.required),
+      prixUnitaire: new FormControl("", Validators.required),
+      date: new FormControl("", Validators.required)
+    }
+  );
+
+
+
+  GetEquipementFilialeByCOnsommableID(consommableID: string) {
+    return this.httpClient.get(environment.gestionCompresseursApi + '/Consommables/EquipementFilialeByCOnsommableID')
+  }
+  getActiveCompresseursFiliales() {
+    return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseursFiliales')
+  }
+  postConsommable() {
+    return this.httpClient.post(environment.gestionCompresseursApi + '/Consommables', this.AddOrUpdateConsommableForm.value, { responseType: 'text' })
+  }
   getConsommable() {
-    return this.http
-      .get(environment.gestionCompresseursApi + "/Consommables")
-    // .toPromise()
-    // .then(res => (this.list = res as Consommable[])
-    // );
+    return this.httpClient.get(environment.gestionCompresseursApi + '/Consommables')
   }
-
-  DeleteConsommable(consommableID) {
-    return this.http.delete(
-      environment.gestionCompresseursApi + "/Consommables/" + consommableID,
-      { responseType: "text" }
-    );
+  getactiveConsommable() {
+    return this.httpClient.get(environment.gestionCompresseursApi + '/Consommables/active')
   }
-
-  initializeFormGroup() {
-    this.form.setValue({
-      consommableID: "00000000-0000-0000-0000-000000000000",
-      equipementFilialeID: "",
-      consommationComp: "",
-      prixUnitaire: "",
-      // frais_d_Electricite_Mensuels: "",
-
-      date: ""
-    });
-  }
-
-  initializeFormGroupForEdit(cons: Consommable) {
-    this.form.setValue({
-      consommableID: cons.consommableID,
-      equipementFilialeID: cons.equipementFilialeID,
-      consommationComp: cons.consommationComp,
-      prixUnitaire: cons.prixUnitaire,
-      // frais_d_Electricite_Mensuels: cons.frais_d_Electricite_Mensuels,
-
-      date: cons.date
-    });
-  }
-
   putConsommable() {
-    return this.http.put(
-      environment.gestionCompresseursApi + "/Consommables/" +
-      this.form.controls.consommableID.value,
-      this.form.value,
-      { responseType: "text" }
-    );
+    return this.httpClient.put(environment.gestionCompresseursApi + '/Consommables/' + this.AddOrUpdateConsommableForm.controls.consommableID.value, this.AddOrUpdateConsommableForm.value, { responseType: 'text' })
+  }
+  putConsommableForFakeDelete(ConsommableID) {
+    let consommable = this.ActiveConsommable.find(x => x.consommableID == ConsommableID)
+    consommable.active = false;
+    return this.httpClient.put(environment.gestionCompresseursApi + '/Consommables/' + ConsommableID, consommable, { responseType: 'text' })
   }
 
-  insertConsommable() {
-    return this.http.post(
-      environment.gestionCompresseursApi + "/Consommables",
-      this.form.value,
-      { responseType: "text" }
-    );
+  initializeAddOrUpdateConsommableFormForEdit(consommable: Consommable) {
+    this.AddOrUpdateConsommableForm.setValue({
+      consommableID: consommable.consommableID,
+      equipementFilialeID: consommable.equipementFilialeID,
+      consommationComp: consommable.consommationComp,
+      prixUnitaire: consommable.prixUnitaire,
+      date: consommable.date,
+      active: consommable.active
+
+    });
   }
-  ///////////////////////////////////////////////////////////////////////////
-  getlistCF() {
-    return this.http.get(
-      // environment.gestionCompresseursApi + "/EquipementFiliale"
-      environment.gestionCompresseursApi + '/EquipementFiliales'
-    );
+  initializeAddOrUpdateConsommableFormForAdd() {
+    this.AddOrUpdateConsommableForm.setValue({
+      consommableID: '00000000-0000-0000-0000-000000000000',
+      active: true,
+      equipementFilialeID: '00000000-0000-0000-0000-000000000000',
+      consommationComp: '',
+      prixUnitaire: '',
+      date: ''
+    });
   }
-  getlistF() {
-    return this.http.get(
-      environment.gestionUtilisateurApi + "/Filiale"
-    );
-  }
+
 
 }

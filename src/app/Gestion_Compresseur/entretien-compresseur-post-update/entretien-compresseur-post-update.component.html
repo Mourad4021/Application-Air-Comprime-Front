@@ -1,165 +1,93 @@
-<mat-toolbar
-  class="row "
-  style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );"
->
-  <span class="col-md-6 "></span>
-  <span class="fill-remaining-space col-md-5"></span>
-  <button
-    class=" btn-dialog-close col-md-1"
-    mat-stroked-button
-    (click)="onClose()"
-    tabIndex="-1"
-  >
+<mat-toolbar class="row " style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );">
+    <span class="col-md-6 "></span>
+    <span class="fill-remaining-space col-md-5"></span>
+    <button class=" btn-dialog-close col-md-1" mat-stroked-button (click)="onClose()" tabIndex="-1">
     <span><b>X</b></span>
   </button>
 </mat-toolbar>
 
 <mat-dialog-content>
-  <form
-    [formGroup]="data.AddOrUpdateEntretienCompresseurForm"
-    class="normal-form"
-    (submit)="onSubmit()"
-  >
-    <mat-grid-list cols="2">
-      <mat-grid-tile class="col-md-10">
-        <div class="controles-container">
-          <input type="hidden" formControlName="entretienCompresseurID" />
-          <mat-form-field class="ml-3">
-            <mat-label>Compresseur Filiale</mat-label>
-            <mat-select formControlName="equipementFilialeID">
-              <mat-option value="">---------</mat-option>
-              <mat-option
-                *ngFor="let CF of listCF"
-                [value]="CF.equipementFilialeID"
-                [disabled]="
+    <form [formGroup]="data.AddOrUpdateEntretienCompresseurForm" class="normal-form" (submit)="onSubmit()">
+        <mat-grid-list cols="2">
+            <mat-grid-tile class="col-md-10">
+                <div class="controles-container">
+                    <input type="hidden" formControlName="entretienCompresseurID" />
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Compresseur Filiale</mat-label>
+                        <mat-select formControlName="equipementFilialeID">
+                            <mat-option value=""></mat-option>
+                            <mat-option *ngFor="let CF of listCFParFiliale" [value]="CF.equipementFilialeID" [disabled]="
                   data.AddOrUpdateEntretienCompresseurForm.controls
                     .entretienCompresseurID.value !==
                   '00000000-0000-0000-0000-000000000000'
-                "
-              >
-                {{ CF.nom }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+                ">
+                                {{ CF.nom }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-          <mat-form-field class="col-md-12">
-            <input
-              formControlName="typeEntretien"
-              matInput
-              placeholder="Type
-            d'Entretien (h)"
-              autocomplete="off"
-              type="text"
-              ng-disabled="disable"
-              input-clear
-            />
-            <mat-error
-              *ngIf="
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="typeEntretien" matInput placeholder="Type
+            d'Entretien (h)" autocomplete="off" type="text" ng-disabled="disable" input-clear />
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls.typeEntretien
                   .errors?.required
-              "
-              >Ce champ est obligatoire</mat-error
-            >
-            <mat-error
-              *ngIf="
+              ">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls.typeEntretien
                   .errors?.pattern
-              "
-            >
-              Ce champ doit être composé d'une séquence de chiffres</mat-error
-            >
-            <mat-error
-              *ngIf="
+              ">
+                            Ce champ doit être composé d'une séquence de chiffres</mat-error>
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls.typeEntretien
                   .errors?.min
-              "
-            >
-              Ce champ doit être doit être strictement positive</mat-error
-            >
-          </mat-form-field>
-          <mat-form-field class="col-md-12">
-            <input
-              formControlName="priseCompteurActuelle"
-              matInput
-              placeholder="Prise de compteur Actuelle (h)"
-              autocomplete="off"
-            />
-            <mat-error
-              *ngIf="
+              ">
+                            Ce champ doit être doit être strictement positive</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="priseCompteurActuelle" matInput placeholder="Prise de compteur Actuelle (h)" autocomplete="off" />
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .priseCompteurActuelle.errors?.required
-              "
-              >Ce champ est obligatoire</mat-error
-            >
-            <mat-error
-              *ngIf="
+              ">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .priseCompteurActuelle.errors?.pattern
-              "
-            >
-              Ce champ doit être composé d'une séquence de chiffres</mat-error
-            >
-            <mat-error
-              *ngIf="
+              ">
+                            Ce champ doit être composé d'une séquence de chiffres</mat-error>
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .priseCompteurActuelle.errors?.min
-              "
-            >
-              Ce champ doit être doit être strictement positive</mat-error
-            >
-          </mat-form-field>
+              ">
+                            Ce champ doit être doit être strictement positive</mat-error>
+                    </mat-form-field>
 
-          <mat-form-field class="col-md-12">
-            <input
-              formControlName="priseCompteurDernierEntretien"
-              matInput
-              placeholder="prise Compteur Dernier Entretien"
-              autocomplete="off"
-              type="text"
-              input-clear
-            />
-            <mat-error
-              *ngIf="
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="priseCompteurDernierEntretien" matInput placeholder="prise Compteur Dernier Entretien" autocomplete="off" type="text" input-clear />
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .priseCompteurDernierEntretien.errors?.required
-              "
-              >Ce champ est obligatoire</mat-error
-            >
-            <mat-error
-              *ngIf="
+              ">Ce champ est obligatoire</mat-error>
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .priseCompteurDernierEntretien.errors?.pattern
-              "
-            >
-              Ce champ doit être composé d'une séquence de chiffres</mat-error
-            >
-            <mat-error
-              *ngIf="
+              ">
+                            Ce champ doit être composé d'une séquence de chiffres</mat-error>
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .priseCompteurDernierEntretien.errors?.min
-              "
-            >
-              Ce champ doit être doit être strictement positive</mat-error
-            >
-          </mat-form-field>
-          <mat-form-field class="col-md-12">
-            <input
-              formControlName="dateDernierEntretien"
-              type="date"
-              matInput
-              placeholder="date du Dernier Entretien"
-              autocomplete="off"
-            />
-            <mat-error
-              *ngIf="
+              ">
+                            Ce champ doit être doit être strictement positive</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="dateDernierEntretien" type="date" matInput placeholder="date du Dernier Entretien" autocomplete="off" />
+                        <mat-error *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
                   .dateDernierEntretien.errors?.required
-              "
-              >le champ est obligatoire</mat-error
-            >
-          </mat-form-field>
+              ">le champ est obligatoire</mat-error>
+                    </mat-form-field>
 
-          <!-- <mat-form-field class="col-md-12">
+                    <!-- <mat-form-field class="col-md-12">
             <input
               formControlName="valeurCompteurProchainEntretien"
               matInput
@@ -185,26 +113,15 @@
             >
           </mat-form-field> -->
 
-          <mat-form-field class="col-md-12">
-            <input
-              formControlName="commentaires"
-              matInput
-              placeholder="Commentaires"
-              autocomplete="off"
-            />
-          </mat-form-field>
-        </div>
-      </mat-grid-tile>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="commentaires" matInput placeholder="Commentaires" autocomplete="off" />
+                    </mat-form-field>
+                </div>
+            </mat-grid-tile>
 
-      <mat-grid-tile class="col-md-12">
-        <div class="button-row">
-          <button
-            mat-raised-button
-            color="primary"
-            type="submit"
-            [disabled]="data.AddOrUpdateEntretienCompresseurForm.invalid"
-            class="col-md-12"
-          >
+            <mat-grid-tile class="col-md-12">
+                <div class="button-row">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="data.AddOrUpdateEntretienCompresseurForm.invalid" class="col-md-12">
             <span
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
@@ -224,23 +141,15 @@
             >
           </button>
 
-          <button
-            mat-raised-button
-            color="warn"
-            type="button"
-            *ngIf="
+                    <button mat-raised-button color="warn" type="button" *ngIf="
             data.AddOrUpdateEntretienCompresseurForm.controls
               .entretienCompresseurID.value ==
             '00000000-0000-0000-0000-000000000000'
-          "
-            (click)="onClear()"
-            class="col-md-12"
-            style="margin-top: 7px"
-          >
+          " (click)="onClear()" class="col-md-12" style="margin-top: 7px">
             <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
           </button>
-        </div>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </form>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </form>
 </mat-dialog-content>
