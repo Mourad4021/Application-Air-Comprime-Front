@@ -16,7 +16,7 @@ export class EntretienCompresseurService {
       priseCompteurActuelle: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(1)]],
       priseCompteurDernierEntretien: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(0)]],
       dateDernierEntretien: [''],
-      valeurCompteurProchainEntretien: [''],
+      valeurCompteurProchainEntretien: [0],
       commentaires: [''],
 
     })

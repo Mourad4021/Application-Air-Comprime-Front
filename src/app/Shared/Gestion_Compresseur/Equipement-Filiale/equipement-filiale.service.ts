@@ -57,6 +57,9 @@ export class EquipementFilialeService {
     CompresseurSecheurFiliale.active = false;
     return this.httpClient.put(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFiliales/', CompresseurSecheurFiliale, { responseType: 'text' })
   }
+  getCompresseursFiliales() {
+    return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseursFiliales')
+  }
 
 
   initializeAddOrUpdateCompresseurSecheurFilialeForEdit(EquipementFiliale: EquipementFiliale) {

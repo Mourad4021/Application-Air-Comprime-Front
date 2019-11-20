@@ -76,7 +76,7 @@ export class EntretienCompresseurGetDeleteComponent implements OnInit {
         this.userRole = currentUser.Role_Utilisateur;
         this.filialeId = currentUser.Filiale_Utilisateur;
 
-        this.dataCF.getactiveEquipementFilialeList()
+        this.dataCF.getCompresseursFiliales()
           // .getEquipementFilialeList()
           .subscribe(res => {
 
