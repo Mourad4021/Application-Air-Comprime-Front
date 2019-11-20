@@ -9,4 +9,5 @@ export class GRHs {
   // compresseur_Pourcentage: number;
   tauxAffectationAirComprime: number;
   date: Date;
+  chargesMensuelles: number
 }

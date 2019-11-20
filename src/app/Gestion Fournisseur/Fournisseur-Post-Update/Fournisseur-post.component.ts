@@ -40,30 +40,41 @@ export class FournisseurPostComponent implements OnInit {
   }
 
   insertRecord() {
-    this.data.insertFournisseur().subscribe(
-      res => {
-        if (res == "Aded done") {
-          this.resetForm();
-          this.dialogRef.close();
-          this.getactiveFournisseur();
-          this._snackBar.open("L'ajout a été effectuée avec succès", "X", {
+    if (this.data.form.controls.frequence_Des_Entretiens_Compresseur.value >= 1000 && this.data.form.controls.frequence_Des_Entretiens_Secheur.value >= 1000) {
+      this.data.insertFournisseur().subscribe(
+        res => {
+          if (res == "Aded done") {
+            this.resetForm();
+            this.dialogRef.close();
+            this.getactiveFournisseur();
+            this._snackBar.open("L'ajout a été effectuée avec succès", "X", {
+              duration: 4000,
+              verticalPosition: "top",
+              horizontalPosition: "center",
+              panelClass: ["green-snackbar"]
+            });
+          }
+        },
+        err => {
+          console.log(err);
+          this._snackBar.open("Erreur", "X", {
             duration: 4000,
             verticalPosition: "top",
             horizontalPosition: "center",
-            panelClass: ["green-snackbar"]
+            panelClass: ["red-snackbar"]
           });
         }
-      },
-      err => {
-        console.log(err);
-        this._snackBar.open("Erreur", "X", {
-          duration: 4000,
-          verticalPosition: "top",
-          horizontalPosition: "center",
-          panelClass: ["red-snackbar"]
-        });
-      }
-    );
+      );
+    }
+    else {
+      this._snackBar.open("La fréquence des entretiens doit être supérieure ou égale à 1000", "X", {
+        duration: 4000,
+        verticalPosition: "top",
+        horizontalPosition: "center",
+        panelClass: ["red-snackbar"]
+      });
+    }
+
   }
 
   updateRecord() {

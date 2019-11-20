@@ -52,7 +52,7 @@ export class GRHsGetDeleteComponent implements OnInit {
   ngOnInit() {
 
     this.datafiliale.getFiliale().subscribe(res => {
-      this.datafiliale.list = res as Filiale[]
+      this.datafiliale.list = (res as Filiale[]).filter(x => x.active == true);
 
       let currentUser = this.authenticationService.currentUserValue;
       if (currentUser && currentUser.Role_Utilisateur) {
@@ -73,7 +73,7 @@ export class GRHsGetDeleteComponent implements OnInit {
                 if (this.userRole == 'Responsable') {
                   this.data.list = this.data.list.filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.filialeId);
                 }
-                console.log(this.data.list);
+
               });
           });
 
@@ -89,7 +89,7 @@ export class GRHsGetDeleteComponent implements OnInit {
 
 
 
-  edit(grhs: GRHs) { }
+
 
   onEdit(grhs: GRHs) {
     this.data.initializeFormGroupForEdit(grhs);

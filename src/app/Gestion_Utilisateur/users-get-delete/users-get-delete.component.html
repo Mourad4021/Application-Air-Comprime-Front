@@ -10,19 +10,23 @@
                     <input type="text" class="form-control" id="" placeholder="" formControlName="usersCode" />
                 </div>
             </div> -->
-            <div class="col-md-2">
-              <div class="form-group">
-                  <label for="exampleFormControlSelect2">Filiale</label>
-                  <select class="form-control" id="exampleFormControlSelect2" formControlName="filialeID">
-          <option value="">---------------</option>
-          <option
-            *ngFor="let Filiale of dataFilialeservice.list"
-            [value]="Filiale.filialeID"
-            >{{ Filiale.nom }}</option
+      <div class="col-md-2">
+        <div class="form-group">
+          <label for="exampleFormControlSelect2">Filiale</label>
+          <select
+            class="form-control"
+            id="exampleFormControlSelect2"
+            formControlName="filialeID"
           >
-        </select> 
-              </div>
-          </div>
+            <option value=""> </option>
+            <option
+              *ngFor="let Filiale of dataFilialeservice.list"
+              [value]="Filiale.filialeID"
+              >{{ Filiale.nom }}</option
+            >
+          </select>
+        </div>
+      </div>
       <div class="col-md-2">
         <div class="form-group">
           <label>Nom </label>
@@ -60,7 +64,6 @@
           />
         </div>
       </div>
-     
     </div>
   </form>
   <!-- ///search -->

@@ -1,9 +1,10 @@
 <div class="container-fluid mt-2">
-
-    <form [formGroup]="GRHSearchForm" class="col-md-12">
-        <div class="row w-500 p-2 m-1 mb-2 border rounded " style="background-color: whitesmoke;">
-
-            <!-- <div class="col-md-2">
+  <form [formGroup]="GRHSearchForm" class="col-md-12">
+    <div
+      class="row w-500 p-2 m-1 mb-2 border rounded "
+      style="background-color: whitesmoke;"
+    >
+      <!-- <div class="col-md-2">
                 <div class="form-group">
                     <label>Filiale</label>
                     <select class="form-control  form-control-sm" id="" placeholder="" formControlName="filiale"
@@ -14,95 +15,125 @@
                 </div>
             </div> -->
 
-            <div class="col-md-4" >
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" class="form-control  form-control-sm " id="" placeholder="" formControlName="date">
-                </div>
-
-                
-            </div>
-            <form [formGroup]="GRHSearchForm1" class="col-md-4" [hidden]="authService.currentUserRole == 'Responsable'">
-                
-        
-                   
-                        <div class="form-group">
-                            <label>Filiale</label>
-                            <select class="form-control  form-control-sm" id="" placeholder="" formControlName="filiale"
-                            #mySelect
-                            (change)='selectFiliale()'>
-                            <option [value]="0">-----------------------------</option>
-                            <option *ngFor="let fi of datafiliale.list" [value]="fi.filialeID">{{ fi.nom }}</option>
-                            </select>
-                        </div>
-                
-            </form>
-        
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Date</label>
+          <input
+            type="date"
+            class="form-control  form-control-sm "
+            id=""
+            placeholder=""
+            formControlName="date"
+          />
         </div>
-    </form>
+      </div>
+      <form
+        [formGroup]="GRHSearchForm1"
+        class="col-md-4"
+        [hidden]="authService.currentUserRole == 'Responsable'"
+      >
+        <div class="form-group">
+          <label>Filiale</label>
+          <select
+            class="form-control  form-control-sm"
+            id=""
+            placeholder=""
+            formControlName="filiale"
+            #mySelect
+            (change)="selectFiliale()"
+          >
+            <option [value]="0">-----------------------------</option>
+            <option
+              *ngFor="let fi of datafiliale.list"
+              [value]="fi.filialeID"
+              >{{ fi.nom }}</option
+            >
+          </select>
+        </div>
+      </form>
+    </div>
+  </form>
 
-
-          
-
-
-
-
-
-    <button (click)="onCreate()" class="btn btn-info" [hidden]="authService.currentUserRole== 'Admin'">
-    <span class="pe-7s-plus pr-1" ></span>
+  <button
+    (click)="onCreate()"
+    class="btn btn-info"
+    [hidden]="authService.currentUserRole == 'Admin'"
+  >
+    <span class="pe-7s-plus pr-1"></span>
     Ajouter
   </button>
-    <div class="table-responsive">
-
-
-        <table class="table  table-bordered  mt-1 ">
-            <thead>
-                <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
-                    <th class="align-middle">Date</th>
-                    <th class="align-middle">Filiale</th>
-                    <th class="align-middle">Masse Salariale du Personnel Air Comprimé (DT)</th>
-                    <!-- <th class="align-middle">Compresseur</th>
+  <div class="table-responsive">
+    <table class="table  table-bordered  mt-1 ">
+      <thead>
+        <tr
+          style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
+          class="bg-primary"
+        >
+          <th class="align-middle">Date</th>
+          <th class="align-middle">Filiale</th>
+          <th class="align-middle">
+            Masse Salariale du Personnel Air Comprimé (DT)
+          </th>
+          <!-- <th class="align-middle">Compresseur</th>
                     <th class="align-middle">Charge compresseur</th>
                     <th class="align-middle">Charge secteur</th>
                     <th class="align-middle">Charge total</th>
                     <th class="align-middle">Sécheur (%)</th> -->
-                    <th class="align-middle">Taux d'Affectation Local Air Comprimé ( %)</th>
-                    <th style="width: 180px!important"></th>
+          <th class="align-middle">
+            Taux d'Affectation Local Air Comprimé ( %)
+          </th>
+          <th class="align-middle">
+            Charges Mensuelles du Personnel Air Comprimé (en DT)
+          </th>
+          <th style="width: 180px!important"></th>
+        </tr>
+      </thead>
 
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr *ngFor="let g of data.list|filter:GRHSearchForm.value | paginate: { id: 'GRHPagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
-
-
-
-
-                    <td>{{ g.date | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{ GetFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}</td>
-                    <td>{{ g.salaire }}</td>
-                    <!-- <td>{{GetCompFilialeByIDCorrespondance(g.equipementFilialeID)}}</td>
+      <tbody>
+        <tr
+          *ngFor="
+            let g of data.list
+              | filter: GRHSearchForm.value
+              | paginate
+                : { id: 'GRHPagination', itemsPerPage: 10, currentPage: p }
+          "
+          style="text-align:center;background-color: white"
+        >
+          <td>{{ g.date | date: "dd/MM/yyyy" }}</td>
+          <td>
+            {{ GetFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
+          </td>
+          <td>{{ g.salaire }}</td>
+          <!-- <td>{{GetCompFilialeByIDCorrespondance(g.equipementFilialeID)}}</td>
                     <td>{{ g.charge_Compresseur }}</td>
                     <td>{{ g.charge_Secteur }}</td>
                     <td>{{ g.charge_Total }}</td>
                     <td>{{ g.secheur_Pourcentage }}</td> -->
-                    <td>{{ g.tauxAffectationAirComprime }}%</td>
-                    <td style="width: 180px!important" >
+          <td>{{ g.tauxAffectationAirComprime }}%</td>
+          <td>{{ g.chargesMensuelles }}</td>
+          <td style="width: 180px!important">
+            <button (click)="onEdit(g)" class="btn btn-info mr-3">
+              <span class="pe-7s-pen"></span>
+            </button>
 
-                        <button (click)="onEdit(g)" class="btn btn-info mr-3">
-
-            <span class="pe-7s-pen"></span>
-          </button>
-
-                        <button (click)="delete(g.gRhID)" class="btn btn-danger" *ngIf="authService.currentUserRole!= 'Responsable'" [hidden]="authService.currentUserRole== 'Admin'">
-            <span class=" pe-7s-trash"></span>
-          </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-    <pagination-controls id="GRHPagination" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
-    </pagination-controls>
+            <button
+              (click)="delete(g.gRhID)"
+              class="btn btn-danger"
+              *ngIf="authService.currentUserRole != 'Responsable'"
+              [hidden]="authService.currentUserRole == 'Admin'"
+            >
+              <span class=" pe-7s-trash"></span>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <pagination-controls
+    id="GRHPagination"
+    (pageChange)="p = $event"
+    previousLabel="Prc"
+    nextLabel="Suiv"
+  >
+  </pagination-controls>
 </div>

@@ -2,7 +2,7 @@
   <div class="card-body">
     <form [formGroup]="data.form" (ngSubmit)="onSubmit()">
       <div
-        class="form-group col-5"
+        class="form-group col-md-6"
         *ngIf="
           authService.currentUserRole == 'Admin' ||
           authService.currentUserRole == 'SuperAdmin'
