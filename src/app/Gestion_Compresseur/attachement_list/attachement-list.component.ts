@@ -20,7 +20,7 @@ export class AttachementListComponent implements OnInit {
   constructor(private data: DataService, private dataER: EntretienReservoirService, private DataFour: GestionFournisseurDataService) { }
 
   ngOnInit() {
-    debugger
+
     if (this.objet == 'EntretienReservoir') {
       this.dataER.getAttachementsByEntretienReservoirId(this.id).toPromise().then(res => this.attachementsList = res as Attachement[]);
     } else if (this.objet == 'FicheSuivi') {
@@ -41,6 +41,7 @@ export class AttachementListComponent implements OnInit {
     return bytes;
   }
   onDownloadattachementFile(attachementId, originalname: string) {
+
     if (this.objet == 'Fournisseur') {
       this.pdfLink = environment.gestionFournisseurApi + '/Attachments/getAttachementFournisseurFileById?attachementId=' + attachementId
       this.DataFour.getAttachementFournisseurfileById(attachementId).subscribe(
@@ -79,6 +80,7 @@ export class AttachementListComponent implements OnInit {
         }
       );
     }
+
 
   }
 
