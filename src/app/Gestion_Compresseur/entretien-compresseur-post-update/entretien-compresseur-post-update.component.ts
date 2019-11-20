@@ -69,10 +69,10 @@ export class EntretienCompresseurPostUpdateComponent implements OnInit {
   }
   insertEntretienCompresseur() {
     this.data.AddOrUpdateEntretienCompresseurForm.controls.valeurCompteurProchainEntretien.setValue(
-      this.data.AddOrUpdateEntretienCompresseurForm.controls.priseCompteurDernierEntretien.value + this.GetFrequenceByIDCorrespondance(this.data.AddOrUpdateEntretienCompresseurForm.controls.equipementFilialeID.value)
+      this.data.AddOrUpdateEntretienCompresseurForm.controls.priseCompteurDernierEntretienDernierEntretien.value + this.GetFrequenceByIDCorrespondance(this.data.AddOrUpdateEntretienCompresseurForm.controls.equipementFilialeID.value)
 
     );
-    //= this.data.AddOrUpdateEntretienCompresseurForm.controls.priseCompteurDernierEntretien.value + this.GetFrequenceByIDCorrespondance(this.data.AddOrUpdateEntretienCompresseurForm.controls.equipementFilialeID.value);
+    //= this.data.AddOrUpdateEntretienCompresseurForm.controls.priseCompteurDernierEntretienDernierEntretien.value + this.GetFrequenceByIDCorrespondance(this.data.AddOrUpdateEntretienCompresseurForm.controls.equipementFilialeID.value);
 
     this.data.postEntretienCompresseur().subscribe(
       res => {

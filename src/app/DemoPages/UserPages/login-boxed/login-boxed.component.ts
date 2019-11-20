@@ -21,7 +21,7 @@ export class LoginBoxedComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public data: AuthenticationService,
-     private appRoleDataService:AppRoleDataService
+    private appRoleDataService: AppRoleDataService
   ) {
     if (this.data.currentUserValue) {
       this.router.navigate([this.returnUrl]);
@@ -62,8 +62,7 @@ export class LoginBoxedComponent implements OnInit {
         error => {
           this.errorObj = error;
           this.errorMsg = error.error;
-          console.log(this.errorMsg);
-          console.log(this.errorObj);
+
           this.loading = false;
         }
       );
@@ -82,10 +81,10 @@ export class LoginBoxedComponent implements OnInit {
 
 
     this.appRoleDataService.getApplications().subscribe(
-      res=>{
-        this.appRoleDataService.applicationList=res as Application[]
+      res => {
+        this.appRoleDataService.applicationList = res as Application[]
       }
     )
-   
+
   }
 }

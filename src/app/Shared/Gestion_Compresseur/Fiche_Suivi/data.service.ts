@@ -8,12 +8,13 @@ import { environment } from "src/environments/environment";
   providedIn: "root"
 })
 export class DataService {
-  list: FicheSuivi[];
-
+  list: FicheSuivi[] = new Array();
+  changeDetect: boolean;
   fileList: File[] = new Array();
   ficheSuivi: FormGroup;
   formData: FormData = new FormData();
-
+  etatList: string[] = ["En_marche", "En_panne", "Reserve"];
+  typeEntretienList: string[] = ['A', 'B', 'C', 'D'];
 
   form: FormGroup = new FormGroup({
     ficheSuiviID: new FormControl(""),
@@ -23,6 +24,7 @@ export class DataService {
       Validators.required,
       Validators.pattern(/^-?(0|[0-9]\d*)?$/)
     ]),
+
     nbre_Heurs_Charge: new FormControl("", [
       Validators.required,
       Validators.pattern(/^-?(0|[0-9]\d*)?$/)
@@ -35,24 +37,28 @@ export class DataService {
       Validators.required,
       Validators.pattern(/^-?(0|[0-9]\d*)?$/)
     ]),
-    etat: new FormControl("", Validators.required),
-    frequenceEentretienDeshuileur: new FormControl("", Validators.required),
-    courantAbsorbePhase: new FormControl("", [
+    etat: new FormControl("", [Validators.required, Validators.min(0)]),
+    pointDeRoseeDuSecheur: new FormControl("", [Validators.required]),
+    index_Debitmetre: new FormControl("", [
       Validators.required,
       Validators.pattern(/^-?(0|[0-9]\d*)?$/)
     ]),
     fraisEntretienReparation: new FormControl("", [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/)]),
-    priseCompteur: new FormControl("", [
+    priseCompteurDernierEntretien: new FormControl("", [
       Validators.required,
       Validators.pattern(/^-?(0|[0-9]\d*)?$/)
     ]),
+
     files: new FormControl(""),
     tHuileC: new FormControl(0, [
       Validators.required,
-      Validators.pattern(/^-?(0|[0-9]\d*)?$/)
+      Validators.pattern(/^-?(0|[0-9]\d*)?$/),
+      Validators.min(0)
     ]),
-    tSecheurC: new FormControl("", Validators.required),
-    remarques: new FormControl("", Validators.required)
+    typeDernierEntretien: new FormControl("", Validators.required),
+    remarques: new FormControl("", Validators.required),
+    nombreDeJoursOuvrablesDuMois: new FormControl(0),
+    nombreHeuresProductionUsineLeJourPrecedent: new FormControl(0, [Validators.required, Validators.max(24), Validators.min(0)]),
   });
   //
 
@@ -63,8 +69,16 @@ export class DataService {
       .get(environment.gestionCompresseursApi + "/Fiche_Suivi")
 
   }
+
+  getFicheSuivi1(last: number) {
+    return this.http
+      .get(environment.gestionCompresseursApi + "/Fiche_Suivi/triM/" + last)
+
+  }
+
   onUpload(event) {
     this.formData.delete('ficheSuiviFiles[]');
+    this.fileList = new Array()
     if (event.target.files && event.target.files[0]) {
       var filesAmount = event.target.files.length;
 
@@ -106,24 +120,28 @@ export class DataService {
   getAttachementfileById(attachemntId: string) {
     return this.http.get(environment.gestionCompresseursApi + '/Attachments/getAttachementFileById?attachementId=' + attachemntId)
   }
+
+
   insertFicheSuivi() {
 
-
+    //
     this.formData.delete('FicheSuiviID');
-    this.formData.delete('Date')
     this.formData.delete('EquipementFilialeID')
+    this.formData.delete('FraisEntretienReparation')
+    this.formData.delete('Date')
+    this.formData.delete('Etat')
+    this.formData.delete('pointDeRoseeDuSecheur')
+    this.formData.delete('TempsArret')
     this.formData.delete('Nbre_Heurs_Total')
     this.formData.delete('Nbre_Heurs_Charge')
-    this.formData.delete('TempsArret')
-    this.formData.delete('Etat')
-    this.formData.delete('FrequenceEentretienDeshuileur')
-    this.formData.delete('CourantAbsorbePhase')
-    this.formData.delete('fraisEntretienReparation')
-    this.formData.delete('PriseCompteur')
-    this.formData.delete('TSecheurC')
+    this.formData.delete('Index_Debitmetre')
+    this.formData.delete('priseCompteurDernierEntretien');
+    this.formData.delete('Index_Electrique')
     this.formData.delete('Remarques')
     this.formData.delete('THuileC')
-    this.formData.delete('Index_Electrique')
+    this.formData.delete('TypeDernierEntretien');
+    this.formData.delete('NombreHeuresProductionUsineLeJourPrecedent');
+    this.formData.delete('NombreDeJoursOuvrablesDuMois');
 
     //
     this.formData.append('FicheSuiviID', this.form.controls.ficheSuiviID.value);
@@ -133,15 +151,16 @@ export class DataService {
     this.formData.append('Nbre_Heurs_Charge', this.form.controls.nbre_Heurs_Charge.value);
     this.formData.append('TempsArret', this.form.controls.tempsArret.value);
     this.formData.append('Etat', this.form.controls.etat.value);
-    this.formData.append('FrequenceEentretienDeshuileur', this.form.controls.frequenceEentretienDeshuileur.value);
-    this.formData.append('CourantAbsorbePhase', this.form.controls.courantAbsorbePhase.value);
-    this.formData.append('fraisEntretienReparation', this.form.controls.fraisEntretienReparation.value);
-    this.formData.append('PriseCompteur', this.form.controls.priseCompteur.value);
-    this.formData.append('TSecheurC', this.form.controls.tSecheurC.value);
+    this.formData.append('pointDeRoseeDuSecheur', this.form.controls.pointDeRoseeDuSecheur.value);
+    this.formData.append('Index_Debitmetre', this.form.controls.index_Debitmetre.value);
+    this.formData.append('FraisEntretienReparation', this.form.controls.fraisEntretienReparation.value);
+    this.formData.append('priseCompteurDernierEntretien', this.form.controls.priseCompteurDernierEntretien.value);
     this.formData.append('Remarques', this.form.controls.remarques.value);
     this.formData.append('THuileC', this.form.controls.tHuileC.value);
     this.formData.append('Index_Electrique', this.form.controls.index_Electrique.value);
-
+    this.formData.append('TypeDernierEntretien', this.form.controls.typeDernierEntretien.value)
+    this.formData.append('NombreHeuresProductionUsineLeJourPrecedent', this.form.controls.nombreHeuresProductionUsineLeJourPrecedent.value)
+    this.formData.append('NombreDeJoursOuvrablesDuMois', this.form.controls.nombreDeJoursOuvrablesDuMois.value)
 
 
     return this.http.post(
@@ -160,15 +179,17 @@ export class DataService {
       nbre_Heurs_Charge: "",
       index_Electrique: "",
       tempsArret: "",
-      etat: "",
+      etat: "En_marche",
       files: "",
-      frequenceEentretienDeshuileur: "",
-      courantAbsorbePhase: "",
+      nombreDeJoursOuvrablesDuMois: 0,
+      pointDeRoseeDuSecheur: "",
+      index_Debitmetre: "",
       fraisEntretienReparation: "",
-      priseCompteur: "",
+      priseCompteurDernierEntretien: "",
       tHuileC: "",
-      tSecheurC: "",
-      remarques: ""
+      typeDernierEntretien: "A",
+      remarques: "RAS",
+      nombreHeuresProductionUsineLeJourPrecedent: 0
     });
 
   }
@@ -186,15 +207,18 @@ export class DataService {
       nbre_Heurs_Charge: cons.nbre_Heurs_Charge,
       index_Electrique: cons.index_Electrique,
       tempsArret: cons.tempsArret,
-      etat: cons.etat,
-      frequenceEentretienDeshuileur: cons.frequenceEentretienDeshuileur,
-      courantAbsorbePhase: cons.courantAbsorbePhase,
+      etat: this.etatList[cons.etat],
+      pointDeRoseeDuSecheur: cons.pointDeRoseeDuSecheur,
+      index_Debitmetre: cons.index_Debitmetre,
       fraisEntretienReparation: cons.fraisEntretienReparation,
-      priseCompteur: cons.priseCompteur,
+      priseCompteurDernierEntretien: cons.priseCompteurDernierEntretien,
       tHuileC: cons.tHuileC,
-      tSecheurC: cons.tSecheurC,
+      typeDernierEntretien: this.typeEntretienList[cons.typeDernierEntretien],
       remarques: cons.remarques,
-      files: ''
+      files: '',
+      nombreHeuresProductionUsineLeJourPrecedent: cons.nombreHeuresProductionUsineLeJourPrecedent,
+      nombreDeJoursOuvrablesDuMois: cons.nombreDeJoursOuvrablesDuMois
+
     });
 
 

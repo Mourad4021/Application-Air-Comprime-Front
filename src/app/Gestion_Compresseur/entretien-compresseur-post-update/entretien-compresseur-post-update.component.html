@@ -79,7 +79,7 @@
           </mat-form-field>
           <mat-form-field class="col-md-12">
             <input
-              formControlName="priseCompteurActuelle"
+              formControlName="priseCompteurDernierEntretienActuelle"
               matInput
               placeholder="Prise de compteur Actuelle (h)"
               autocomplete="off"
@@ -87,14 +87,14 @@
             <mat-error
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
-                  .priseCompteurActuelle.errors?.required
+                  .priseCompteurDernierEntretienActuelle.errors?.required
               "
               >Ce champ est obligatoire</mat-error
             >
             <mat-error
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
-                  .priseCompteurActuelle.errors?.pattern
+                  .priseCompteurDernierEntretienActuelle.errors?.pattern
               "
             >
               Ce champ doit être composé d'une séquence de chiffres</mat-error
@@ -102,7 +102,7 @@
             <mat-error
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
-                  .priseCompteurActuelle.errors?.min
+                  .priseCompteurDernierEntretienActuelle.errors?.min
               "
             >
               Ce champ doit être doit être strictement positive</mat-error
@@ -111,7 +111,7 @@
 
           <mat-form-field class="col-md-12">
             <input
-              formControlName="priseCompteurDernierEntretien"
+              formControlName="priseCompteurDernierEntretienDernierEntretien"
               matInput
               placeholder="prise Compteur Dernier Entretien"
               autocomplete="off"
@@ -121,14 +121,14 @@
             <mat-error
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
-                  .priseCompteurDernierEntretien.errors?.required
+                  .priseCompteurDernierEntretienDernierEntretien.errors?.required
               "
               >Ce champ est obligatoire</mat-error
             >
             <mat-error
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
-                  .priseCompteurDernierEntretien.errors?.pattern
+                  .priseCompteurDernierEntretienDernierEntretien.errors?.pattern
               "
             >
               Ce champ doit être composé d'une séquence de chiffres</mat-error
@@ -136,7 +136,7 @@
             <mat-error
               *ngIf="
                 data.AddOrUpdateEntretienCompresseurForm.controls
-                  .priseCompteurDernierEntretien.errors?.min
+                  .priseCompteurDernierEntretienDernierEntretien.errors?.min
               "
             >
               Ce champ doit être doit être strictement positive</mat-error

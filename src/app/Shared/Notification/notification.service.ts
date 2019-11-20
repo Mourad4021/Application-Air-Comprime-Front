@@ -29,7 +29,7 @@ export class NotificationService {
   form: FormGroup = new FormGroup({
     toAddresses: new FormControl('', [Validators.required, ToAddressValidator]),
     fromAddresses: new FormControl(''),
-     files: new FormControl(''),
+    files: new FormControl(''),
     subject: new FormControl('', [Validators.required]),
     content: new FormControl('', [Validators.required]),
     posteNumber: new FormControl(''),
@@ -52,7 +52,7 @@ export class NotificationService {
       fromAddresses: '',
       content: '',
       subject: '',
-       files: '',
+      files: '',
       posteNumber: 0,
       phoneNumber: 0,
       idFiliale: ''
@@ -86,7 +86,7 @@ export class NotificationService {
 
 
     this.dataUsersService.getlistFiliale().subscribe(res => {
-      console.log(res)
+
 
       this.filiale = res as Filiale[]
     },
@@ -114,7 +114,7 @@ export class NotificationService {
       fromAddresses: '',
       subject: '',
       content: '',
-       files: '',
+      files: '',
       posteNumber: 0,
       phoneNumber: 0,
       idFiliale: '',
