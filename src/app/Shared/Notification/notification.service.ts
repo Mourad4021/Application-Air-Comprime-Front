@@ -27,7 +27,7 @@ export class NotificationService {
 
 
   form: FormGroup = new FormGroup({
-    toAddresses: new FormControl('', [Validators.required, ToAddressValidator]),
+    toAddresses: new FormControl('', [RequiredValidator, ToAddressValidator]),
     fromAddresses: new FormControl(''),
     files: new FormControl(''),
     subject: new FormControl('', [Validators.required]),
@@ -47,6 +47,7 @@ export class NotificationService {
   filiale: Filiale[];
   nom: string;
   initializeFormGroup() {
+
     this.form.setValue({
       toAddresses: '',
       fromAddresses: '',
@@ -58,13 +59,10 @@ export class NotificationService {
       idFiliale: ''
 
     });
+
   }
 
-  // GetNomFiliale(){
-  //   return this.http.get('http://localhost:51666/api/Filiale/' + this.idFiliale)
-  //   .toPromise()
-  //    .then(res=>(this.filiale=res as Filiale));
-  //}
+
   GetNotification() {
 
 
@@ -74,8 +72,6 @@ export class NotificationService {
     }
 
     return this.http.get(environment.notificationApi + '/Notification?address=' + this.address)
-    // .toPromise()
-    // .then(res => this.list= res as EmailFrom[]);
   }
 
   sendNotification() {
@@ -100,37 +96,38 @@ export class NotificationService {
         this.form.value.fromAddresses = this.currentUser.Mail_Utilisateur;
         this.form.value.posteNumber = this.currentUser.PhoneInterne;
         this.form.value.phoneNumber = this.currentUser.PhoneExterne;
+        // if (this.currentUser.Role_Utilisateur == "Responsable") {
+        //   this.form.value.toAddresses = 'Mourad Ben Hlayem/SIEGE/POULINA'
+        // }
         this.PostForm(this.form.value)
       })
 
 
 
-
-
   }
-  resetForm() {
-    this.emailMessage = {
-      toAddresses: '',
-      fromAddresses: '',
-      subject: '',
-      content: '',
-      files: '',
-      posteNumber: 0,
-      phoneNumber: 0,
-      idFiliale: '',
-      // ccAddresses:'',
-      // cccAddresses:'',
-      // files:''
-    };
-  }
+  // resetForm() {
+
+  //   this.emailMessage = {
+  //     toAddresses: '',
+  //     fromAddresses: '',
+  //     subject: '',
+  //     content: '',
+  //     files: '',
+  //     posteNumber: 0,
+  //     phoneNumber: 0,
+  //     idFiliale: '',
+
+  //   };
+  // }
   PostForm(value) {
 
     this.http.post(environment.notificationApi + '/Notification', value, { responseType: "text" }).subscribe(res => {
 
       if (res == "Mail success") {
 
-        this.resetForm();
+        // this.resetForm();
         this.initializeFormGroup();
+        this.form.markAsUntouched();
         this._snackBar.open(res, "X", {
           duration: 8000,
           verticalPosition: "top",
@@ -141,6 +138,9 @@ export class NotificationService {
 
       }
       else {
+        // this.resetForm();
+        this.initializeFormGroup();
+        this.form.markAsUntouched();
 
         this._snackBar.open(res, "X", {
           duration: 8000,
@@ -148,6 +148,7 @@ export class NotificationService {
           horizontalPosition: "center",
           panelClass: ["red-snackbar"]
         });
+
       }
     },
       err => {
@@ -191,11 +192,20 @@ export class NotificationService {
       })
 
   }
+
+
 }
 
 function ToAddressValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  //  && (control.value as string).split('/')[1] != 'SIEGE'
+
   if ((control.value as string).split('/').length != 3 && control.value != '') {
+    return { ToAddressValidator: true };
+  }
+  return null;
+}
+function RequiredValidator(control: AbstractControl): { [key: string]: boolean } | null {
+
+  if (((JSON.parse(localStorage.getItem('currentUser')).Role_Utilisateur == 'Admin') || (JSON.parse(localStorage.getItem('currentUser')).Role_Utilisateur == 'SuperAdmin')) && control.value == '') {
     return { ToAddressValidator: true };
   }
   return null;
