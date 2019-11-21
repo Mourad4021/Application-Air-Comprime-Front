@@ -6,6 +6,7 @@ import { DataFilialeService } from 'src/app/Shared/Gestion-Utilisateur/Filiale/d
 import { AuthenticationService } from 'src/app/Shared/AuthenticationService/authentication.service';
 import { GRHs } from 'src/app/Shared/Gestion_Compresseur/GRHs/grhs.model';
 import { EquipementFiliale } from 'src/app/Shared/Gestion_Compresseur/Equipement-Filiale/equipement-filiale.model';
+import { EntretienReservoirService } from 'src/app/Shared/Gestion_Compresseur/Entretien-Reservoir/entretien-reservoir.service';
 
 @Component({
   selector: "app-grhs-post-update",
@@ -13,49 +14,60 @@ import { EquipementFiliale } from 'src/app/Shared/Gestion_Compresseur/Equipement
   styleUrls: []
 })
 export class GRHsPostUpdateComponent implements OnInit {
-
+  DateToday: Date
   constructor(
     private _snackBar: MatSnackBar,
     public data: DataService,
     public dialogRef: MatDialogRef<GRHsPostUpdateComponent>,
     private authenticationService: AuthenticationService,
-    private datafiliale: DataFilialeService
+    private datafiliale: DataFilialeService,
+    private Service: EntretienReservoirService
   ) { }
   listCF: EquipementFiliale[];
   filialeId = '';
   userRole = '';
+  // ngOnInit() {
+
+  //   this.Service.getDate().subscribe(
+  //     res => {
+  //       this.DateToday = res as Date
+  //     }
+  //   )
+
+
+
+  //   this.datafiliale.getFiliale().subscribe(res => {
+  //     this.datafiliale.list = res as Filiale[]
+  //     let currentUser = this.authenticationService.currentUserValue;
+  //     if (currentUser && currentUser.Role_Utilisateur) {
+  //       this.userRole = currentUser.Role_Utilisateur;
+  //       this.filialeId = currentUser.Filiale_Utilisateur;
+
+  //       this.data
+  //         .getlistCF()
+  //         .subscribe(res => {
+  //           this.listCF = (res as EquipementFiliale[]).filter(x => x.active == true)
+  //           if (this.userRole == 'Responsable') {
+  //             this.listCF = this.listCF.filter(x => x.filialeID == this.filialeId);
+  //           }
+  //           //.filter(x => x.active == true && x.filialeID == this.filialeId)
+
+  //         });
+  //     }
+
+
+  //   });
+  // }
   ngOnInit() {
-    // let currentUser = this.authenticationService.currentUserValue;
-    // if (currentUser && currentUser.Role_Utilisateur) {
-    //   this.userRole = currentUser.Role_Utilisateur;
-    //   this.filialeId = currentUser.Filiale_Utilisateur;
-    //   if (this.userRole == 'Responsable') {
-    //     this.data
-    //       .getlistCF()
-    //       .toPromise()
-    //       .then(res => (this.listCF = (res as CompresseurFiliale[]).filter(x => x.active == true && x.filialeID == this.filialeId)));
-
-    //   } else {
-    //     this.data
-    //       .getlistCF()
-    //       .toPromise()
-    //       .then(res => (this.listCF = (res as CompresseurFiliale[]).filter(x => x.active == true)));
-
-
-    //   }
-
-
-    //   this.data
-    //     .getGRhs()
-    //     .toPromise()
-    //     .then(res => (this.data.list = res as GRHs[]));
-
-    //this.data.list = this.data.list.filter(x => x.equipementFilialeID == this.listCF.find(y => y.equipementFilialeID == x.equipementFilialeID).equipementFilialeID);
-    //});
-
+    this.Service.getDate().subscribe(
+      res => {
+        this.DateToday = res as Date;
+      }
+    );
 
     this.datafiliale.getFiliale().subscribe(res => {
-      this.datafiliale.list = res as Filiale[]
+      this.datafiliale.list = (res as Filiale[]).filter(x => x.active == true);
+
       let currentUser = this.authenticationService.currentUserValue;
       if (currentUser && currentUser.Role_Utilisateur) {
         this.userRole = currentUser.Role_Utilisateur;
@@ -65,9 +77,8 @@ export class GRHsPostUpdateComponent implements OnInit {
           .getlistCF()
           .subscribe(res => {
             this.listCF = (res as EquipementFiliale[]).filter(x => x.active == true);
-            if (this.userRole == 'Responsable') {
-              this.listCF = this.listCF.filter(x => x.filialeID == this.filialeId);
-            }
+
+
             //.filter(x => x.active == true && x.filialeID == this.filialeId)
             this.data
               .getGRhs()
@@ -76,29 +87,43 @@ export class GRHsPostUpdateComponent implements OnInit {
                 this.data.list = res as GRHs[];
                 if (this.userRole == 'Responsable') {
                   this.data.list = this.data.list.filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.filialeId);
+
+                  this.listCF = this.listCF.filter(x => x.filialeID == this.filialeId);
+
                 }
+
               });
           });
+
+
+
       }
 
 
 
-
-
-
-      // if (this.data.form.controls.gRhID.value != "00000000-0000-0000-0000-000000000000") {
-      //   if (this.userRole == 'Admin') {
-      //     this.data.form.controls.date.disable();
-      //     this.data.form.controls.salaire.disable();
-      //   }
-      // }
-      // else {
-      //   this.data.form.controls.date.enable();
-      //   this.data.form.controls.salaire.enable();
-      // }
     });
+
   }
 
+  refrechGRHList() {
+
+    this.data
+      .getGRhs()
+      .subscribe(
+        res => {
+          this.data.list = res as GRHs[];
+          let currentUser = this.authenticationService.currentUserValue;
+          if (currentUser && currentUser.Role_Utilisateur) {
+            this.userRole = currentUser.Role_Utilisateur;
+            this.filialeId = currentUser.Filiale_Utilisateur;
+          }
+          debugger
+          if (this.userRole == 'Responsable') {
+            this.data.list = this.data.list.filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.filialeId);
+          }
+        });
+
+  }
 
 
   onClear() {
@@ -123,61 +148,90 @@ export class GRHsPostUpdateComponent implements OnInit {
   }
 
   insertRecord() {
-    this.data.insertGRhs().subscribe(
+    debugger
+    this.Service.getDate().subscribe(
       res => {
-        if (res == "Added done") {
-          this.resetForm();
-          this.dialogRef.close();
-          this.ngOnInit();
-          this._snackBar.open("L'ajout a été effectuée avec succès", "X", {
-            duration: 4000,
-            verticalPosition: "top",
-            horizontalPosition: "center",
-            panelClass: ["green-snackbar"]
-          });
-        }
-      },
-      err => {
-        console.log(err);
-        this._snackBar.open("Erreur", "X", {
-          duration: 4000,
-          verticalPosition: "top",
-          horizontalPosition: "center",
-          panelClass: ["red-snackbar"]
-        });
+        this.DateToday = res as Date
       }
-    );
-  }
-
-  updateRecord() {
-    this.data.putGRhs().subscribe(
-      res => {
-        if (res == "Update Done") {
-          this.resetForm();
-          this.dialogRef.close();
-          this.ngOnInit();
-          this._snackBar.open(
-            "La mise à jour a été effectuée avec succès",
-            "X",
-            {
+    )
+    if (this.data.form.controls.date.value <= this.DateToday) {
+      this.data.insertGRhs().subscribe(
+        res => {
+          if (res == "Added done") {
+            this.resetForm();
+            this.dialogRef.close();
+            this.ngOnInit();
+            this._snackBar.open("L'ajout a été effectuée avec succès", "X", {
               duration: 4000,
               verticalPosition: "top",
               horizontalPosition: "center",
               panelClass: ["green-snackbar"]
-            }
-          );
+            });
+          }
+        },
+        err => {
+          console.log(err);
+          this._snackBar.open("Erreur", "X", {
+            duration: 4000,
+            verticalPosition: "top",
+            horizontalPosition: "center",
+            panelClass: ["red-snackbar"]
+          });
         }
-      },
-      err => {
-        console.log(err);
-        this._snackBar.open("Erreur", "X", {
-          duration: 4000,
-          verticalPosition: "top",
-          horizontalPosition: "center",
-          panelClass: ["red-snackbar"]
-        });
+      );
+    }
+    else (this._snackBar.open("La date doit être inférieur ou égal à la date actuelle ", "X", {
+      duration: 4000,
+      verticalPosition: "top",
+      horizontalPosition: "center",
+      panelClass: ["red-snackbar"]
+    })
+    )
+  }
+
+  updateRecord() {
+    this.Service.getDate().subscribe(
+      res => {
+        this.DateToday = res as Date
       }
-    );
+    )
+    if (this.data.form.controls.date.value <= this.DateToday) {
+      this.data.putGRhs().subscribe(
+        res => {
+          if (res == "Update Done") {
+            this.resetForm();
+            this.dialogRef.close();
+            this.ngOnInit();
+            this._snackBar.open(
+              "La mise à jour a été effectuée avec succès",
+              "X",
+              {
+                duration: 4000,
+                verticalPosition: "top",
+                horizontalPosition: "center",
+                panelClass: ["green-snackbar"]
+              }
+            );
+          }
+        },
+        err => {
+          console.log(err);
+          this._snackBar.open("Erreur", "X", {
+            duration: 4000,
+            verticalPosition: "top",
+            horizontalPosition: "center",
+            panelClass: ["red-snackbar"]
+          });
+        }
+      );
+    }
+    else (this._snackBar.open("La date doit être inférieur ou égal à la date actuelle ", "X", {
+      duration: 4000,
+      verticalPosition: "top",
+      horizontalPosition: "center",
+      panelClass: ["red-snackbar"]
+    })
+    )
   }
 
 
@@ -192,7 +246,8 @@ export class GRHsPostUpdateComponent implements OnInit {
       // charge_Total: 0,
       // compresseur_Pourcentage: 0,
       tauxAffectationAirComprime: 0,
-      date: new Date()
+      date: new Date(),
+      chargesMensuelles: 0
     };
   }
   onClose() {
@@ -205,6 +260,7 @@ export class GRHsPostUpdateComponent implements OnInit {
 
 
   GetFilialeByIDCorrespondance(equipementFilialeID: string) {
+    debugger
     let a = this.listCF.find(cf => cf.equipementFilialeID == equipementFilialeID).filialeID;
     return this.datafiliale.list.find(x => x.filialeID == a);
   }
