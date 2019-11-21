@@ -18,6 +18,8 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
   listCF: EquipementFiliale[];
 
   lastFSInThisMonth: boolean;
+  // equipementFilialeHaveDebimetreIndex?: boolean;
+  // equipementFilialeHaveElectricCounter?: boolean;
   constructor(
     private _snackBar: MatSnackBar,
     public data: DataService,
@@ -30,11 +32,12 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
     this.lastFSInThisMonth = false;
 
     this.data
-      .getlistCF()
+      .getlistCopresseur_Secheur()
       .toPromise()
       .then(res => {
         if (this.authService.currentUserValue.Role_Utilisateur == 'Admin' || this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
           this.listCF = (res as EquipementFiliale[]).filter(x => x.active == true && x.filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+          console.log(res as EquipementFiliale[]);
 
         }
         else {
@@ -50,6 +53,17 @@ export class FicheSuiviPostUpdateComponent implements OnInit {
 
   }
 
+  // OnCompressorSelectionChange(equipementFilialeID: string) {
+
+  //   this.equipementFilialeHaveDebimetreIndex = this.GetCompFilialeByIDCorrespondance(equipementFilialeID).haveDebitMetre;
+  //   debugger
+  //   this.equipementFilialeHaveElectricCounter = this.GetCompFilialeByIDCorrespondance(equipementFilialeID).haveElectricCounter;
+
+  // }
+  GetCompFilialeByIDCorrespondance(equipementFilialeID: string) {
+    debugger
+    return this.listCF.find(f => f.equipementFilialeID == equipementFilialeID);
+  }
   onClear() {
     this.data.form.reset();
     // this.data.initializeFormGroup();

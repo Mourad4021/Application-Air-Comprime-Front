@@ -9,4 +9,6 @@ export class EquipementFiliale {
     numSerie: number;
     efid: string;
     active: boolean;
+    haveDebitMetre: boolean;
+    haveElectricCounter: boolean;
 }

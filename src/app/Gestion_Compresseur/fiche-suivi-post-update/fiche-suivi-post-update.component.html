@@ -24,7 +24,8 @@
         data.form.controls.ficheSuiviID.value ==
         '00000000-0000-0000-0000-000000000000'
       ">
-                        <mat-select placeholder=" Selectionnez un compresseur" name="compFiliale" formControlName="equipementFilialeID">
+      <!-- (selectionChange)="OnCompressorSelectionChange($event)" -->
+                        <mat-select placeholder=" Selectionnez un compresseur" name="compFiliale" formControlName="equipementFilialeID" >
                             <mat-option *ngFor="let cf of listCF" [value]="cf.equipementFilialeID">{{ cf.nom }}
                             </mat-option>
                         </mat-select>
@@ -53,8 +54,8 @@
                         </mat-error>
                         <mat-error *ngIf="data.form.controls.nbre_Heurs_Charge.errors?.pattern"> Ce champ est non valide</mat-error>
                     </mat-form-field>
-                    <mat-form-field class="w-100 p-2">
-                        <input formControlName="index_Electrique" matInput placeholder="Index Compteur Électrique" autocomplete="off" />
+                    <mat-form-field class="w-100 p-2" [hidden]="GetCompFilialeByIDCorrespondance(data.form.controls.equipementFilialeID.value)?.haveElectricCounter==false">
+                        <input formControlName="index_Electrique"  matInput placeholder="Index Compteur Électrique" autocomplete="off" />
                         <mat-error *ngIf="data.form.controls.index_Electrique.errors?.required"> Ce champ est obligatoire
                         </mat-error>
                         <mat-error *ngIf="data.form.controls.index_Electrique.errors?.pattern"> Ce champ est non valide</mat-error>
@@ -85,7 +86,7 @@
                     </mat-form-field>
                     
                    
-                    <mat-form-field class="w-100 p-2">
+                    <mat-form-field class="w-100 p-2" [hidden]="GetCompFilialeByIDCorrespondance(data.form.controls.equipementFilialeID.value)?.haveDebitMetre==false">
                         <input formControlName="index_Debitmetre" matInput placeholder="index_Debitmetre" autocomplete="off" />
                         <mat-error *ngIf="data.form.controls.index_Debitmetre.errors?.required"> Ce champ est obligatoire
                         </mat-error>

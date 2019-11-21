@@ -109,7 +109,7 @@
 
 
 
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { DataService } from "src/app/Shared/Gestion_Compresseur/Fiche_Suivi/data.service";
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { FicheSuivi } from "src/app/Shared/Gestion_Compresseur/Fiche_Suivi/fiche-suivi.model";
@@ -127,7 +127,14 @@ import { FicheSuiviComponent } from '../fiche-suivi/fiche-suivi.component';
   templateUrl: "./fiche-suivi-get-delete.component.html",
   styleUrls: []
 })
-export class FicheSuiviGetDeleteComponent implements OnInit {
+export class FicheSuiviGetDeleteComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit() {
+
+    this.precMonthButton.nativeElement.click()
+    this.precMonthButton.nativeElement.click()
+  }
+  @ViewChild("precMonthButton") precMonthButton: ElementRef;
+
   constructor(
     public data: DataService,
     public dialog: MatDialog,
@@ -216,6 +223,10 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
 
 
   ngOnInit() {
+
+
+
+
     this.datafiliale.getFiliale().subscribe(
       res => {
         this.datafiliale.list = res as Filiale[]
@@ -226,6 +237,7 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
 
             if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
               this.listCF = (res as EquipementFiliale[]).filter(x => x.filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+
             }
             else {
               this.listCF = res as EquipementFiliale[]
@@ -360,7 +372,7 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
         }
       });
 
-    return this.listCF;
+
   }
 
 
