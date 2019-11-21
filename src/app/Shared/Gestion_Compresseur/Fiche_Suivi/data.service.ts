@@ -177,13 +177,13 @@ export class DataService {
       equipementFilialeID: "",
       nbre_Heurs_Total: "",
       nbre_Heurs_Charge: "",
-      index_Electrique: "",
+      index_Electrique: 0,
       tempsArret: "",
       etat: "En_marche",
       files: "",
       nombreDeJoursOuvrablesDuMois: 0,
       pointDeRoseeDuSecheur: "",
-      index_Debitmetre: "",
+      index_Debitmetre: 0,
       fraisEntretienReparation: "",
       priseCompteurDernierEntretien: "",
       tHuileC: "",
@@ -229,4 +229,12 @@ export class DataService {
       environment.gestionCompresseursApi + "/EquipementFiliales/active"
     );
   }
+
+  getlistCopresseur_Secheur() {
+    return this.http.get(
+      environment.gestionCompresseursApi + "/EquipementFiliales/CompresseurSecheurFiliales"
+    );
+  }
 }
+
+

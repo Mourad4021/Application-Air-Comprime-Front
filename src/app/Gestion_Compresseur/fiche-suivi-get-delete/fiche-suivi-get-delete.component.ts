@@ -109,7 +109,7 @@
 
 
 
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { DataService } from "src/app/Shared/Gestion_Compresseur/Fiche_Suivi/data.service";
 import { MatDialog, MatDialogConfig } from "@angular/material";
 import { FicheSuivi } from "src/app/Shared/Gestion_Compresseur/Fiche_Suivi/fiche-suivi.model";
@@ -127,9 +127,14 @@ import { FicheSuiviComponent } from '../fiche-suivi/fiche-suivi.component';
   templateUrl: "./fiche-suivi-get-delete.component.html",
   styleUrls: []
 })
+export class FicheSuiviGetDeleteComponent implements OnInit, AfterViewInit {
+  ngAfterViewInit() {
 
-export class FicheSuiviGetDeleteComponent implements OnInit {
-  @ViewChild('customCheck1') checkbox: ElementRef;
+    this.precMonthButton.nativeElement.click()
+    this.precMonthButton.nativeElement.click()
+  }
+  @ViewChild("precMonthButton") precMonthButton: ElementRef;
+
   constructor(
     public data: DataService,
     public dialog: MatDialog,
@@ -143,7 +148,6 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
     filiale: ["",],
     pMonth: false
   });
-
 
 
   selectFiliale() {
@@ -220,7 +224,9 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.checkbox.nativeElement.click()
+
+
+
     this.datafiliale.getFiliale().subscribe(
       res => {
         this.datafiliale.list = res as Filiale[]
@@ -231,6 +237,7 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
 
             if (this.authService.currentUserValue.Role_Utilisateur == 'Responsable') {
               this.listCF = (res as EquipementFiliale[]).filter(x => x.filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
+
             }
             else {
               this.listCF = res as EquipementFiliale[]
@@ -244,10 +251,9 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
             //   this.data.list = (res as FicheSuivi[]).filter(x => this.GetFilialeByIDCorrespondance(x.equipementFilialeID).filialeID == this.authService.currentUserValue.Filiale_Utilisateur)
             // }
             // else 
-
-            this.data.list = res as FicheSuivi[]
-
-
+            {
+              this.data.list = res as FicheSuivi[]
+            }
 
             console.log(this.data.list);
 
@@ -366,7 +372,7 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
         }
       });
 
-    return this.listCF;
+
   }
 
 
@@ -375,4 +381,7 @@ export class FicheSuiviGetDeleteComponent implements OnInit {
 
 
 }
+
+
+
 
