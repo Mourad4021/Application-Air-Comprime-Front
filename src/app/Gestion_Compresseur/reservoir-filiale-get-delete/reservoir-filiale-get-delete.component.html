@@ -1,11 +1,11 @@
 <div class="container-fluid mt-2">
-  <form [formGroup]="ReservoirFilialeSearchForm">
-      <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
+    <form [formGroup]="ReservoirFilialeSearchForm">
+        <div class="row w-500 p-2 m-1 mb-2 border rounded" style="background-color: whitesmoke">
 
-          <div class="col-md-3">
-              <div class="form-group">
-                  <label for="exampleFormControlSelect2">Filiale</label>
-                  <select class="form-control" id="exampleFormControlSelect2" formControlName="filialeID">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect2">Filiale</label>
+                    <select class="form-control" id="exampleFormControlSelect2" formControlName="filialeID">
       <option value=""></option>
       <option
         *ngFor="let filiale of FilialeList"
@@ -13,74 +13,74 @@
         >{{ filiale.nom }}</option
       >
     </select>
-              </div>
-          </div>
-          <div class="col-md-3">
-              <div class="form-group">
-                  <label>Réservoir</label>
-                  <input type="text" class="form-control" id="" placeholder="" formControlName="nom" />
-              </div>
-          </div>
-      </div>
-  </form>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Réservoir</label>
+                    <input type="text" class="form-control" id="" placeholder="" formControlName="nom" />
+                </div>
+            </div>
+        </div>
+    </form>
 
-  <div class="p-1">
+    <div class="p-1">
 
-      <button (click)="onCreateEquipementFiliale()" class="btn btn-info ">
+        <button (click)="onCreateEquipementFiliale()" class="btn btn-info ">
     <i class="pe-7s-plus " style="padding-right: 5px"></i>
     Ajouter
   </button>
 
-      <div class="table-responsive">
+        <div class="table-responsive">
 
-          <table class="table  table-bordered table-light mt-1 ">
-              <thead>
-                  <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+            <table class="table  table-bordered table-light mt-1 ">
+                <thead>
+                    <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
 
-                      <!-- <th>ID</th> -->
-                      <th class="align-middle">Filiale</th>
-                      <th class="align-middle">Réservoirs</th>
-                      <th class="align-middle">Capacité du Réservoir (en l)</th>
-                      <th class="align-middle">PMS (bar)</th>
-                      <th class="align-middle">PE (bar)</th>
-                      <th class="align-middle">Année de fabrication</th>
-
-
-
-                      <th></th>
-                  </tr>
-              </thead>
-
-              <tbody>
-                  <tr *ngFor="let EF of reservoirFilialeService.listActiveEquipementFiliale | filter:ReservoirFilialeSearchForm.value | paginate: { id: 'EquipementFilialePagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
-                      <!-- <td>{{EquipementFiliale.EquipementFilialeID}}</td> -->
-                      <td class="align-middle">{{ GetFilialeNameByIDCorrespondance(EF.filialeID)?.nom }}</td>
-                      <td class="align-middle">{{ EF.nom }}</td>
-                      <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.capacite }}</td>
-                      <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.pms }}</td>
-                      <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.pe }}</td>
-                      <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.anneeFabrication }}</td>
+                        <!-- <th>ID</th> -->
+                        <th class="align-middle">Filiale</th>
+                        <th class="align-middle">Réservoirs</th>
+                        <th class="align-middle">Capacité du Réservoir (en l)</th>
+                        <th class="align-middle">PMS (bar)</th>
+                        <th class="align-middle">PE (bar)</th>
+                        <th class="align-middle">Année de fabrication</th>
 
 
 
-                      <td class="align-middle">
-                          <button class="btn btn-danger" (click)="onDelete(EF.equipementFilialeID)">
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let EF of reservoirFilialeService.listActiveEquipementFiliale | filter:ReservoirFilialeSearchForm.value | paginate: { id: 'EquipementFilialePagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
+                        <!-- <td>{{EquipementFiliale.EquipementFilialeID}}</td> -->
+                        <td class="align-middle">{{ GetFilialeNameByIDCorrespondance(EF.filialeID)?.nom }}</td>
+                        <td class="align-middle">{{ EF.nom }}</td>
+                        <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.capacite }}</td>
+                        <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.pms }}</td>
+                        <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.pe }}</td>
+                        <td class="align-middle" style="background-color: #c1bfc4;">{{ GetReservoirByIDCorrespondance(EF.equipementID)?.anneeFabrication }}</td>
+
+
+
+                        <td class="align-middle">
+                            <button class="btn btn-danger" (click)="onDelete(EF.equipementFilialeID)">
         
         <i class="pe-7s-trash "></i>
       </button>
-                          <button class="btn btn-info " (click)="onEdit(EF)">
+                            <button class="btn btn-info " (click)="onEdit(EF)">
         
         <i class="pe-7s-pen" ></i>
       </button>
 
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          <pagination-controls id="EquipementFilialePagination" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
-          </pagination-controls>
-      </div>
-  </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls id="EquipementFilialePagination" (pageChange)="p=$event" previousLabel="Prc" nextLabel="Suiv">
+            </pagination-controls>
+        </div>
+    </div>
 
 
 
