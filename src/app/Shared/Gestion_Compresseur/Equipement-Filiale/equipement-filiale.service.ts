@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { EquipementFiliale } from './equipement-filiale.model';
 
@@ -53,9 +53,7 @@ export class EquipementFilialeService {
     return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/active')
   }
   putCompresseurSecheurFilialeForFakeDelete(equipementFilialeID) {
-    let CompresseurSecheurFiliale = this.CompresseurSecheurFilialeList.find(x => x.equipementFilialeID == equipementFilialeID)
-    CompresseurSecheurFiliale.active = false;
-    return this.httpClient.put(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFiliales/', CompresseurSecheurFiliale, { responseType: 'text' })
+    return this.httpClient.put(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFilialesFakeDelete?equipementFilialeID=' + equipementFilialeID, '', { responseType: 'text' })
   }
   getCompresseursFiliales() {
     return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseursFiliales')
@@ -91,7 +89,7 @@ export class EquipementFilialeService {
       equipementFilialeCompSechID: '00000000-0000-0000-0000-000000000000',
       efid: '00000000-0000-0000-0000-000000000000',
       prixAcquisition: 0,
-      dateAcquisition: '',
+      dateAcquisition: "2019-01-01",
       numSerie: 0,
       haveDebitMetre: true,
       haveElectricCounter: true

@@ -343,5 +343,3 @@ export class FicheSuiviComponent implements OnInit, OnChanges {
 
   }
 }
-
-

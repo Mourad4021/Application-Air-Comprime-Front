@@ -1,197 +1,156 @@
 <form [formGroup]="FicheSuiviSearchFormc" [hidden]="false">
-  <div
-    class="row  p-2 m-1 mb-2 border rounded "
-   
-  >
-  <strong>Date</strong>  
+    <div class="row  p-2 m-1 mb-2 border rounded ">
+        <strong>Date</strong>
         <div class="col-md-3 mx-left">
-            <input
-          type="date"
-          class="form-control  form-control-sm"
-          id=""
-          placeholder=""
-          formControlName="date"
-        />
-       
-      </div>
-    <div class="col">
+            <input type="date" class="form-control  form-control-sm" id="" placeholder="" formControlName="date" />
+
+        </div>
+        <div class="col">
+
+        </div>
 
     </div>
-   
-  </div>
 </form>
 
 <table class="table  table-bordered table-responsive table-hover mt-1 ">
-  <thead  class="">
-    <tr 
-      style="color: white; text-align: center; font-size: 75%;"
-      class="bg-primary "
-    >
-      <th rowspan="list.length" class="align-middle">Filiale</th>
-      <th rowspan="list.length" class="align-middle">Compresseur</th>
-      <th class="align-middle">Date</th>
-      <th class="align-middle">Nombre total d'heures (<small class="badge badge-pill badge-secondary">h</small>)</th>
-      <th class="align-middle">Nbre d'heures en charge(<small class="badge badge-pill badge-secondary">h</small>)</th>
-      <th class="align-middle">Index Compteur Électrique (<small class="badge badge-pill badge-secondary">kWh</small>)</th>
-     
-      <th class="align-middle">index Debitmetre (<small class="badge badge-pill badge-secondary">Nm3</small>)</th> 
-      <th class="align-middle">Temps d'arrêt/panne (<small class="badge badge-pill badge-secondary">h</small>)</th>
-      <th class="align-middle">Etat</th>
-     
-      <!-- <th class="align-middle">
+    <thead class="">
+        <tr style="color: white; text-align: center; font-size: 75%;" class="bg-primary ">
+            <th rowspan="list.length" class="align-middle">Filiale</th>
+            <th rowspan="list.length" class="align-middle">Compresseur</th>
+            <th class="align-middle">Date</th>
+            <th class="align-middle">Nombre total d'heures (<small class="badge badge-pill badge-secondary">h</small>)</th>
+            <th class="align-middle">Nbre d'heures en charge(<small class="badge badge-pill badge-secondary">h</small>)</th>
+            <th class="align-middle">Index Compteur Électrique (<small class="badge badge-pill badge-secondary">kWh</small>)</th>
+
+            <th class="align-middle">index Debitmetre (<small class="badge badge-pill badge-secondary">Nm3</small>)</th>
+            <th class="align-middle">Temps d'arrêt/panne (<small class="badge badge-pill badge-secondary">h</small>)</th>
+            <th class="align-middle">Etat</th>
+
+            <!-- <th class="align-middle">
                   Fréquence d'entretien du déshuileur (circuit air comprimé)
               </th> -->
-      <!-- <th class="align-middle">Courant absorbé/phase</th> -->
-      <th class="align-middle">Type du Dernier Entretien</th>
-      <th class="align-middle">Frais d’Entretien et de Réparation</th>
-      <th class="align-middle">Piece jointe</th>
-      <th class="align-middle">Prise compteur dernier entretien (<small class="badge badge-pill badge-secondary">h</small>)</th>
-      <th class="align-middle">Thuile (°C)</th>
-      <th class="align-middle">Point de Rosée (<small class="badge badge-pill badge-secondary">°C/Indicateur</small>)</th>
-      
-      <th class="align-middle">Nbre d'heures de production de l'usine (<small class="badge badge-pill badge-secondary">h</small>)</th>
-      <th class="align-middle">	Nbre de Jours Ouvrables du mois (<small class="badge badge-pill badge-secondary">h</small>)</th>
-      <th class="align-middle">Remarques</th>
-      <th
-      class="align-middle"
-        style="width: 180px!important"
-        [hidden]="authService.currentUserRole == 'Admin'"
-      >
-      Actions
-    </th>
-    </tr>
-  </thead>
+            <!-- <th class="align-middle">Courant absorbé/phase</th> -->
+            <th class="align-middle">Type du Dernier Entretien</th>
+            <th class="align-middle">Frais d’Entretien et de Réparation</th>
+            <th class="align-middle">Piece jointe</th>
+            <th class="align-middle">Prise compteur dernier entretien (<small class="badge badge-pill badge-secondary">h</small>)</th>
+            <th class="align-middle">Thuile (°C)</th>
+            <th class="align-middle">Point de Rosée (<small class="badge badge-pill badge-secondary">°C/Indicateur</small>)</th>
 
-  <tbody >
-    <tr
-      *ngFor="
+            <th class="align-middle">Nbre d'heures de production de l'usine (<small class="badge badge-pill badge-secondary">h</small>)</th>
+            <th class="align-middle"> Nbre de Jours Ouvrables du mois (<small class="badge badge-pill badge-secondary">h</small>)</th>
+            <th class="align-middle">Remarques</th>
+            <th class="align-middle" style="width: 180px!important" [hidden]="authService.currentUserRole == 'Admin'">
+                Actions
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr *ngFor="
         let g of list
           | filter: FicheSuiviSearchFormc.value
           | paginate: { id: idFS, itemsPerPage: 5, currentPage: pg };
         let i = index
-      "
-      style="background-color: white"
-      [hidden]="authService.currentUserRole == 'Admin'" 
-    >
-    <!-- pourquoi tr hidden si admin ? -->
-      <td [attr.rowspan]="list.length" *ngIf="i == 0" class="align-middle ">
-        <strong>
+      " style="background-color: white" [hidden]="authService.currentUserRole == 'Admin'">
+            <!-- pourquoi tr hidden si admin ? -->
+            <td [attr.rowspan]="list.length" *ngIf="i == 0" class="align-middle ">
+                <strong>
          {{ GetFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
         </strong>
-      </td>
-      <td [attr.rowspan]="list.length" *ngIf="i == 0" class="align-middle ">
-        <strong>
+            </td>
+            <td [attr.rowspan]="list.length" *ngIf="i == 0" class="align-middle ">
+                <strong>
            {{ GetCompFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}
         </strong>
-      </td>
-      <!-- <td rowspan="0" *ngIf="i == 0" class="align-middle"></td> -->
-      <td class="align-middle"><span class="badge">{{ g.date | date: "dd/MM/yyyy" }}</span></td>
-      <td class="align-middle">{{ g.nbre_Heurs_Total }}</td>
-      <td class="align-middle">{{ g.nbre_Heurs_Charge }}</td>
-      <td class="align-middle">{{ g.index_Electrique }}</td>  
-          <td class="align-middle">{{ g.index_Debitmetre }}</td>
-      <td class="align-middle">{{ g.tempsArret }}</td>
-      <td class="align-middle">
-      <small class="badge badge-pill badge-success"  *ngIf="g.etat == 0">En marche</small>
-      <small class="badge badge-pill badge-danger"  *ngIf="g.etat == 1">En panne</small>
-      <small class="badge badge-pill badge-warning"  *ngIf="g.etat == 2">En réserve</small>
-    </td>
-    <td class="align-middle">
-        <small  *ngIf="g.typeDernierEntretien == 0"class="badge badge-pill badge-success">A</small>
-      <small *ngIf="g.typeDernierEntretien == 1"class="badge badge-pill badge-info">B</small>
-    <small *ngIf="g.typeDernierEntretien == 2"class="badge badge-pill badge-warning">C</small>
-    <small *ngIf="g.typeDernierEntretien == 3"class="badge badge-pill badge-danger">D</small>
-     </td>
-    <td class="align-middle">{{ g.fraisEntretienReparation }}</td>
-     <td>
-        <app-attachement-list
-          [id]="g.ficheSuiviID"
-          [objet]="'FicheSuivi'"
-        ></app-attachement-list>
-      </td>
-      <td class="align-middle">{{ g.priseCompteurDernierEntretien }}</td>
-      <td class="align-middle">{{ g.tHuileC }}</td>
-      <td class="align-middle "><span [className]="g.pointDeRoseeDuSecheur<=3 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-danger'">{{ g.pointDeRoseeDuSecheur }}</span></td>
+            </td>
+            <!-- <td rowspan="0" *ngIf="i == 0" class="align-middle"></td> -->
+            <td class="align-middle"><span class="badge">{{ g.date | date: "dd/MM/yyyy" }}</span></td>
+            <td class="align-middle">{{ g.nbre_Heurs_Total }}</td>
+            <td class="align-middle">{{ g.nbre_Heurs_Charge }}</td>
+            <td class="align-middle">{{ g.index_Electrique }}</td>
+            <td class="align-middle">{{ g.index_Debitmetre }}</td>
+            <td class="align-middle">{{ g.tempsArret }}</td>
+            <td class="align-middle">
+                <small class="badge badge-pill badge-success" *ngIf="g.etat == 0">En marche</small>
+                <small class="badge badge-pill badge-danger" *ngIf="g.etat == 1">En panne</small>
+                <small class="badge badge-pill badge-warning" *ngIf="g.etat == 2">En réserve</small>
+            </td>
+            <td class="align-middle">
+                <small *ngIf="g.typeDernierEntretien == 0" class="badge badge-pill badge-success">A</small>
+                <small *ngIf="g.typeDernierEntretien == 1" class="badge badge-pill badge-info">B</small>
+                <small *ngIf="g.typeDernierEntretien == 2" class="badge badge-pill badge-warning">C</small>
+                <small *ngIf="g.typeDernierEntretien == 3" class="badge badge-pill badge-danger">D</small>
+            </td>
+            <td class="align-middle">{{ g.fraisEntretienReparation }}</td>
+            <td>
+                <app-attachement-list [id]="g.ficheSuiviID" [objet]="'FicheSuivi'"></app-attachement-list>
+            </td>
+            <td class="align-middle">{{ g.priseCompteurDernierEntretien }}</td>
+            <td class="align-middle">{{ g.tHuileC }}</td>
+            <td class="align-middle "><span [className]="g.pointDeRoseeDuSecheur<=3 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-danger'">{{ g.pointDeRoseeDuSecheur }}</span></td>
 
-      <th class="align-middle">{{g.nombreHeuresProductionUsineLeJourPrecedent}}</th>
-      <th class="align-middle">{{g.nombreDeJoursOuvrablesDuMois}}</th>
-  
-      <td class="align-middle">{{ g.remarques }}</td>
+            <th class="align-middle">{{g.nombreHeuresProductionUsineLeJourPrecedent}}</th>
+            <th class="align-middle">{{g.nombreDeJoursOuvrablesDuMois}}</th>
 
-      <td class="align-middle"
-        style="width: 180px!important"
-        [hidden]="authService.currentUserRole == 'Admin'"
-      >
-        <button (click)="onEdit(g)" class=" d-inline btn btn-info mr-1">
+            <td class="align-middle">{{ g.remarques }}</td>
+
+            <td class="align-middle" style="width: 180px!important" [hidden]="authService.currentUserRole == 'Admin'">
+                <button (click)="onEdit(g)" class=" d-inline btn btn-info mr-1">
           <span class="pe-7s-pen"></span>
         </button>
 
-        <button
-          (click)="delete(g.ficheSuiviID)"
-          class="btn btn-danger d-inline"
-          *ngIf="authService.currentUserRole != 'Responsable'"
-        >
+                <button (click)="delete(g.ficheSuiviID)" class="btn btn-danger d-inline" *ngIf="authService.currentUserRole != 'Responsable'">
           <span class=" pe-7s-trash"></span>
         </button>
-      </td>
-    </tr>
-  </tbody>
+            </td>
+        </tr>
+    </tbody>
 
-  <tfoot >
-    <tr class="bg-secondary">
-      <td
-       
-      >
-      <span 
-        [hidden]="authService.currentUserRole != 'Admin'"> {{ GetFilialeByIDCorrespondance(equipementFilialeIDg)?.nom }}</span>
-       
-      </td>
+    <tfoot>
+        <tr class="bg-secondary">
+            <td>
+                <span [hidden]="authService.currentUserRole != 'Admin'"> {{ GetFilialeByIDCorrespondance(equipementFilialeIDg)?.nom }}</span>
 
-      <td
-        
-       
-      >
-      <span [hidden]="authService.currentUserRole != 'Admin'">
+            </td>
+
+            <td>
+                <span [hidden]="authService.currentUserRole != 'Admin'">
          {{ GetCompFilialeByIDCorrespondance(equipementFilialeIDg)?.nom }}
       </span>
-       
-      </td>
-      <td> <small class="badge badge-light">{{ dateg | date: "MMM.yyyy" }}</small></td>
-      <td>{{ nbre_Heurs_Total }}</td>
-      <td>{{ nbre_Heurs_Charge }}</td>
-      <td>{{ index_Electrique }}</td>
-      <td >{{index_Debitmetre}}</td>
-      <td>{{ tempsArret }}</td>
-      <td>
-        <small  *ngIf="etat == 0"class="badge badge-pill badge-success">En marche</small>
-      <small *ngIf="etat == 1"class="badge badge-pill badge-danger">En panne</small>
-    <small *ngIf="etat == 2"class="badge badge-pill badge-warning">En réserve</small>
-  </td>
-  <td class="align-middle">
-      <small  *ngIf="typeDernierEntretien == 0"class="badge badge-pill badge-success">A</small>
-      <small *ngIf="typeDernierEntretien == 1"class="badge badge-pill badge-info">B</small>
-    <small *ngIf="typeDernierEntretien == 2"class="badge badge-pill badge-warning">C</small>
-    <small *ngIf="typeDernierEntretien == 3"class="badge badge-pill badge-danger">D</small>
-</td>
-      <td>{{ fraisEntretienReparation }}</td>
-      <td></td>
-      <td>{{ priseCompteurDernierEntretien }}</td>
-      <td>{{ tHuileC }}</td>
-      <td ><span [className]="pointDeRoseeDuSecheur<=3 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-danger'">{{ pointDeRoseeDuSecheur }}</span></td>
-      <td>{{nombreHeuresProductionUsineLeJourPrecedent}}</td>
-      <td>{{nombreDeJoursOuvrablesDuMois}}</td>
-      <td>{{ remarques }}</td>
 
-      <td     [hidden]="authService.currentUserRole == 'Admin'" ></td>
-     
-    </tr>
-  </tfoot>
+            </td>
+            <td> <small class="badge badge-light">{{ dateg | date: "MMM.yyyy" }}</small></td>
+            <td>{{ nbre_Heurs_Total }}</td>
+            <td>{{ nbre_Heurs_Charge }}</td>
+            <td>{{ index_Electrique }}</td>
+            <td>{{index_Debitmetre}}</td>
+            <td>{{ tempsArret }}</td>
+            <td>
+                <small *ngIf="etat == 0" class="badge badge-pill badge-success">En marche</small>
+                <small *ngIf="etat == 1" class="badge badge-pill badge-danger">En panne</small>
+                <small *ngIf="etat == 2" class="badge badge-pill badge-warning">En réserve</small>
+            </td>
+            <td class="align-middle">
+                <small *ngIf="typeDernierEntretien == 0" class="badge badge-pill badge-success">A</small>
+                <small *ngIf="typeDernierEntretien == 1" class="badge badge-pill badge-info">B</small>
+                <small *ngIf="typeDernierEntretien == 2" class="badge badge-pill badge-warning">C</small>
+                <small *ngIf="typeDernierEntretien == 3" class="badge badge-pill badge-danger">D</small>
+            </td>
+            <td>{{ fraisEntretienReparation }}</td>
+            <td></td>
+            <td>{{ priseCompteurDernierEntretien }}</td>
+            <td>{{ tHuileC }}</td>
+            <td><span [className]="pointDeRoseeDuSecheur<=3 ? 'badge badge-pill badge-success' : 'badge badge-pill badge-danger'">{{ pointDeRoseeDuSecheur }}</span></td>
+            <td>{{nombreHeuresProductionUsineLeJourPrecedent}}</td>
+            <td>{{nombreDeJoursOuvrablesDuMois}}</td>
+            <td>{{ remarques }}</td>
+
+            <td [hidden]="authService.currentUserRole == 'Admin'"></td>
+
+        </tr>
+    </tfoot>
 </table>
-<pagination-controls
-  id="{{ idFS }}"
-  (pageChange)="pg = $event"
-  previousLabel="Prc"
-  nextLabel="Suiv"
->
+<pagination-controls id="{{ idFS }}" (pageChange)="pg = $event" previousLabel="Prc" nextLabel="Suiv">
 </pagination-controls>
 <hr>
