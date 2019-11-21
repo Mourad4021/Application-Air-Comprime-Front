@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { EquipementFiliale } from './equipement-filiale.model';
 
@@ -9,7 +9,8 @@ import { EquipementFiliale } from './equipement-filiale.model';
   providedIn: 'root'
 })
 export class EquipementFilialeService {
-
+  filialeId: string;
+  userRole: string;
   CompresseurSecheurFilialeList: EquipementFiliale[];
   constructor(private httpClient: HttpClient, private fb: FormBuilder) {
 
@@ -28,6 +29,8 @@ export class EquipementFilialeService {
       prixAcquisition: [],
       dateAcquisition: [],
       numSerie: [],
+      haveDebitMetre: [],
+      haveElectricCounter: [],
       efid: []
     }
   )
@@ -35,10 +38,13 @@ export class EquipementFilialeService {
     return this.httpClient.post(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFiliales', this.AddOrUpdateCompresseurSecheurFiliale.value, { responseType: 'text' })
   }
   getDateNow() {
-    return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/DateNow')
+    return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/datenow')
   }
   getCompresseurSecheurFiliale() {
     return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFiliales')
+  }
+  getCompresseurFilialeParFilialeID() {
+    return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseursFilialesParFiliale?filialeID=' + this.filialeId)
   }
   putCompresseurSecheurFiliale() {
     return this.httpClient.put(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFiliales/', this.AddOrUpdateCompresseurSecheurFiliale.value, { responseType: 'text' })
@@ -47,9 +53,10 @@ export class EquipementFilialeService {
     return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/active')
   }
   putCompresseurSecheurFilialeForFakeDelete(equipementFilialeID) {
-    let CompresseurSecheurFiliale = this.CompresseurSecheurFilialeList.find(x => x.equipementFilialeID == equipementFilialeID)
-    CompresseurSecheurFiliale.active = false;
-    return this.httpClient.put(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFiliales/', CompresseurSecheurFiliale, { responseType: 'text' })
+    return this.httpClient.put(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseurSecheurFilialesFakeDelete?equipementFilialeID=' + equipementFilialeID, '', { responseType: 'text' })
+  }
+  getCompresseursFiliales() {
+    return this.httpClient.get(environment.gestionCompresseursApi + '/EquipementFiliales/CompresseursFiliales')
   }
 
 
@@ -65,6 +72,8 @@ export class EquipementFilialeService {
       prixAcquisition: EquipementFiliale.prixAcquisition,
       dateAcquisition: EquipementFiliale.dateAcquisition,
       numSerie: EquipementFiliale.numSerie,
+      haveDebitMetre: EquipementFiliale.haveDebitMetre,
+      haveElectricCounter: EquipementFiliale.haveElectricCounter,
       efid: EquipementFiliale.efid
     });
   }
@@ -80,8 +89,10 @@ export class EquipementFilialeService {
       equipementFilialeCompSechID: '00000000-0000-0000-0000-000000000000',
       efid: '00000000-0000-0000-0000-000000000000',
       prixAcquisition: 0,
-      dateAcquisition: '',
-      numSerie: 0
+      dateAcquisition: "2019-01-01",
+      numSerie: 0,
+      haveDebitMetre: true,
+      haveElectricCounter: true
     });
   }
 

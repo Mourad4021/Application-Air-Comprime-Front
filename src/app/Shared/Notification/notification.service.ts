@@ -204,9 +204,10 @@ function ToAddressValidator(control: AbstractControl): { [key: string]: boolean 
   return null;
 }
 function RequiredValidator(control: AbstractControl): { [key: string]: boolean } | null {
-
-  if (((JSON.parse(localStorage.getItem('currentUser')).Role_Utilisateur == 'Admin') || (JSON.parse(localStorage.getItem('currentUser')).Role_Utilisateur == 'SuperAdmin')) && control.value == '') {
-    return { ToAddressValidator: true };
+  if (JSON.parse(localStorage.getItem('currentUser')) !== null) {
+    if (((JSON.parse(localStorage.getItem('currentUser')).Role_Utilisateur == 'Admin') || (JSON.parse(localStorage.getItem('currentUser')).Role_Utilisateur == 'SuperAdmin')) && control.value == '') {
+      return { ToAddressValidator: true };
+    }
+    return null;
   }
-  return null;
 }

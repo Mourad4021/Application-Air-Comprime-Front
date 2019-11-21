@@ -1,95 +1,69 @@
 <div class="container-fluid mt-2">
-  <!-- //// saerch-->
+    <!-- //// saerch-->
 
-  <form [formGroup]="FilialeSearchForm">
-    <div
-      class="row w-500 p-2 m-1 mb-2 border rounded "
-      style="background-color: whitesmoke;"
-    >
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>Filiale</label>
-          <input
-            type="text"
-            class="form-control  form-control-sm"
-            id=""
-            placeholder=""
-            formControlName="nom"
-          />
+    <form [formGroup]="FilialeSearchForm">
+        <div class="row w-500 p-2 m-1 mb-2 border rounded " style="background-color: whitesmoke;">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Filiale</label>
+                    <input type="text" class="form-control  form-control-sm" id="" placeholder="" formControlName="nom" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label>Conformité d'exploitation</label>
+                    <input type="text" class="form-control  form-control-sm" id="" placeholder="" formControlName="conformite_d_Exploitation" />
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-2">
-        <div class="form-group">
-          <label>conformite_d_Exploitation</label>
-          <input
-            type="text"
-            class="form-control  form-control-sm"
-            id=""
-            placeholder=""
-            formControlName="conformite_d_Exploitation"
-          />
-        </div>
-      </div>
-    </div>
-  </form>
-  <!-- ///search -->
+    </form>
+    <!-- ///search -->
 
-  <button (click)="onCreate()" class="btn btn-info" [hidden]="authService.currentUserRole== 'Responsable'">
+    <button (click)="onCreate()" class="btn btn-info" [hidden]="authService.currentUserRole== 'Responsable'">
     <span class="pe-7s-plus pr-1"></span>
     Ajouter
   </button>
 
-  <div class="table-responsive">
-    <table class="table  table-bordered  mt-1 ">
-      <thead>
-        <tr
-          style="color: white; text-align: center;font-family:verdana; font-size: 75%;"
-          class="bg-primary"
-        >
-          <!-- <th>filialeID</th> -->
+    <div class="table-responsive">
+        <table class="table  table-bordered  mt-1 ">
+            <thead>
+                <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
+                    <!-- <th>filialeID</th> -->
 
-          <th class="align-middle">Filiales</th>
-          <th class="align-middle">Code</th>
-          <th class="align-middle">conformite_d_Exploitation</th>
+                    <th class="align-middle">Filiales</th>
+                    <th class="align-middle">Code</th>
+                    <th class="align-middle">Conformité d'exploitation</th>
 
-          <th style="width: 180px!important" [hidden]="authService.currentUserRole== 'Responsable'"></th>
-        </tr>
-      </thead>
+                    <th style="width: 180px!important" [hidden]="authService.currentUserRole== 'Responsable'"></th>
+                </tr>
+            </thead>
 
-      <tbody>
-        <tr
-          *ngFor="
+            <tbody>
+                <tr *ngFor="
             let g of data.listActive
               | filter: FilialeSearchForm.value
               | paginate
                 : { id: 'FilialePagination', itemsPerPage: 10, currentPage: p }
-          "
-          style="text-align:center;background-color: white"
-        >
-          <!-- <td>{{ g.filialeID }}</td> -->
+          " style="text-align:center;background-color: white">
+                    <!-- <td>{{ g.filialeID }}</td> -->
 
-          <td>{{ g.nom }}</td>
-          <td>{{ g.code }}</td>
-          <td>{{ g.conformite_d_Exploitation }}</td>
-          <td style="width: 180px!important" [hidden]="authService.currentUserRole== 'Responsable'">
-            <button (click)="onEdit(g)" class="btn btn-info mr-3">
+                    <td>{{ g.nom }}</td>
+                    <td>{{ g.code }}</td>
+                    <td>{{ g.conformite_d_Exploitation }}</td>
+                    <td style="width: 180px!important" [hidden]="authService.currentUserRole== 'Responsable'">
+                        <button (click)="onEdit(g)" class="btn btn-info mr-3">
               <span class="pe-7s-pen"></span>
             </button>
 
-            <button (click)="delete(g.filialeID)" class="btn btn-danger">
+                        <button (click)="delete(g.filialeID)" class="btn btn-danger">
               <span class=" pe-7s-trash"></span>
             </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-  <pagination-controls
-    id="FilialePagination"
-    (pageChange)="p = $event"
-    previousLabel="Prc"
-    nextLabel="Suiv"
-  >
-  </pagination-controls>
+    <pagination-controls id="FilialePagination" (pageChange)="p = $event" previousLabel="Prc" nextLabel="Suiv">
+    </pagination-controls>
 </div>

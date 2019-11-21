@@ -229,9 +229,12 @@ export class DataService {
       environment.gestionCompresseursApi + "/EquipementFiliales/active"
     );
   }
+
   getlistCopresseur_Secheur() {
     return this.http.get(
       environment.gestionCompresseursApi + "/EquipementFiliales/CompresseurSecheurFiliales"
     );
   }
 }
+
+

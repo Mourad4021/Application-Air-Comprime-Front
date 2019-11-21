@@ -54,6 +54,7 @@ export class EntretienCompresseurGetDeleteComponent implements OnInit {
 
   p: number = 1;
   ngOnInit() {
+
     this.data.getEntretienCompresseur().subscribe(
       res => {
         this.data.list = res as EntretienCompresseur[]
@@ -67,18 +68,21 @@ export class EntretienCompresseurGetDeleteComponent implements OnInit {
     this.datafiliale.getFiliale().subscribe(res => { this.datafiliale.list = res as Filiale[] });
     this.dataFicheCompresseur.getCompresseurList().subscribe(res => { this.dataFicheCompresseur.ListEquipement = res as Equipement[] });
     this.datafiliale.getFiliale().subscribe(res => {
-      this.datafiliale.list = res as Filiale[]
-
+      if (this.userRole == 'Responsable') {
+        this.datafiliale.list = (res as Filiale[]).filter(x => x.filialeID == this.filialeId)
+      }
       let currentUser = this.authenticationService.currentUserValue;
       if (currentUser && currentUser.Role_Utilisateur) {
         this.userRole = currentUser.Role_Utilisateur;
         this.filialeId = currentUser.Filiale_Utilisateur;
 
-        this.dataCF.getactiveEquipementFilialeList()
+        this.dataCF.getCompresseursFiliales()
           // .getEquipementFilialeList()
           .subscribe(res => {
+
             this.listCF = (res as EquipementFiliale[])
-            //.filter(x => x.active == true && x.filialeID == this.filialeId)
+            // .filter(x => x.filialeID == this.filialeId)
+
             this.data
               .getEntretienCompresseur()
               .toPromise()

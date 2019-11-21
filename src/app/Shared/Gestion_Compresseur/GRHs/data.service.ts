@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
 
 
+
 @Injectable({
   providedIn: "root"
 })
@@ -22,7 +23,8 @@ export class DataService {
     // charge_Total: new FormControl("", [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/)]),
     // compresseur_Pourcentage: new FormControl("", [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/)]),
     tauxAffectationAirComprime: new FormControl("", [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(0), Validators.max(100)]),
-    date: new FormControl("", [Validators.required])
+    date: new FormControl("", [Validators.required]),
+    chargesMensuelles: new FormControl("")
   });
 
   constructor(private http: HttpClient) { }
@@ -42,8 +44,11 @@ export class DataService {
     return this.http.delete(environment.gestionCompresseursApi + "/GRHs/" + gRhID,
       { responseType: "text" });
   }
-
+  // getdate() {
+  //   this.Service
+  // }
   putGRhs() {
+    this.form.controls.chargesMensuelles.setValue((this.form.controls.salaire.value * this.form.controls.tauxAffectationAirComprime.value) / 100)
     return this.http.put(
       environment.gestionCompresseursApi + "/GRHs/" + this.form.controls.gRhID.value,
       this.form.value,
@@ -52,6 +57,9 @@ export class DataService {
   }
 
   insertGRhs() {
+    this.form.controls.chargesMensuelles.setValue((this.form.controls.salaire.value * this.form.controls.tauxAffectationAirComprime.value) / 100)
+
+
     return this.http.post(
       environment.gestionCompresseursApi + "/GRHs",
       this.form.value,
@@ -70,7 +78,8 @@ export class DataService {
       // charge_Total: "",
       // compresseur_Pourcentage: "",
       tauxAffectationAirComprime: "",
-      date: ""
+      date: "",
+      chargesMensuelles: ""
     });
   }
 
@@ -85,7 +94,8 @@ export class DataService {
       // charge_Total: cons.charge_Total,
       // compresseur_Pourcentage: cons.compresseur_Pourcentage,
       tauxAffectationAirComprime: cons.tauxAffectationAirComprime,
-      date: cons.date
+      date: cons.date,
+      chargesMensuelles: cons.chargesMensuelles
     });
   }
 
@@ -95,5 +105,4 @@ export class DataService {
     );
   }
 }
-
 

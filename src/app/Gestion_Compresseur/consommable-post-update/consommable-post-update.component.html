@@ -1,92 +1,176 @@
 <mat-toolbar class="row " style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );">
-    <span class="col-md-5 "></span>
-    <span class="fill-remaining-space col-md-6"></span>
+    <span class="col-md-6 "></span>
+    <span class="fill-remaining-space col-md-5"></span>
     <button class=" btn-dialog-close col-md-1" mat-stroked-button (click)="onClose()" tabIndex="-1">
-    <span><b>X</b></span>
-  </button>
+      <span><b>X</b></span>
+      </button>
 </mat-toolbar>
-<form [formGroup]="data.form" class="normal-form" (submit)="onSubmit()">
-    <mat-grid-list cols="3">
-        <mat-grid-tile [colspan]="2">
-            <div class="controles-container row ">
-                <div class="col-md-5">
 
+<mat-dialog-content>
+    <form *ngIf="authService.currentUserRole == 'Admin'" [formGroup]="consommableService.AddOrUpdateConsommableForm" class="normal-form" (submit)="onSubmit()">
+        <mat-grid-list cols="2">
+            <mat-grid-tile class="col-md-10">
+
+                <div class="controles-container">
                     <input type="hidden" formControlName="consommableID" />
-                    <!-- <input type="hidden" formControlName="equipementFilialeID" /> -->
-                    <mat-form-field>
-                        <mat-select placeholder=" Selectionnez un compresseur" name="compFiliale" formControlName="equipementFilialeID">
-                            <mat-option *ngFor="let cf of listCF" [value]="cf.equipementFilialeID">{{ cf.nom }}
+                    <input type="hidden" formControlName="active" />
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Compresseur</mat-label>
+                        <mat-select formControlName="equipementFilialeID">
+                            <mat-option value=""></mat-option>
+                            <mat-option *ngFor="let compresseurFiliale of consommableService.ActiveCompresseurFiliale" [value]="compresseurFiliale.equipementFilialeID" disabled="true">
+                                {{ GetCompresseurFilialeByIDCorrespondance(compresseurFiliale.equipementFilialeID)?.nom }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <!-- <mat-form-field>
-                        <mat-select placeholder=" Selectionnez un filiale" name="compFiliale" formControlName="equipementFilialeID">
-                            <mat-option *ngFor="let cff of listF" [value]="cff.equipementFilialeID">{{ cf.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field> -->
-                    <mat-form-field class="">
-                        <input formControlName="consommationComp" matInput placeholder="Consommation comp." autocomplete="off" />
-                        <mat-error *ngIf="data.form.controls.consommationComp.errors?.required"> Ce champ est obligatoire
-                        </mat-error>
-                        <mat-error *ngIf="data.form.controls.consommationComp.errors?.pattern"> Ce champ est non valide
-                        </mat-error>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="consommationComp" matInput placeholder="Consommation Électrique Théorique (en kWh)" autocomplete="off" />
+                        <mat-error *ngIf="
+                            consommableService.AddOrUpdateConsommableForm
+                    .controls.consommationComp.errors?.required
+                ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
-                    <mat-form-field class="">
-                        <input formControlName="prixUnitaire" matInput placeholder="Prix unitaire" autocomplete="off" />
-                        <mat-error *ngIf="data.form.controls.prixUnitaire.errors?.required"> Ce champ est obligatoire
-                        </mat-error>
-                        <mat-error *ngIf="data.form.controls.prixUnitaire.errors?.pattern"> Ce champ est non valide
-                        </mat-error>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="prixUnitaire" matInput placeholder="Prix Unitaire du kWh (en DT/kWh)" autocomplete="off" />
+                        <mat-error *ngIf="
+                                consommableService.AddOrUpdateConsommableForm
+                        .controls.prixUnitaire.errors?.required
+                    ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
-                    <!-- <mat-form-field class="">
-                        <input formControlName="FraisElectriciteMensuel" matInput placeholder="FraisElectriciteMensuel" autocomplete="off" />
-                        <mat-error *ngIf="data.form.controls.FraisElectriciteMensuel.errors?.required"> Ce champ est obligatoire
-                        </mat-error>
-                        <mat-error *ngIf="data.form.controls.FraisElectriciteMensuel.errors?.pattern"> Ce champ est non valide
-                        </mat-error>
-                    
-                    </mat-form-field> -->
-
-
-
-
-                    <mat-form-field class="">
-                        <input formControlName="date" matInput placeholder="Date" type="date" autocomplete="off" />
-                        <mat-error>Ce champ est obligatoire</mat-error>
+                    <mat-form-field class="col-md-12">
+                        <input readonly formControlName="date" matInput placeholder="Date" autocomplete="off" type="date" />
+                        <mat-error *ngIf="
+                                    consommableService.AddOrUpdateConsommableForm
+                            .controls.date.errors?.required
+                        ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
+
+
+
+
 
                 </div>
 
-
-            </div>
-        </mat-grid-tile>
-        <mat-grid-tile [colspan]="1">
-            <div class="button-row">
-                <button mat-raised-button color="primary" type="submit" [disabled]="data.form.invalid" class="col-md-12">
-          <span *ngIf="  data.form.controls.consommableID.value ==  '00000000-0000-0000-0000-000000000000'
-              "><i class="pe-7s-plus" style="padding-right: 5px"></i>Ajouter</span><span *ngIf="
-                data.form.controls.consommableID.value !=
+            </mat-grid-tile>
+            <mat-grid-tile class="col-md-12">
+                <div class="button-row">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="
+                        consommableService.AddOrUpdateConsommableForm
+                .invalid
+            " class="col-md-12">
+            <span
+              *ngIf="
+              consommableService.AddOrUpdateConsommableForm
+                  .controls.consommableID.value ==
                 '00000000-0000-0000-0000-000000000000'
-              "><i class="pe-7s-pen" style="padding-right: 5px"></i>Modifier</span>
-        </button>
-        <button
-        mat-raised-button
-        color="warn"
-        type="button"
-        *ngIf="
-        data.form.controls
-          .consommableID.value ==
-        '00000000-0000-0000-0000-000000000000'
-      "
-        (click)="onClear()"
-        class="col-md-12"
-        style="margin-top: 7px"
-      >
-                <!-- <button mat-raised-button color="warn" (click)="onClear()" class="col-md-12" style="margin-top: 7px"> -->
-          <i class="pe-7s-less" style="padding-right: 5px"></i>Vider
-        </button>
-            </div>
-        </mat-grid-tile>
-    </mat-grid-list>
-</form>
+              "
+              ><i class="pe-7s-plus" style="padding-right: 5px"></i>
+              Ajouter</span
+            ><span
+              *ngIf="
+              consommableService.AddOrUpdateConsommableForm
+                  .controls.consommableID.value !=
+                '00000000-0000-0000-0000-000000000000'
+              "
+              ><i class="pe-7s-pen" style="padding-right: 5px"></i
+              >Modifier</span
+            >
+          </button>
+
+                    <button mat-raised-button color="warn" type="button" (click)="onClear()" class="col-md-12" style="margin-top: 7px">
+            <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
+          </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </form>
+
+
+
+
+
+
+
+
+
+
+
+
+    <form *ngIf="authService.currentUserRole!= 'Admin'" [formGroup]="consommableService.AddOrUpdateConsommableForm" class="normal-form" (submit)="onSubmit()">
+        <mat-grid-list cols="2">
+            <mat-grid-tile class="col-md-10">
+
+                <div class="controles-container">
+                    <input type="hidden" formControlName="consommableID" />
+                    <input type="hidden" formControlName="active" />
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Compresseur</mat-label>
+                        <mat-select formControlName="equipementFilialeID">
+                            <mat-option value=""></mat-option>
+                            <mat-option *ngFor="let compresseurFiliale of consommableService.ActiveCompresseurFiliale" [value]="compresseurFiliale.equipementFilialeID">
+                                {{ GetCompresseurFilialeByIDCorrespondance(compresseurFiliale.equipementFilialeID)?.nom }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="consommationComp" matInput placeholder="Consommation Électrique Théorique (en kWh)" autocomplete="off" />
+                        <mat-error *ngIf="
+                                consommableService.AddOrUpdateConsommableForm
+                        .controls.consommationComp.errors?.required
+                    ">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="prixUnitaire" matInput placeholder="Prix Unitaire du kWh (en DT/kWh)" autocomplete="off" />
+                        <mat-error *ngIf="
+                                    consommableService.AddOrUpdateConsommableForm
+                            .controls.prixUnitaire.errors?.required
+                        ">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12">
+                        <input formControlName="date" matInput placeholder="Date" autocomplete="off" type="date" />
+                        <mat-error *ngIf="
+                                        consommableService.AddOrUpdateConsommableForm
+                                .controls.date.errors?.required
+                            ">Ce champ est obligatoire</mat-error>
+                    </mat-form-field>
+
+
+
+
+
+                </div>
+
+            </mat-grid-tile>
+            <mat-grid-tile class="col-md-12">
+                <div class="button-row">
+                    <button mat-raised-button color="primary" type="submit" [disabled]="
+                            consommableService.AddOrUpdateConsommableForm
+                    .invalid
+                " class="col-md-12">
+                <span
+                  *ngIf="
+                  consommableService.AddOrUpdateConsommableForm
+                      .controls.consommableID.value ==
+                    '00000000-0000-0000-0000-000000000000'
+                  "
+                  ><i class="pe-7s-plus" style="padding-right: 5px"></i>
+                  Ajouter</span
+                ><span
+                  *ngIf="
+                  consommableService.AddOrUpdateConsommableForm
+                      .controls.consommableID.value !=
+                    '00000000-0000-0000-0000-000000000000'
+                  "
+                  ><i class="pe-7s-pen" style="padding-right: 5px"></i
+                  >Modifier</span
+                >
+              </button>
+
+                    <button mat-raised-button color="warn" type="button" (click)="onClear()" class="col-md-12" style="margin-top: 7px">
+                <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
+              </button>
+                </div>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </form>
+</mat-dialog-content>

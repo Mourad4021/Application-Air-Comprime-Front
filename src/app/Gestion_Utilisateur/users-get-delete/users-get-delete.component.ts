@@ -37,7 +37,7 @@ export class UsersGetDeleteComponent implements OnInit {
   list: Filiale[];
   ngOnInit() {
     this.dataFilialeservice.getFiliale().subscribe(res => {
-      this.dataFilialeservice.list = res as Filiale[];
+      this.dataFilialeservice.list = (res as Filiale[]).filter(x => x.active == true)
     });
     this.data.getUsers();
   }

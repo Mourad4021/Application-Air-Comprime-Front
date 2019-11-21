@@ -23,8 +23,9 @@ export class DataFilialeService {
 
   getFiliale() {
     return this.http.get(environment.gestionUtilisateurApi + "/Filiale");
-    //  .toPromise()
-    // .then(res => (this.list = res as Filiale[]));
+  }
+  getActiveFiliale() {
+    return this.http.get(environment.gestionUtilisateurApi + "/Filiale/active");
   }
 
   DeleteFiliale(filialeID) {

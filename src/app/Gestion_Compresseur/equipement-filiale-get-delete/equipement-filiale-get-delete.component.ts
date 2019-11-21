@@ -96,8 +96,10 @@ export class EquipementFilialeGetDeleteComponent implements OnInit {
 
   onDeleteCompresseurSecheurFiliale(equipementFilialeID) {
     if (confirm("Vous êtes sûr de vouloir supprimer")) {
+
       this.equipementFilialeService.putCompresseurSecheurFilialeForFakeDelete(equipementFilialeID).subscribe(
         res => {
+
           if (res == "Update Done") {
             this.dialog.closeAll()
             this.ngOnInit()

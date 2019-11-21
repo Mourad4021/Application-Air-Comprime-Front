@@ -19,47 +19,55 @@
       <div class="controles-container row ">
         <div class="col-md-5">
           <input type="hidden" formControlName="gRhID" />
-           <input type="hidden" formControlName="equipementFilialeID" />
-          <mat-form-field *ngIf="
+          <input type="hidden" formControlName="equipementFilialeID" />
+          <mat-form-field
+            *ngIf="
               data.form.controls.gRhID.value ==
               '00000000-0000-0000-0000-000000000000'
-            ">
+            "
+          >
             <mat-select
               placeholder=" Selectionnez un compresseur"
               name="compFiliale"
               formControlName="equipementFilialeID"
             >
-              <mat-option *ngFor="let cf of listCF" [value]="cf.equipementFilialeID"
+              <mat-option
+                *ngFor="let cf of listCF"
+                [value]="cf.equipementFilialeID"
                 >{{ cf.nom }}
               </mat-option>
             </mat-select>
-          </mat-form-field> 
+          </mat-form-field>
 
-          <mat-form-field class="" >
-            <input *ngIf="data.form.controls.gRhID.value == '00000000-0000-0000-0000-000000000000'"
+          <mat-form-field class="">
+            <input
+              *ngIf="
+                data.form.controls.gRhID.value ==
+                '00000000-0000-0000-0000-000000000000'
+              "
               type="date"
               formControlName="date"
               matInput
               placeholder="Date"
               autocomplete="off"
             />
-            <input *ngIf="data.form.controls.gRhID.value != '00000000-0000-0000-0000-000000000000'"
-            
+            <input
+              *ngIf="
+                data.form.controls.gRhID.value !=
+                '00000000-0000-0000-0000-000000000000'
+              "
               formControlName="date"
-              
               matInput
               placeholder="Date"
               autocomplete="off"
-             [value]="data.form.controls.date.value|date:'dd/MM/yyyy'"
-             [readonly]="authenticationService.currentUserRole == 'Admin'"
+              [value]="data.form.controls.date.value | date: 'dd/MM/yyyy'"
+              [readonly]="authenticationService.currentUserRole == 'Admin'"
             />
             <mat-error>Ce champ est obligatoire</mat-error>
           </mat-form-field>
 
-          
-          
           <mat-form-field class="">
-            <input 
+            <input
               formControlName="salaire"
               matInput
               placeholder="Salaire"
@@ -99,25 +107,29 @@
               autocomplete="off"
             />
             <mat-error
-              *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.required"
+              *ngIf="
+                data.form.controls.tauxAffectationAirComprime.errors?.required
+              "
             >
               Ce champ est obligatoire
             </mat-error>
             <mat-error
-              *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.pattern"
+              *ngIf="
+                data.form.controls.tauxAffectationAirComprime.errors?.pattern
+              "
             >
               Ce champ est non valide
             </mat-error>
             <mat-error
-            *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.min"
-          >
-            Ce champ doit être supérieur à 0%
-          </mat-error>
-          <mat-error
-          *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.max"
-        >
-        Ce champ doit être inférieur à 100%
-        </mat-error>
+              *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.min"
+            >
+              Ce champ doit être supérieur à 0%
+            </mat-error>
+            <mat-error
+              *ngIf="data.form.controls.tauxAffectationAirComprime.errors?.max"
+            >
+              Ce champ doit être inférieur à 100%
+            </mat-error>
           </mat-form-field>
         </div>
         <!-- <div class="col-md-5">
@@ -219,19 +231,18 @@
           class="col-md-12"
           style="margin-top: 7px"
    > -->
-   <button
-   mat-raised-button
-   color="warn"
-   type="button"
-   *ngIf="
-   data.form.controls
-     .gRhID.value ==
-   '00000000-0000-0000-0000-000000000000'
- "
-   (click)="onClear()"
-   class="col-md-12"
-   style="margin-top: 7px"
- >
+        <button
+          mat-raised-button
+          color="warn"
+          type="button"
+          *ngIf="
+            data.form.controls.gRhID.value ==
+            '00000000-0000-0000-0000-000000000000'
+          "
+          (click)="onClear()"
+          class="col-md-12"
+          style="margin-top: 7px"
+        >
           <i class="pe-7s-less" style="padding-right: 5px"></i>Vider
         </button>
       </div>
