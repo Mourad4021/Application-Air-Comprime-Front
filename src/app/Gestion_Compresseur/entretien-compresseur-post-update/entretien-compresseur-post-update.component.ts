@@ -30,6 +30,8 @@ export class EntretienCompresseurPostUpdateComponent implements OnInit {
   ) { }
   frequence1: number = 0
   frequence: number = 0
+  frequence3: number = 0
+  frequence4: number = 4
   ListF: Fournisseur[];
   ListFicheCompresseur: Equipement[];
   equipementFilialeID: string
@@ -151,6 +153,10 @@ export class EntretienCompresseurPostUpdateComponent implements OnInit {
   }
 
   updateEntretienCompresseur() {
+    this.frequence4 = this.GetFrequenceEntretienByIDCorrespondance(this.data.AddOrUpdateEntretienCompresseurForm.controls.equipementFilialeID.value);
+    this.frequence3 = this.data.AddOrUpdateEntretienCompresseurForm.controls.priseCompteurDernierEntretien.value;
+    var sum: number = Number(this.frequence4) + Number(this.frequence3);
+    this.data.AddOrUpdateEntretienCompresseurForm.controls.valeurCompteurProchainEntretien.setValue(sum)
 
 
     this.data.updateEntretienCompresseur().subscribe(
