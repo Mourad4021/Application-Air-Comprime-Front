@@ -2,13 +2,13 @@
     <span class="col-md-6 "></span>
     <span class="fill-remaining-space col-md-5"></span>
     <button class=" btn-dialog-close col-md-1" mat-stroked-button (click)="onClose()" tabIndex="-1">
-<span><b>X</b></span>
-</button>
+      <span><b>X</b></span>
+      </button>
 </mat-toolbar>
 
 
 
-<mat-grid-tile>
+<mat-dialog-content>
     <form [formGroup]="equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale" class="normal-form" (submit)="onSubmit()">
         <mat-grid-list cols="2">
             <mat-grid-tile class="col-md-10">
@@ -19,8 +19,8 @@
                     <input type="hidden" formControlName="equipementFilialeCompSechID" />
                     <input type="hidden" formControlName="efid" />
                     <input type="hidden" formControlName="active" />
-                    <input type="hidden" formControlName="haveDebitMetre" />
                     <input type="hidden" formControlName="haveElectricCounter" />
+                    <input type="hidden" formControlName="haveDebitMetre" />
 
                     <mat-form-field class="col-md-12">
                         <mat-label>Type Equipement</mat-label>
@@ -56,34 +56,34 @@
                     <mat-form-field class="col-md-12">
                         <input formControlName="nom" matInput placeholder="Nom" autocomplete="off" type="text" input-clear />
                         <mat-error *ngIf="
-                    equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-              .controls.nom.errors?.required
-          ">Ce champ est obligatoire</mat-error>
+                          equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
+                    .controls.nom.errors?.required
+                ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
 
 
                     <mat-form-field class="col-md-12">
                         <input formControlName="prixAcquisition" matInput placeholder="Prix d’Acquisition (DT)" autocomplete="off" />
                         <mat-error *ngIf="
-                    equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-              .controls.prixAcquisition.errors?.required
-          ">Ce champ est obligatoire</mat-error>
+                          equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
+                    .controls.prixAcquisition.errors?.required
+                ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-12">
                         <input formControlName="numSerie" matInput placeholder="N° de Série" autocomplete="off" />
                         <mat-error *ngIf="
-                    equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-              .controls.numSerie.errors?.required
-          ">Ce champ est obligatoire</mat-error>
+                          equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
+                    .controls.numSerie.errors?.required
+                ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
 
                     <mat-form-field class="col-md-12">
                         <input formControlName="dateAcquisition" matInput placeholder="Date d’Acquisition" autocomplete="off" type="date" />
                         <mat-error *ngIf="
-                    equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-              .controls.dateAcquisition.errors?.required
-          ">Ce champ est obligatoire</mat-error>
+                          equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
+                    .controls.dateAcquisition.errors?.required
+                ">Ce champ est obligatoire</mat-error>
                     </mat-form-field>
 
                 </div>
@@ -91,33 +91,33 @@
             <mat-grid-tile class="col-md-12">
                 <div class="button-row">
                     <button mat-raised-button color="primary" type="submit" [disabled]="
+                      equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
+                  .invalid
+              " class="col-md-12">
+              <span
+                *ngIf="
                 equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-            .invalid
-        " class="col-md-12">
-        <span
-          *ngIf="
-          equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-              .controls.equipementFilialeID.value ==
-            '00000000-0000-0000-0000-000000000000'
-          "
-          ><i class="pe-7s-plus" style="padding-right: 5px"></i>
-          Ajouter</span
-        ><span
-          *ngIf="
-          equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
-              .controls.equipementFilialeID.value !=
-            '00000000-0000-0000-0000-000000000000'
-          "
-          ><i class="pe-7s-pen" style="padding-right: 5px"></i
-          >Modifier</span
-        >
-      </button>
+                    .controls.equipementFilialeID.value ==
+                  '00000000-0000-0000-0000-000000000000'
+                "
+                ><i class="pe-7s-plus" style="padding-right: 5px"></i>
+                Ajouter</span
+              ><span
+                *ngIf="
+                equipementFilialeService.AddOrUpdateCompresseurSecheurFiliale
+                    .controls.equipementFilialeID.value !=
+                  '00000000-0000-0000-0000-000000000000'
+                "
+                ><i class="pe-7s-pen" style="padding-right: 5px"></i
+                >Modifier</span
+              >
+            </button>
 
                     <button mat-raised-button color="warn" type="button" (click)="onClear()" class="col-md-12" style="margin-top: 7px">
-        <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
-      </button>
+              <i class="pe-7s-less" style="padding-right: 5px"></i> Vider
+            </button>
                 </div>
             </mat-grid-tile>
         </mat-grid-list>
     </form>
-</mat-grid-tile>
+</mat-dialog-content>

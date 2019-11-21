@@ -39,7 +39,7 @@ export class EquipementFilialePostUpdateComponent implements OnInit {
 
   ngOnInit() {
 
-
+    debugger
     if (this.authService.currentUserRole == "Responsable") {
       this.dataFilialeService.getFiliale().subscribe(
         res => {
