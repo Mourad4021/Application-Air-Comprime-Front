@@ -18,7 +18,7 @@ export class EntretienReservoirService {
       derniereVisite: ['', [Validators.required]],
       prochaineVisite: ['', [Validators.required]],
       commentaires: [''],
-      files: ['']
+      files: ['', [Validators.required]]
 
     })
   constructor(private http: HttpClient, private fb: FormBuilder) { }

@@ -38,7 +38,15 @@
               placeholder="N° CIN"
               autocomplete="off"
             />
-            <mat-error>Ce champ est obligatoire</mat-error>
+            <mat-error *ngIf="data.form.controls.usersCode.errors?.required"
+              >Ce champ est obligatoire</mat-error
+            >
+            <mat-error *ngIf="data.form.controls.usersCode.errors?.min">
+              Veuillez entrez 8 chiffres
+            </mat-error>
+            <mat-error *ngIf="data.form.controls.usersCode.errors?.max">
+              Veuillez entrez 8 chiffres
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field class="">

@@ -21,7 +21,7 @@ export class DataUsersService {
   Users: Users;
   form: FormGroup = new FormGroup({
     usersId: new FormControl(""),
-    usersCode: new FormControl("", Validators.required),
+    usersCode: new FormControl("", [Validators.required, Validators.min(0), Validators.max(99999999)]),
     usersName: new FormControl("", Validators.required),
     usersLastName: new FormControl("", [Validators.required]),
     usersState: new FormControl("", [Validators.required]),
@@ -48,7 +48,7 @@ export class DataUsersService {
     filialeID: new FormControl("")
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getUsers() {
     this.http
@@ -67,8 +67,8 @@ export class DataUsersService {
   putUsers() {
     return this.http.put(
       environment.gestionUtilisateurApi +
-        "/Users/" +
-        this.form.controls.usersId.value,
+      "/Users/" +
+      this.form.controls.usersId.value,
       this.form.value,
       { responseType: "text" }
     );

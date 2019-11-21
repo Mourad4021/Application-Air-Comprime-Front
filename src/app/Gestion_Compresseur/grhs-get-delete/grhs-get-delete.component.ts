@@ -52,7 +52,7 @@ export class GRHsGetDeleteComponent implements OnInit {
   ngOnInit() {
 
     this.datafiliale.getFiliale().subscribe(res => {
-      this.datafiliale.list = res as Filiale[]
+      this.datafiliale.list = (res as Filiale[]).filter(x => x.active == true);
 
       let currentUser = this.authenticationService.currentUserValue;
       if (currentUser && currentUser.Role_Utilisateur) {
@@ -89,7 +89,7 @@ export class GRHsGetDeleteComponent implements OnInit {
 
 
 
-  edit(grhs: GRHs) { }
+
 
   onEdit(grhs: GRHs) {
     this.data.initializeFormGroupForEdit(grhs);
