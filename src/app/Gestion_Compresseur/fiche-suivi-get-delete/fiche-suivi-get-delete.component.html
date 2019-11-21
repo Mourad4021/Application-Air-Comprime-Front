@@ -1,49 +1,67 @@
+
+
 <div class="container-fluid mt-2 ">
-    <!-- Filter  -->
-    <div class="card mb-1">
-        <button (click)="onCreate()" class="btn btn-info m-1" [hidden]="authService.currentUserRole == 'Admin'">
-     <i class="pe-7s-plus " style="padding-right: 5px"></i>
-     Ajouter une fiche suivi
-   </button>
-    </div>
-    <div class="border border-secondary rounded p-1 shadow-sm card">
+ <!-- Filter  -->
+ <div class="card mb-1">
+    <button
+    (click)="onCreate()"
+    class="btn btn-info m-1"
+    [hidden]="authService.currentUserRole == 'Admin'"
+  >
+    <i class="pe-7s-plus " style="padding-right: 5px"></i>
+    Ajouter une fiche suivi
+  </button> 
+ </div>
+ <div class="border border-secondary rounded p-1 shadow-sm card">
 
-        <form [formGroup]="FicheSuiviSearchForm" class="row my-auto  p-2 m-1" [hidden]="authService.currentUserRole == 'Responsable'">
-
-
-            <div class="col-3" class="align-middle">
-
-                <strong>Filiale</strong>
-
-
-            </div>
-            <div class="col-4 my-auto">
-                <select class=" d-inline form-control form-control-sm" id="" placeholder="" formControlName="filiale" #mySelect (change)='selectFiliale()'>
-               <option [value]="0">Tous les Filiales</option>
-               <option *ngFor="let fi of datafiliale.list" [value]="fi.filialeID">{{ fi.nom }}</option>
-               </select>
-            </div>
-
-
-            <div class="col">
-                <div class="custom-control custom-switch">
-
-                    <input class="custom-control-input" #checkbox id="customCheck1" formControlName="pMonth" type="checkbox" (change)='PreMonth()'>
-                    <label class="custom-control-label" for="customCheck1"><strong>Mois Précédent</strong></label>
-                </div>
-            </div>
-        </form>
-        <!-- Add button -->
-
-    </div>
-
-
-    <hr>
-    <div class="table-responsive" *ngFor="
-       let cf of listCF
+  <form [formGroup]="FicheSuiviSearchForm" class="row my-auto  p-2 m-1" [hidden]="authService.currentUserRole == 'Responsable'">
+     
         
-     ">
-        <app-fiche-suivi *ngIf="GetExistFS(cf.equipementFilialeID)" [idFS]="cf.equipementFilialeID" [dateFS]="cf.equipementFilialeID" [pMonth]="FicheSuiviSearchForm.controls.pMonth.value " id="cf.equipementFilialeID" [changeDetect]="data.changeDetect"></app-fiche-suivi>
-    </div>
+          <div class="col-3" class="align-middle">
+             
+                 <strong>Filiale</strong>
+              
+            
+          </div>
+          <div class="col-4 my-auto">
+               <select class=" d-inline form-control form-control-sm" id="" placeholder="" formControlName="filiale"
+              #mySelect
+              (change)='selectFiliale()'>
+              <option [value]="0">Tous les Filiales</option>
+              <option *ngFor="let fi of datafiliale.list" [value]="fi.filialeID">{{ fi.nom }}</option>
+              </select>
+          </div>
+          
+       
+        <div class="col">
+           <div class="custom-control custom-switch">
+             
+              <input #precMonthButton class="custom-control-input" id="customCheck1" formControlName="pMonth" type="checkbox"  (change)='PreMonth()'>
+              <label class="custom-control-label" for="customCheck1"><strong>Mois Précédent</strong></label>
+            </div>
+        </div>
+  </form>
+<!-- Add button -->
 
+ </div>
+
+
+  <hr>
+  <div
+    class="table-responsive"
+    *ngFor="
+      let cf of listCF
+       
+    "
+  >
+    <app-fiche-suivi
+      *ngIf="GetExistFS(cf.equipementFilialeID)"
+      [idFS]="cf.equipementFilialeID"
+      [dateFS]="cf.equipementFilialeID"
+      [pMonth]="FicheSuiviSearchForm.controls.pMonth.value "
+      id="cf.equipementFilialeID"
+      [changeDetect]="data.changeDetect"
+    ></app-fiche-suivi>
+  </div>
+ 
 </div>

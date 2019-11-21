@@ -59,7 +59,7 @@ export class FicheSuiviComponent implements OnInit, OnChanges {
   fraisEntretienReparation = 0;
   priseCompteurDernierEntretien = 0;
   tHuileC = 0;
-  typeDernierEntretien = '';
+  typeDernierEntretien = "";
   remarques = "";
   nombreDeJoursOuvrablesDuMois = 0;
   nombreHeuresProductionUsineLeJourPrecedent = 0;
@@ -226,6 +226,10 @@ export class FicheSuiviComponent implements OnInit, OnChanges {
       this.tHuileC += element.tHuileC;
       this.nombreHeuresProductionUsineLeJourPrecedent += element.nombreHeuresProductionUsineLeJourPrecedent;
       this.tempsArret = this.tempsArret + element.tempsArret;
+      if (element.remarques != 'RAS') {
+        this.remarques = element.remarques;
+      }
+
 
     }
 
@@ -238,19 +242,20 @@ export class FicheSuiviComponent implements OnInit, OnChanges {
         this.index_Electrique = this.list[this.list.length - 1].index_Electrique;
       }
       this.etat = this.list[this.list.length - 1].etat;
+      this.typeDernierEntretien = this.list[this.list.length - 1].typeDernierEntretien;
       this.pointDeRoseeDuSecheur = this.list[this.list.length - 1].pointDeRoseeDuSecheur;
 
       this.fraisEntretienReparation = this.list[this.list.length - 1].fraisEntretienReparation;
       this.priseCompteurDernierEntretien = this.list[this.list.length - 1].priseCompteurDernierEntretien;
       this.tHuileC = this.tHuileC / this.list.length;
       this.pointDeRoseeDuSecheur = this.list[this.list.length - 1].pointDeRoseeDuSecheur;
-      this.remarques = this.list.filter(x => x.remarques != 'RAS')[this.list.filter(x => x.remarques != 'RAS').length - 1].remarques;
-      this.typeDernierEntretien = this.list[this.list.length - 1].typeDernierEntretien;
+
+      //this.typeDernierEntretien = this.list[this.list.length - 1].typeDernierEntretien;
       this.nombreDeJoursOuvrablesDuMois = this.list[this.list.length - 1].nombreDeJoursOuvrablesDuMois;
       this.nbre_Heurs_Total = this.list[this.list.length - 1].nbre_Heurs_Total - this.list[0].nbre_Heurs_Total;
       this.nbre_Heurs_Charge = this.list[this.list.length - 1].nbre_Heurs_Charge - this.list[0].nbre_Heurs_Charge;
       this.index_Debitmetre = this.list[this.list.length - 1].index_Debitmetre - this.list[0].index_Debitmetre;
-
+      //this.remarques = this.list.filter(x => x.remarques != 'RAS')[this.list.filter(x => x.remarques != 'RAS').length - 1].remarques;
     }
 
   }
