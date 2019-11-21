@@ -12,11 +12,13 @@ export class EntretienCompresseurService {
     {
       entretienCompresseurID: [''],
       equipementFilialeID: ['', [Validators.required]],
-      typeEntretien: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(0)]],
-      priseCompteurActuelle: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(0)]],
+
+      typeEntretien: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(1)]],
+      priseCompteurActuelle: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(1)]],
       priseCompteurDernierEntretien: ['', [Validators.required, Validators.pattern(/^-?(0|[0-9]\d*)?$/), Validators.min(0)]],
-      dateDernierEntretien: ['', [Validators.required]],
-      valeurCompteurProchainEntretien: [''],
+      dateDernierEntretien: [''],
+      valeurCompteurProchainEntretien: [0],
+
       commentaires: [''],
 
     })
@@ -45,8 +47,8 @@ export class EntretienCompresseurService {
       entretienCompresseurID: '00000000-0000-0000-0000-000000000000',
       equipementFilialeID: '',
       typeEntretien: '',
-      priseCompteurActuelle: '',
-      priseCompteurDernierEntretien: '',
+      priseCompteurDernierEntretienActuelle: '',
+      priseCompteurDernierEntretienDernierEntretien: '',
       dateDernierEntretien: '',
       valeurCompteurProchainEntretien: 0,
       commentaires: 'RAS'
@@ -57,8 +59,8 @@ export class EntretienCompresseurService {
       entretienCompresseurID: entretienCompresseur.entretienCompresseurID,
       equipementFilialeID: entretienCompresseur.equipementFilialeID,
       typeEntretien: entretienCompresseur.typeEntretien,
-      priseCompteurActuelle: entretienCompresseur.priseCompteurActuelle,
-      priseCompteurDernierEntretien: entretienCompresseur.priseCompteurDernierEntretien,
+      priseCompteurDernierEntretienActuelle: entretienCompresseur.priseCompteurDernierEntretienActuelle,
+      priseCompteurDernierEntretienDernierEntretien: entretienCompresseur.priseCompteurDernierEntretienDernierEntretien,
       dateDernierEntretien: entretienCompresseur.dateDernierEntretien,
       valeurCompteurProchainEntretien: entretienCompresseur.valeurCompteurProchainEntretien,
       commentaires: entretienCompresseur.commentaires
@@ -74,7 +76,13 @@ export class EntretienCompresseurService {
         this.AddOrUpdateEntretienCompresseurForm.controls.entretienCompresseurID.value,
         this.AddOrUpdateEntretienCompresseurForm.value, { responseType: 'text' })
   }
-
+  // putEntretienCompresseurForFakeDelete(EntretienCompresseurID) {
+  //   let entretienCompresseur = this.list.find(x => x.entretienCompresseurID == EntretienCompresseurID)
+  //   entretienCompresseur.active = false;
+  //   return this.http.put(environment.gestionCompresseursApi + '/EntretienCompresseurs/' +
+  //     EntretienCompresseurID,
+  //     entretienCompresseur, { responseType: 'text' })
+  // }
   refrechEntretienCompresseurList() {
     this.getEntretienCompresseur().subscribe(
       res => {

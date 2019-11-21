@@ -1,63 +1,34 @@
-<mat-toolbar
-  class="row "
-  style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );"
->
-  <span class="col-md-6 "></span>
-  <span class="fill-remaining-space col-md-5"></span>
-  <button
-    class=" btn-dialog-close col-md-1"
-    mat-stroked-button
-    (click)="onClose()"
-    tabIndex="-1"
-  >
+<mat-toolbar class="row " style="background: linear-gradient(90deg, #000046 0%,#1cb5e0 100% );">
+    <span class="col-md-6 "></span>
+    <span class="fill-remaining-space col-md-5"></span>
+    <button class=" btn-dialog-close col-md-1" mat-stroked-button (click)="onClose()" tabIndex="-1">
     <span><b>X</b></span>
   </button>
 </mat-toolbar>
 <form [formGroup]="data.form" class="normal-form" (submit)="onSubmit()">
-  <mat-grid-list cols="2">
-    <mat-grid-tile class="col-md-10">
-      <div class="controles-container">
-        <input type="hidden" formControlName="filialeID" />
-        <input type="hidden" formControlName="active" />
-        <!-- <input type="hidden" formControlName="compFilialeID" /> -->
-        <mat-form-field class="col-md-10">
-          <input
-            formControlName="nom"
-            matInput
-            placeholder="nom"
-            autocomplete="off"
-          />
-          <mat-error>Ce champ est obligatoire</mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-md-10">
-          <input
-            formControlName="code"
-            matInput
-            placeholder="code"
-            autocomplete="off"
-          />
-          <mat-error>Ce champ est obligatoire</mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-md-10">
-          <input
-            formControlName="conformite_d_Exploitation"
-            matInput
-            placeholder="conformite_d_Exploitation"
-            autocomplete="off"
-          />
-          <mat-error>Ce champ est obligatoire</mat-error>
-        </mat-form-field>
-      </div>
-    </mat-grid-tile>
-    <mat-grid-tile class="col-md-12">
-      <div class="button-row">
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="data.form.invalid"
-          class="col-md-12"
-        >
+    <mat-grid-list cols="2">
+        <mat-grid-tile class="col-md-10">
+            <div class="controles-container">
+                <input type="hidden" formControlName="filialeID" />
+                <input type="hidden" formControlName="active" />
+                <!-- <input type="hidden" formControlName="compFilialeID" /> -->
+                <mat-form-field class="col-md-10">
+                    <input formControlName="nom" matInput placeholder="nom" autocomplete="off" />
+                    <mat-error>Ce champ est obligatoire</mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-10">
+                    <input formControlName="code" matInput placeholder="code" autocomplete="off" />
+                    <mat-error>Ce champ est obligatoire</mat-error>
+                </mat-form-field>
+                <mat-form-field class="col-md-10">
+                    <input formControlName="conformite_d_Exploitation" matInput placeholder="Conformité d'exploitation" autocomplete="off" />
+                    <mat-error>Ce champ est obligatoire</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile class="col-md-12">
+            <div class="button-row">
+                <button mat-raised-button color="primary" type="submit" [disabled]="data.form.invalid" class="col-md-12">
           <span
             *ngIf="
               data.form.controls.filialeID.value ==
@@ -72,16 +43,10 @@
             ><i class="pe-7s-pen" style="padding-right: 5px"></i>Modifier</span
           >
         </button>
-        <button
-          mat-raised-button
-          color="warn"
-          (click)="onClear()"
-          class="col-md-12"
-          style="margin-top: 7px"
-        >
+                <button mat-raised-button color="warn" (click)="onClear()" class="col-md-12" style="margin-top: 7px">
           <i class="pe-7s-less" style="padding-right: 5px"></i>Vider
         </button>
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
 </form>

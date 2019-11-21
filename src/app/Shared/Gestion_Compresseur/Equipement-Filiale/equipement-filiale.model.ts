@@ -7,6 +7,8 @@ export class EquipementFiliale {
     prixAcquisition: number;
     dateAcquisition: Date;
     numSerie: number;
+    haveDebitMetre: boolean;
+    haveElectricCounter: boolean;
     efid: string;
     active: boolean;
 }

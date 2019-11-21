@@ -4,6 +4,7 @@ export class Consommable {
   consommationComp: number;
   prixUnitaire: number;
   fraisElectriciteMensuel: number;
+  active: boolean;
   date: Date;
 }
 

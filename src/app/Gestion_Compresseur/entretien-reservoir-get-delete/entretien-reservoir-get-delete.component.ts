@@ -58,7 +58,7 @@ export class EntretienReservoirGetDeleteComponent implements OnInit {
         this.DateToday = res as Date
       }
     )
-    console.log()
+
     this.data.getEntretienReservoir().subscribe(
       res => {
         this.data.list = res as EntretienReservoir[]
@@ -133,9 +133,9 @@ export class EntretienReservoirGetDeleteComponent implements OnInit {
     if (confirm("Vous êtes sûr de vouloir supprimer")) {
       this.data.DeleteEntretienReservoir(entretienReservoirID).subscribe(
         res => {
-          console.log(res)
+
           if (res == "Delete Done") {
-            console.log(res)
+
             this.ngOnInit();
             this._snackBar.open("La suppression a été effectuée avec succès", "X", {
               duration: 4000,

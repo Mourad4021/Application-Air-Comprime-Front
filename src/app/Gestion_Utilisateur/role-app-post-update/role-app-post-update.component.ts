@@ -31,7 +31,7 @@ export class RoleAppPostUpdateComponent implements OnInit {
         res => {
           this.roleAppDataService.roleList = res as Role[];
           this.RespRoleList = (res as Role[]).filter(x => x.RoleDisplayName == "Responsable");
-          console.log(this.RespRoleList)
+
         }
       )
   }
@@ -50,7 +50,7 @@ export class RoleAppPostUpdateComponent implements OnInit {
     )
     this.roleAppDataService.postRoleToUserMenu().subscribe(res => {
       this.madialog.closeAll();
-      console.log(res);
+
     })
   }
 

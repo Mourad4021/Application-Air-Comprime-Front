@@ -64,6 +64,7 @@ export class FournisseurPostComponent implements OnInit {
             panelClass: ["red-snackbar"]
           });
         }
+
       );
     }
     else {
@@ -74,6 +75,7 @@ export class FournisseurPostComponent implements OnInit {
         panelClass: ["red-snackbar"]
       });
     }
+
 
   }
 

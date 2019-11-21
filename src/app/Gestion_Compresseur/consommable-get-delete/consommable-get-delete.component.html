@@ -3,53 +3,51 @@
 
     <form [formGroup]="ConsommableSearchForm">
         <div class="row w-500 p-2 m-1 mb-2 border rounded " style="background-color: whitesmoke;">
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>Date</label>
                     <input type="date" class="form-control  form-control-sm" id="" placeholder="" formControlName="date">
                 </div>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>PrixUnitaire</label>
-                    <input type="text" class="form-control  form-control-sm" id="" placeholder="" formControlName="prixUnitaire">
+                    <input type="number" class="form-control  form-control-sm" id="" placeholder="" formControlName="prixUnitaire">
                 </div>
             </div>
             <!-- <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="exampleFormControlSelect2">Compresseur</label>
+                            <select class="form-control" id="exampleFormControlSelect2" formControlName="equipementFilialeID">
+                    <option value="">---------------</option>
+                    <option
+                      *ngFor="let Compresseur of equipementFilialeService.list"
+                      [value]="Compresseur.equipementFilialeID"
+                      >{{ Compresseur.name }}</option
+                    >
+                  </select> 
+                        </div>
+                    </div> -->
+
+            <form [formGroup]="ConsommableSearchFormFiliale" class="col-md-3">
+
+
+
                 <div class="form-group">
-                    <label for="exampleFormControlSelect2">Compresseur</label>
-                    <select class="form-control" id="exampleFormControlSelect2" formControlName="equipementFilialeID">
-            <option value="">---------------</option>
-            <option
-              *ngFor="let Compresseur of equipementFilialeService.list"
-              [value]="Compresseur.equipementFilialeID"
-              >{{ Compresseur.name }}</option
-            >
-          </select> 
+                    <label>Filiale</label>
+                    <select class="form-control  form-control-sm" id="" placeholder="" formControlName="filiale" (change)='selectFiliale()'>
+                        <option [value]="0"></option>
+                        <option *ngFor="let fi of filialeService.listActive" [value]="fi.filialeID">{{ fi.nom }}</option>
+                        </select>
                 </div>
-            </div> -->
 
-        <form [formGroup]="FilialeearchForm" class="col-md-4">
-                
-        
-                   
-            <div class="form-group">
-                <label>Filiale</label>
-                <select class="form-control  form-control-sm" id="" placeholder="" formControlName="filiale"
-    
-                (change)='selectFiliale()'>
-                <option [value]="0">-----------------------------</option>
-                <option *ngFor="let fi of datafiliale.list" [value]="fi.filialeID">{{ fi.nom }}</option>
-                </select>
-            </div>
-    
-    </form>
-</div>
+            </form>
+        </div>
 
     </form>
-  
 
-    <button (click)="onCreate()" class="btn btn-info" [hidden]="authService.currentUserRole== 'Admin'">
+
+    <button (click)="onCreateConsommable()" class="btn btn-info" [hidden]="authService.currentUserRole== 'Admin'">
 <i class="pe-7s-plus " style="padding-right: 5px"></i>
 Ajouter
 </button>
@@ -58,35 +56,32 @@ Ajouter
             <thead>
                 <tr style="color: white; text-align: center;font-family:verdana; font-size: 75%;" class="bg-primary">
                     <th class="align-middle">Date</th>
+                    <th class="align-middle">Filiale</th>
                     <th class="align-middle">Compresseur</th>
-                    <th class="align-middle">Filiale</th> 
-
-                    <th class="align-middle"> Consommation Électrique Théorique (en kWh)</th>
+                    <th class="align-middle">Consommation Électrique Théorique (en kWh)</th>
                     <th class="align-middle">Prix Unitaire du kWh (en DT/kWh)</th>
                     <th class="align-middle">Frais d’Electricité Mensuels (en DT)</th>
 
-                    <th style="width: 180px!important" [hidden]="authService.currentUserRole== 'Admin'"></th>
+                    <th style="width: 180px!important"></th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr *ngFor="let g of data.list|filter:ConsommableSearchForm.value | paginate: { id: 'ConsommablePagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
+                <tr *ngFor="let g of consommableService.ActiveConsommable|filter:ConsommableSearchForm.value | paginate: { id: 'ConsommablePagination',itemsPerPage: 10,currentPage: p}" style="text-align:center;background-color: white">
                     <td>{{g.date | date: 'dd/MM/yyyy'}}</td>
-                    <td>{{GetCompFilialeByIDCorrespondance(g.equipementFilialeID)}}</td>
-                    <td>{{ GetFilialeByIDCorrespondance(g.equipementFilialeID).nom }}</td>
-
-
+                    <td>{{GetFilialeByIDCorrespondance(g.equipementFilialeID)?.nom }}</td>
+                    <td>{{GetCompresseurFilialeByIDCorrespondance(g.equipementFilialeID).nom}}</td>
                     <td>{{g.consommationComp}}</td>
                     <td>{{g.prixUnitaire}}</td>
-                    <td>{{g.fraisElectriciteMensuel}}</td>
+                    <td style="background-color: #c1bfc4;">{{g.fraisElectriciteMensuel}}</td>
 
-                    <td style="width: 180px!important" [hidden]="authService.currentUserRole== 'Admin'">
+                    <td style="width: 180px!important">
                         <button (click)="onEdit(g)" class="btn btn-info mr-3">
         <span class="pe-7s-pen"></span>
       </button>
 
 
-                        <button (click)="delete(g.consommableID)" class="btn btn-danger " [hidden]="authService.currentUserRole== 'Responsable' || authService.currentUserRole== 'Admin'">
+                        <button (click)="onDelete(g.consommableID)" class="btn btn-danger " [hidden]="authService.currentUserRole== 'Admin'">
         <span class=" pe-7s-trash"></span>
       </button>
                     </td>

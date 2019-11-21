@@ -112,11 +112,7 @@ export class ReservoirFilialeGetDeleteComponent implements OnInit {
         res => {
           if (res == "Update Done") {
             this.dialog.closeAll()
-
-
             this.ngOnInit()
-
-
             this._snackBar.open("La suppression a été effectuée avec succès", "X", {
               duration: 4000,
               verticalPosition: "top",
