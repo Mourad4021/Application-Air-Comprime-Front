@@ -29,7 +29,7 @@
     "angular-font-awesome": "^3.1.2",
     "animate-sass": "^0.8.2",
     "bootstrap": "4.3.1",
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "chartjs-adapter-luxon": "^0.1.1",
     "chartjs-plugin-annotation": "^0.5.7",
     "chartjs-plugin-datalabels": "^0.6.0",
